@@ -1,0 +1,65 @@
+{
+  "title": "Instellingen & Personalisatie",
+  "desc": "Beheer je profiel, gegevens en app-ervaring.",
+  "tabs": {
+    "profile": "Profiel & Taal",
+    "appearance": "Uiterlijk",
+    "ai": "AI Voorkeuren",
+    "prompts": "AI Prompts",
+    "api": "API Koppelingen",
+    "focus": "Focus & Audio",
+    "data": "Data & Bibliotheek",
+    "storage": "Opslag & Systeem",
+    "shortcuts": "Sneltoetsen"
+  },
+  "profile": {
+    "title": "Persoonlijk Profiel",
+    "name": "Naam",
+    "exam_year": "Examenjaar",
+    "profile_type": "Profiel",
+    "app_language": "App Taal",
+    "target_grades": "Doelcijfers"
+  },
+  "appearance": {
+    "title": "Look & Feel",
+    "gamification": "Gamification Elementen",
+    "gamification_desc": "Toon XP balk, levels en avatar.",
+    "graphics": "Grafische Kwaliteit",
+    "graphics_desc": "Zet lager voor betere batterijduur op mobiel.",
+    "themes": "Thema's"
+  },
+  "focus": {
+    "title": "Focus & Audio",
+    "subtitle": "Optimaliseer je mentale staat met Pomodoro en Binaural Beats.",
+    "pomodoro_title": "Deep Work (Pomodoro)",
+    "audio_title": "Neural Sync (Audio)",
+    "focus_label": "Focus (min)",
+    "break_label": "Pauze (min)",
+    "audio_mode": "Modus",
+    "audio_volume": "Volume",
+    "speech_title": "Spraakherkenning",
+    "speech_desc": "Druk op de spatiebalk (in de coach) om direct te spreken."
+  },
+  "common": {
+    "save": "Opslaan",
+    "cancel": "Annuleren",
+    "delete": "Verwijderen",
+    "edit": "Bewerken",
+    "ai_status_warning": "⚠️ AI Provider status: Sommige modellen zijn tijdelijk trager.",
+    "loading": "Laden...",
+    "error": "Er is een fout opgetreden",
+    "success": "Succesvol opgeslagen",
+    "search": "Zoeken...",
+    "back": "Terug",
+    "reset_standard": "Reset naar Standaard",
+    "confirm_reset": "Weet je zeker dat je alle prompts wilt resetten naar Elite standaarden?"
+  },
+  "prompts": {
+    "base_title": "Base System Prompt (Elite Core)",
+    "base_subtitle": "Dit is de fundamentele instructie voor alle AI modellen in deze app. Pas dit aan om de 'persoonlijkheid' van de AI globaal te veranderen.",
+    "socratic_coach": "Socratische Coach",
+    "planner": "Strategic Planner",
+    "critic": "Academic Critic",
+    "tutor": "Subject Tutor"
+  }
+}

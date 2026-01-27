@@ -1,0 +1,12 @@
+{
+  "physics": "Physics",
+  "math": "Mathematics",
+  "chemistry": "Chemistry",
+  "biology": "Biology",
+  "dutch": "Dutch",
+  "english": "English",
+  "french": "French",
+  "philosophy": "Philosophy",
+  "psychology": "Psychology",
+  "it": "Informatica"
+}

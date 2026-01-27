@@ -1,0 +1,25 @@
+{
+  "title": "Socratic Coach Pro",
+  "desc": "Your personal AI tutor that makes you think.",
+  "intro": "Hi! I'm your Socratic coach. Choose a role and ask me a question.",
+  "input": "Type your question here...",
+  "thinking": "Thinking...",
+  "speak": "Speak",
+  "stop": "Stop",
+  "liveTitle": "Live Conversation",
+  "liveDesc": "Practice orally as if you're facing a teacher.",
+  "listen": "Listen",
+  "roles": {
+    "label": "Choose your Coach:",
+    "mentor": "Patient Mentor",
+    "strict": "Strict Exam Trainer",
+    "quiz": "Quiz Master",
+    "peer": "Study Buddy"
+  },
+  "actions": {
+    "finish": "Finish Session",
+    "summary_title": "Summary",
+    "action_items": "Action Items",
+    "download_notes": "Save Notes"
+  }
+}

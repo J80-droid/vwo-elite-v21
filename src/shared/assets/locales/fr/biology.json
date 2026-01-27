@@ -1,0 +1,162 @@
+{
+  "title": "Labo de Biologie",
+  "modules": {
+    "genomics": "Génomique",
+    "microscopy": "Microscopie",
+    "ecology": "Écologie",
+    "physiology": "Physiologie"
+  },
+  "layout": {
+    "instrumentation": "Instrumentation",
+    "parameters": "Paramètres du Système",
+    "analysis": "Données de Population"
+  },
+  "common": {
+    "mastery_title": "Tableau de Maîtrise",
+    "mastery_description": "Complétez les missions de maîtrise et répondez aux questions d'examen pour augmenter vos niveaux Bloom. Un score de 80%+ sur tous les niveaux indique la préparation au VWO.",
+    "exam_title": "Entraîneur d'Examen VWO",
+    "zen_mode": "Mode Zen"
+  },
+  "genomics": {
+    "stage": {
+      "coach_analysing": "Analyse...",
+      "coach_title": "Analyse du Coach IA",
+      "close": "Fermer",
+      "gel_control": "Contrôle",
+      "gel_patient_a": "Patient A",
+      "gel_patient_b": "Patient B"
+    },
+    "parameters": {
+      "title": "Paramètres Génétiques",
+      "sequence_length": "Longueur de Séquence",
+      "gc_content": "Teneur en GC",
+      "melting_temp": "Temp. de Fusion (Tm)",
+      "reading_frame": "Cadre de Lecture",
+      "status_monitor": "Moniteur de Statut",
+      "active_mission": "Mission Active"
+    },
+    "analysis": {
+      "title": "Données de Population",
+      "base_frequency": "Fréquence de Base",
+      "hydrophobicity": "Hydrophobicité",
+      "translated_peptide": "Peptide Traduit",
+      "no_coding_sequence": "Aucune séquence codante détectée."
+    },
+    "sidebar": {
+      "mastery_missions": "Missions de Maîtrise",
+      "active_mission": "Mission: {{target}}",
+      "active_mission_prompt": "Faire: {{target}}",
+      "cancel": "Annuler",
+      "mission_silent": "Mission: Silencieuse",
+      "mission_missense": "Mission: Faux-sens",
+      "mission_nonsense": "Mission: Non-sens (STOP)",
+      "dna_editor": "Éditeur ADN",
+      "example_covid": "Spike Corona",
+      "example_insulin": "Insuline",
+      "base_selection": "Sélection de Base",
+      "no_base_selected": "Cliquez sur l'hélice d'ADN pour sélectionner une base.",
+      "protein_db": "Base de Données Protéines",
+      "viewer_mode": "Mode Visionneuse",
+      "real_time": "Temps réel",
+      "pdb": "PDB",
+      "replication_mode": "Réplication de l'ADN",
+      "lab_tools": "Outils de Labo",
+      "tool_gel": "GEL Électro",
+      "tool_pcr": "PCR Therm.",
+      "tool_crispr": "Visualiseur CRISPR-Cas9"
+    }
+  },
+  "microscopy": {
+    "title": "Microscope Virtuel",
+    "description": "Microscope Virtuel & Analyse Cellulaire",
+    "stage": {
+      "subtitle": "Système Optique Actif",
+      "plant_cell": "Cellule Végétale",
+      "animal_cell": "Cellule Animale",
+      "select_specimen": "Sélectionner Spécimen",
+      "specimen_info": "Info Spécimen",
+      "plant_description": "Caractérisée par une paroi cellulaire rigide, une grande vacuole centrale et des chloroplastes pour la photosynthèse.",
+      "animal_description": "N'a pas de paroi cellulaire ni de chloroplastes. La forme est variable et maintenue par le cytosquelette.",
+      "no_specimen": "Utilisez le panneau latéral pour placer un spécimen sous le microscope.",
+      "magnification": "GROSS",
+      "light": "LUMIÈRE"
+    },
+    "sidebar": {
+      "slides": "Lames",
+      "plant_cell": "Cellule Végétale",
+      "animal_cell": "Cellule Animale",
+      "optical_controls": "Contrôles Optiques",
+      "magnification": "Grossissement",
+      "brightness": "Luminosité",
+      "contrast": "Contraste"
+    },
+    "analysis": {
+      "cellular_composition": "Composition Cellulaire (%)",
+      "select_slide_prompt": "Sélectionnez une lame pour la reconnaissance automatique d'images et l'analyse cellulaire.",
+      "source": "Source"
+    }
+  },
+  "ecology": {
+    "title": "Simulateur d'Écologie",
+    "description": "Dynamique de Population & Réseaux Trophiques",
+    "stage": {
+      "subtitle": "Simulation de Biosphère",
+      "title": "Dynamique Lotka-Volterra"
+    },
+    "sidebar": {
+      "environment_vars": "Variables d'Environnement",
+      "growth_rate_prey": "Taux de Croissance Proie",
+      "consumption_rate": "Taux de Consommation",
+      "efficiency_predator": "Efficacité Prédateur",
+      "mortality_predator": "Mortalité Prédateur",
+      "carrying_capacity": "Capacité de Charge (K)",
+      "reset_population": "Réinitialiser Population",
+      "add_prey": "Ajouter Proie"
+    },
+    "analysis": {
+      "phase_portrait": "Portrait de Phase (Prédateur vs Proie)",
+      "system_energy": "Énergie du Système (Total)",
+      "prey": "Proie",
+      "predator": "Prédateur"
+    }
+  },
+  "physiology": {
+    "title": "Physiologie & Anatomie",
+    "description": "Corps Humain & Organes",
+    "stage": {
+      "subtitle": "Outils de Diagnostic Anatomique",
+      "select_system": "Sélectionner le Système",
+      "heart_rate": "Fréquence Cardiaque"
+    },
+    "sidebar": {
+      "anatomical_systems": "Systèmes Anatomiques",
+      "circulatory": "Circulatoire",
+      "respiratory": "Respiratoire",
+      "nervous": "Système Nerveux",
+      "endocrine": "Système Endocrinien",
+      "stress_test": "Test de Stress",
+      "physical_exertion": "Effort Physique (Fréquence Cardiaque)"
+    },
+    "parameters": {
+      "blood_pressure_syst": "Pression Artérielle (Syst.)",
+      "blood_pressure_diast": "Pression Artérielle (Diast.)",
+      "oxygen_saturation": "Saturation en Oxygène",
+      "cardiac_output": "Débit Cardiaque",
+      "stroke_volume": "Volume d'Éjection",
+      "respiratory_rate": "Fréquence Respiratoire",
+      "map": "Pression Artérielle Moyenne (PAM)",
+      "normal": "Normal",
+      "homeostasis": "Homéostasie",
+      "optimal": "Optimal",
+      "elevated": "Élevé",
+      "high_stress": "Stress Élevé",
+      "bradycardia": "Bradycardie"
+    },
+    "analysis": {
+      "ecg_monitor": "Moniteur ECG en Temps Réel",
+      "system_analysis": "Analyse du Système",
+      "sympathetic": "Système Nerveux Sympathique",
+      "parasympathetic": "Parasympathique"
+    }
+  }
+}

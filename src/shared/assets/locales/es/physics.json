@@ -1,0 +1,42 @@
+{
+  "title": "Laboratorio de Física",
+  "layout": {
+    "controls": "Controles",
+    "minimize": "Minimizar",
+    "check_inputs": "Controles del Experimento",
+    "parameters": "Parámetros",
+    "analysis_output": "Datos en Vivo",
+    "no_controls": "Sin controles disponibles",
+    "no_params": "Sin parámetros globales",
+    "no_data": "Sin datos de sensor activos"
+  },
+  "modules": {
+    "mechanics": "Mecánica",
+    "optics": "Óptica",
+    "spring": "Resortes",
+    "vectors": "Vectores",
+    "waves": "Ondas",
+    "circuits": "Circuitos"
+  },
+  "snapshot": {
+    "tooltip": "Tomar Captura",
+    "title": "Configuración de Captura",
+    "report_title": "Título del Informe",
+    "report_placeholder": "Ej. Experimento: Caída Libre...",
+    "visible_data": "Datos Visibles",
+    "toggles": {
+      "functions": "Mediciones",
+      "params": "Parámetros",
+      "analysis": "Datos de Análisis",
+      "meta": "Fecha y Autor"
+    },
+    "cancel": "Cancelar",
+    "save": "Guardar en Bib.",
+    "student": "Estudiante",
+    "module_context": "Contexto del Módulo"
+  },
+  "mechanics": {
+    "sidebar_title": "Instrucciones",
+    "instructions": "Arrastra objetos para moverlos. Usa herramientas para aplicar fuerzas."
+  }
+}

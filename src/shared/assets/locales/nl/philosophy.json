@@ -1,0 +1,458 @@
+{
+  "title": "Filosofie Lab",
+  "hub_title": "Filosofie",
+  "hub_subtitle": "Lab",
+  "hub_description": "Verken de diepten van het menselijk denken via Socratische dialogen, formele logica en ethische verkenning.",
+  "active_modules": "Actieve Modules",
+  "version": "Versie",
+  "level": "Niveau: VWO 6",
+  "interactive_ai": "Interactieve AI",
+  "module_n": "Module {{n}}",
+  "coming_soon": "Coming Soon",
+  "metaphysics": "Metafysica",
+  "dialogue": {
+    "title": "Socratische Dialoog"
+  },
+  "ethics": {
+    "title": "Ethiek Lab",
+    "casus": {
+      "title": "Casus Simulator",
+      "subtitle": "Toepassing van theorie op de actualiteit",
+      "generate": "Casus Genereren...",
+      "generating_subtitle": "De AI-Examinator zoekt in de actualiteit.",
+      "select_category": "Selecteer een categorie om te starten",
+      "analyze_button": "Analyseren...",
+      "submit_button": "Indienen",
+      "placeholder": "Type hier je filosofische analyse...",
+      "required_terms": "Vereiste Syllabus Termen (Strict Mode)",
+      "exam_assignment": "Examenopdracht:",
+      "result": "Resultaat",
+      "ai_examiner": "AI Examiner",
+      "missed_points": "Gemiste Punten (Syllabus):"
+    },
+    "engine": {
+      "title": "Ethics Engine",
+      "subtitle": "Pas de ethische kaders toe op technologie.",
+      "start_simulation": "Start Simulatie",
+      "generate_hint": "Genereer een AI-Dilemma",
+      "context_label": "Examen Context 2025",
+      "waiting": "Wachten op input...",
+      "verdict": "Ethisch Verdict",
+      "validated": "Gevalideerd op VWO-Syllabus",
+      "generate_verdict": "Genereer Ethisch Oordeel"
+    }
+  },
+  "techno_anthropology": {
+    "title": "Techno-Antropologie",
+    "subtitle": "Examenthema 2025: De grens mens/techniek",
+    "bio_organic": "Bio-Organic",
+    "techno_cyborg": "Techno-Cyborg",
+    "cyborg_index": "Cyborg Index",
+    "synthesis_title": "Synthese: De Mensvraag",
+    "initial_state": "Initialiseer upgrades voor ontsluiting",
+    "body_ontology": "Lichaams-Ontologie",
+    "sidebar": {
+      "tools_title": "Post-Human Tools",
+      "anthropology": "Anthropology",
+      "cyborg_sim": "Cyborg Sim",
+      "sf_decoder": "SF Decoder",
+      "ontological_status": "Ontologische Status",
+      "speculative_analysis": "Speculatieve Analyse",
+      "theme_title": "Thema 2025",
+      "quote_author": "— Plessner / Stiegler"
+    },
+    "voice_coach": "Techno-Human Lab: Actief met tool {{tool}}. Focus op 2025 examenthema.",
+    "description": "De mens & Techniek",
+    "upgrades": {
+      "u1": {
+        "name": "Smartphone",
+        "impact": {
+          "clarkChalmers": "EXTENDED MIND: Ja. De telefoon fungeert als extern geheugen. Als je hem weghaalt, beschadig je iemands denkvermogen.",
+          "haraway": "Nog niet volledig cyborg, maar de grens vervaagt. We zijn al verkleefd met onze data.",
+          "verbeek": "MEDIATIE: De telefoon 'bemiddelt' hoe wij de wereld zien (via apps/socials) en stuurt ons gedrag."
+        }
+      },
+      "u2": {
+        "name": "Pacemaker",
+        "impact": {
+          "clarkChalmers": "Duidelijke integratie. Onderdeel van het biologisch functioneren.",
+          "haraway": "CYBORG: Absoluut. Machine en organisme zijn hier fysiek versmolten. De grens natuurlijk/kunstmatig is weg.",
+          "verbeek": "Techniek houdt ons in leven, maar verandert ook onze ervaring van 'tijd' en 'lichaam'."
+        }
+      },
+      "u3": {
+        "name": "Neuralink (Brein Chip)",
+        "impact": {
+          "clarkChalmers": "De ultieme 'Extended Mind'. De grens tussen binnen en buiten het hoofd verdwijnt volledig.",
+          "haraway": "Het post-humanistische ideaal. We ontstijgen de biologische beperkingen van de mens.",
+          "verbeek": "Radicale mediatie. De techniek bepaalt niet alleen wat we zien, maar hoe we *denken*."
+        }
+      }
+    },
+    "syntheses": {
+      "haraway": "Voor Haraway bewijst deze configuratie dat het onderscheid tussen 'natuurlijk' en 'kunstmatig' een illusie is. Dit lichaam is geen 'Eden' meer, maar een hybride constructie.",
+      "clarkChalmers": "Volgens de Extended Mind these stopt de geest niet bij de schedel. Deze technologieën zijn letterlijk onderdeel van het cognitieve systeem.",
+      "verbeek": "Verbeek zou stellen dat deze techniek niet neutraal is; het verandert fundamenteel hoe dit subject de wereld waarneemt en hoe de wereld op hem reageert (Mediation)."
+    }
+  },
+  "identity_prism": {
+    "title": "The Identity Prism",
+    "subtitle": "Sociaal-Culturele Filosofie (2025)",
+    "exam_issue": "Examen Vraagstuk",
+    "domain_hint": "Domein B/C",
+    "description": "Sociaal-Culturele Filosofie",
+    "voice_coach": "Sociaal-Culturele Filosofie: The Identity Prism. Focus op inclusie en normativiteit.",
+    "sidebar": {
+      "tools_title": "Identity Tools",
+      "prism_title": "Identity Prism",
+      "prism_subtitle": "Normativiteit & Inclusie",
+      "exam_title": "Examen 2025",
+      "quote_author": "— Maren Wehrle / Afrofuturisme"
+    },
+    "lenses": {
+      "normativity": {
+        "title": "Technologische Normativiteit",
+        "question": "Dwingt deze techniek ons om ons 'normaal' te gedragen?",
+        "analysis": "Wehrle stelt dat techniek niet neutraal is. Een ov-poortje dwingt iedereen tot hetzelfde gedrag. Techniek normaliseert lichamen en sluit afwijkende lichamen (bijv. in een rolstoel) uit.",
+        "context": "Zie Maren Wehrle: Lichaamsschema & Gewoonte."
+      },
+      "afrofuturism": {
+        "title": "Afrofuturisme",
+        "question": "Wie bepaalde in het verleden wat 'menselijk' was?",
+        "analysis": "Het Afrofuturisme gebruikt sci-fi en techniek om de zwarte identiteit los te weken van het slavernijverleden. Het toont aan dat 'De Mens' in de filosofie vaak impliciet wit was, en herschrijft de toekomst.",
+        "context": "Zie Opgave 2 (2025): Deconstructie van 'witheid'."
+      },
+      "inclusion": {
+        "title": "De 'Ander' & Uitsluiting",
+        "question": "Accepteren we de Hubot (of de Ander) als gelijke?",
+        "analysis": "In 'Real Humans' worden Hubots gebruikt als moderne slaven. Dit spiegelt onze omgang met migranten of minderheden. Erkennen we de Ander als subject, of zien we ze als object (instrument)?",
+        "context": "Zie Opgave 1 (2025): Real Humans & Hubots."
+      }
+    }
+  },
+  "science_timeline": {
+    "title": "Wetenschappelijke Revolutie",
+    "subtitle": "Chronos / Kairos",
+    "description": "Visualisatie van de verschuiving in het wereldbeeld: van een <0>betekenisvol universum</0> naar een <1>mechanisch object</1>.",
+    "paradigm_shift": "Paradigm Shift",
+    "exam_hint_title": "VWO Examen Hint: De Omwenteling",
+    "exam_hint_text": "De verschuiving van de Middeleeuwen naar de Moderne tijd markeert het ontstaan van de <0>technologische attitude</0>: de wereld is niet meer iets waar we deel van uitmaken, maar iets dat we controleren.",
+    "voice_coach": "Wetenschapsfilosofie Lab: Actief met tool {{tool}}. Focus op kennisleer en paradigma's.",
+    "module_description": "Wetenschapsfilosofie",
+    "sidebar": {
+      "epistemology_tools": "Epistemologie Tools",
+      "shifter_title": "Perspective Shifter",
+      "shifter_subtitle": "Dier & Kennis",
+      "revolutie_title": "Science Revolutie",
+      "revolutie_subtitle": "Paradigma Verschuiving",
+      "domain_title": "Domein D/E",
+      "umwelt_hint": "Train je vaardigheid om de <0>Umwelt</0> van het onderzoeksobject te herkennen.",
+      "quote_author": "— Donna Haraway"
+    },
+    "sections": {
+      "worldview": "Wereldbeeld",
+      "human_status": "Status van de Mens"
+    },
+    "eras": {
+      "medieval": {
+        "era": "Middeleeuwen",
+        "title": "Heleocentrisch / Teleologisch",
+        "worldview": "De wereld is een betekenisvol geheel, geschapen met een doel. Alles heeft zijn natuurlijke plek.",
+        "status": "De mens als onderdeel van de kosmische orde (Imago Dei/Animal Rationale).",
+        "concept": "Teleologie"
+      },
+      "modern": {
+        "era": "Wetenschappelijke Revolutie",
+        "title": "Mechanistisch / Mathematisch",
+        "worldview": "De wereld is een machine die werkt volgens natuurwetten. Materie is dode substantie.",
+        "status": "De mens als heerser en bezitter van de natuur (Descartes). Dualisme.",
+        "concept": "Res Extensa"
+      },
+      "contemporary": {
+        "era": "Technologisch Tijdperk",
+        "title": "Technocentrisch / Cybernetisch",
+        "worldview": "De wereld is informatie en data. Grenzen tussen mens, dier en machine vervagen.",
+        "status": "De mens als technologisch bemiddeld wezen (Cyborg/Post-human).",
+        "concept": "Mediatie"
+      }
+    }
+  },
+  "concept_matrix": {
+    "title": "Begrippen Matrix",
+    "search_placeholder": "Zoek begrip of filosoof...",
+    "concept_label": "Begrip",
+    "no_results": "Geen resultaten",
+    "no_results_desc": "Geen begrippen of filosofen gevonden voor \"{{term}}\".",
+    "try_another": "Probeer een andere zoekterm.",
+    "syllabus_theme": "Syllabus 2025: Wijsgerige Antropologie",
+    "explore_relations": "Verken relaties",
+    "compare_visions": "Vergelijk visies",
+    "legend": {
+      "domain": "Domein",
+      "angle": "Invalshoek",
+      "philosopher": "Filosoof",
+      "concept": "Concept"
+    },
+    "description_label": "Beschrijving",
+    "connections_label": "Connecties",
+    "open_dossier": "Open Dossier",
+    "contrast_mode": "Contrast Mode",
+    "contrast_mode_on": "Contrast Mode: Aan",
+    "contrast_select_2": "Selecteer 2 filosofen",
+    "contrast_vision_a": "Visie A",
+    "contrast_vision_b": "Visie B",
+    "root_label": "Wijsgerige Antropologie",
+    "theme_label": "Invalshoek",
+    "phil_label": "Filosoof",
+    "concept_label_short": "Concept",
+    "nodes": {
+      "Antropologie": {
+        "label": "Wijsgerige Antropologie",
+        "desc": "De vraag naar de mens."
+      },
+      "Lichaam-Geest": {
+        "label": "Lichaam-Geest Probleem",
+        "desc": "De relatie tussen het fysieke en het mentale."
+      },
+      "Vrije Wil": {
+        "label": "Vrije Wil vs Determinisme",
+        "desc": "Heeft de mens controle over zijn handelen?"
+      },
+      "Mens-Dier": {
+        "label": "Mens vs Dier",
+        "desc": "Wat onderscheidt de mens van andere dieren?"
+      },
+      "Macht-Sociale": {
+        "label": "Macht & Sociale Identiteit",
+        "desc": "Hoe wordt de mens gevormd door structuren?"
+      },
+      "Descartes": {
+        "label": "René Descartes",
+        "desc": "Dualisme: Res Cogitans (denken) vs Res Extensa (uitgebreidheid).",
+        "quote": "Ik denk, dus ik besta."
+      },
+      "Aristoteles": {
+        "label": "Aristoteles",
+        "desc": "Hylomorfisme: De ziel is de vorm (eidos) van het lichaam.",
+        "quote": "De ziel is de eerste actualiteit van een natuurlijk lichaam."
+      },
+      "Merleau-Ponty": {
+        "label": "Maurice Merleau-Ponty",
+        "desc": "Fenomenologie: Ik *heb* geen lichaam, ik *ben* mijn lichaam.",
+        "quote": "Het lichaam is ons anker in de wereld."
+      },
+      "Plessner": {
+        "label": "Helmuth Plessner",
+        "desc": "De mens is \"van nature kunstmatig\" en heeft een excentrische positie.",
+        "quote": "De mens staat buiten het centrum van zijn eigen leven."
+      },
+      "Foucault": {
+        "label": "Michel Foucault",
+        "desc": "Moderniteit: Het lichaam wordt gedisciplineerd door machtsstructuren (Biopolitiek).",
+        "quote": "Waar macht is, is verzet."
+      },
+      "Marx": {
+        "label": "Karl Marx",
+        "desc": "Alienatie: Arbeid maakt de mens, maar onder kapitalisme vervreemdt het hem.",
+        "quote": "De filosofen hebben de wereld slechts geïnterpreteerd; het komt erop aan haar te veranderen."
+      },
+      "Darwin": {
+        "label": "Charles Darwin",
+        "desc": "Evolutie: Geen essentieel onderscheid tussen mens en dier.",
+        "quote": "Er is grandeur in deze kijk op het leven."
+      },
+      "Singer": {
+        "label": "Peter Singer",
+        "desc": "Utilitarisme & Antispecisme: Lijden is de maatstaf, niet de soort.",
+        "quote": "All animals are equal."
+      },
+      "Spinoza": {
+        "label": "Baruch Spinoza",
+        "desc": "Monisme: Er is maar één substantie (God of Natuur).",
+        "quote": "De vrije mens denkt aan niets minder dan de dood."
+      },
+      "Plato": {
+        "label": "Plato",
+        "desc": "Dualisme: Het lichaam is de kerker van de ziel (Soma Sema).",
+        "quote": "De ziel is onsterfelijk en onveranderlijk."
+      },
+      "Dualisme": {
+        "label": "Dualisme",
+        "desc": "Strikte scheiding tussen geest en stof."
+      },
+      "Monisme": {
+        "label": "Monisme",
+        "desc": "De werkelijkheid bestaat uit één substantie."
+      },
+      "Hylomorfisme": {
+        "label": "Hylomorfisme",
+        "desc": "Eenheid van materie (hyle) en vorm (morphe)."
+      },
+      "Excentriciteit": {
+        "label": "Excentrische Positionaliteit",
+        "desc": "Vermogen om buiten jezelf te treden (reflectie)."
+      },
+      "Biopolitiek": {
+        "label": "Biopolitiek",
+        "desc": "Machtsuitoefening over het biologische leven van de bevolking."
+      },
+      "Vervreemding": {
+        "label": "Vervreemding",
+        "desc": "Verlies van eigen essentie door externe krachten."
+      }
+    }
+  },
+  "analysis": {
+    "title": "Tekst Analyse",
+    "next_fragment": "Volgende Fragment",
+    "select_concept": "Selecteer een begrip voor X-Ray analyse",
+    "xray_concept": "X-Ray Begrip"
+  },
+  "battle": {
+    "title": "Begrippen Battle",
+    "subtitle": "Infinite Mode: Onze AI genereert continu nieuwe begrippen.",
+    "start": "Start AI Battle",
+    "loading": "Begrippen Laden...",
+    "score": "Score",
+    "combo": "Combo",
+    "time": "Tijd",
+    "define_prompt": "Definieer dit begrip",
+    "philosopher": "Filosoof",
+    "result": "Battle Voltooid!",
+    "final_score": "Eindscore",
+    "replay": "Nog een Ronde",
+    "menu": "Naar Menu"
+  },
+  "science": {
+    "title": "Perspective Lab",
+    "subtitle": "Epistemologie Simulator",
+    "reset": "Reset Lab",
+    "loading": "Simulatie Laden...",
+    "observation": "Observatie",
+    "your_lens": "Jouw Lens",
+    "logbook": "Wetenschappelijk Logboek",
+    "placeholder": "Noteer hier je analyse...",
+    "submit": "Verwerk Data",
+    "coach_tip": "AI Coach Tip",
+    "next": "Volgende Experiment",
+    "validation_success": "Validatie Geslaagd",
+    "hypothesis_rejected": "Hypothese Verworpen",
+    "fallback_comment": "Kon AI niet bereiken. Analyse lijkt plausibel.",
+    "fallback_tip": "Check je internetverbinding.",
+    "lenses": {
+      "behaviorism": {
+        "title": "Klassieke Ethologie",
+        "philosopher": "Cartesiaans / Objectief",
+        "description": "Beschrijf ALLEEN observeerbaar gedrag. Vermijd mentale toestanden of emoties (antropomorfisme)."
+      },
+      "umwelt": {
+        "title": "Fenomenologie",
+        "philosopher": "Jakob von Uexküll",
+        "description": "Beschrijf de subjectieve ervaringswereld van het dier. Wat neemt het waar dat wij missen?"
+      },
+      "situated": {
+        "title": "Gesitueerde Kennis",
+        "philosopher": "Donna Haraway",
+        "description": "Beschrijf de interactie. Hoe beïnvloedt jouw aanwezigheid het dier en vice versa?"
+      }
+    }
+  },
+  "society": {
+    "title": "Sociaal-Culturele Filosofie"
+  },
+  "logic": {
+    "title": "Argument Architect",
+    "loading": "Genereren...",
+    "new_puzzle": "Nieuw Puzzel",
+    "available_blocks": "Beschikbare Blokken",
+    "your_construction": "Jouw Constructie",
+    "empty_state": "Klik op de blokken aan de linkerkant om je argument stap voor stap op te bouwen.",
+    "validate": "Valideren",
+    "retry": "Opnieuw",
+    "success": "Gelukt",
+    "error": "Foutieve Redenering",
+    "feedback_success": "Perfect! Dit is een geldig deductief argument. De conclusie volgt noodzakelijk uit de premissen.",
+    "feedback_error": "Ongeldig. Controleer de logische volgorde: Maior (Algemeen) → Minor (Specifiek) → Conclusie.",
+    "open_handbook": "Open Handboek",
+    "reset_workshop": "Reset Workshop",
+    "block_premise": "Premisse",
+    "block_conclusion": "Conclusie",
+    "block_hidden": "Verzwegen",
+    "handbook": {
+      "title": "Logica Handboek",
+      "theory_focus": "Theorie Focus",
+      "theory_desc": "Op het VWO-examen moet je redeneringen kunnen toetsen op <0>geldigheid</0> (vorm) en <1>houdbaarheid</1> (inhoud).",
+      "syllogism_title": "Het Syllogisme",
+      "maior_title": "1. Maior Premisse",
+      "maior_desc": "De algemene regel.",
+      "maior_example": "Alle mensen zijn sterfelijk.",
+      "minor_title": "2. Minor Premisse",
+      "minor_desc": "Het specifieke geval.",
+      "minor_example": "Socrates is een mens.",
+      "conclusion_title": "3. Conclusie",
+      "conclusion_desc": "Het noodzakelijke gevolg.",
+      "conclusion_example": "Socrates is sterfelijk.",
+      "fallacies_title": "Pas op voor Drogredenen",
+      "strawman_label": "Stromantype",
+      "strawman_desc": "Het standpunt van de ander verdraaien.",
+      "adhominem_label": "Ad Hominem",
+      "adhominem_desc": "De persoon aanvallen i.p.v. het argument.",
+      "nonsequitur_label": "Non Sequitur",
+      "nonsequitur_desc": "De conclusie volgt niet uit de premissen."
+    }
+  },
+  "exam": {
+    "title": "VWO Eindexamen Simulator",
+    "select_domain": "Selecteer Domein",
+    "default_domain": "Examen Training",
+    "setup": {
+      "title": "Kies je Strijdperk",
+      "subtitle": "De AI-Examinator genereert een unieke, nooit eerder vertoonde examenvraag op basis van de huidige syllabus."
+    },
+    "generating": {
+      "title": "Genereren...",
+      "subtitle": "De examinator stelt je opgave samen."
+    },
+    "source_text": "Brontekst",
+    "question_label": "Vraag",
+    "structure": "Structuur",
+    "step": "Stap",
+    "answer_placeholder": "Antwoord stap",
+    "previous": "Vorige",
+    "next": "Volgende",
+    "grade": "Nakijken",
+    "final_grade": "Eindcijfer",
+    "score_label": "Score",
+    "points_suffix": "Punten",
+    "feedback_step": "Feedback Stap",
+    "reset": "Reset",
+    "domains": {
+      "ethics": {
+        "label": "Ethiek",
+        "desc": "Morele dilemma's, Utilisme, Plichtethiek, Deugdethiek."
+      },
+      "anthropology": {
+        "label": "Antropologie",
+        "desc": "Lichaam-Geest, Vrije Wil, Identiteit."
+      },
+      "knowledge": {
+        "label": "Kennisleer",
+        "desc": "Waarheid, Wetenschap, Scepticisme."
+      },
+      "society": {
+        "label": "Sociaal-Cultureel",
+        "desc": "Macht, Politiek, Uitsluiting."
+      }
+    },
+    "setup_title": "Examen Trainer Configurator",
+    "select_domain_fallback": "Selecteer een hoofddomein",
+    "start_exam": "Start Examen Simulatie",
+    "question": "Examen Vraag",
+    "points": "Punten",
+    "formulate_answer": "Formuleer je antwoord",
+    "submit": "Dien Antwoord In",
+    "feedback_title": "Nagekeken door AI",
+    "model_answer": "Modelantwoord",
+    "next_question": "Volgende Vraag"
+  }
+}

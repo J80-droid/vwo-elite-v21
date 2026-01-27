@@ -1,0 +1,163 @@
+{
+  "title": "Biology Lab",
+  "hub_description": "Explore the complexities of life. From genomics to ecosystems.",
+  "modules": {
+    "genomics": "Genomics",
+    "microscopy": "Microscopy",
+    "ecology": "Ecology",
+    "physiology": "Physiology"
+  },
+  "layout": {
+    "instrumentation": "Instrumentation",
+    "parameters": "System Parameters",
+    "analysis": "Population Data"
+  },
+  "common": {
+    "mastery_title": "Mastery Dashboard",
+    "mastery_description": "Complete Mastery Missions and answer Exam questions to raise your Bloom levels. A score of 80%+ on all levels indicates VWO readiness.",
+    "exam_title": "VWO Exam Trainer",
+    "zen_mode": "Zen Mode"
+  },
+  "genomics": {
+    "stage": {
+      "coach_analysing": "Analysing...",
+      "coach_title": "AI Coach Analysis",
+      "close": "Close",
+      "gel_control": "Control",
+      "gel_patient_a": "Patient A",
+      "gel_patient_b": "Patient B"
+    },
+    "parameters": {
+      "title": "Genetic Parameters",
+      "sequence_length": "Sequence Length",
+      "gc_content": "GC Content",
+      "melting_temp": "Melting Temp (Tm)",
+      "reading_frame": "Reading Frame",
+      "status_monitor": "Status Monitor",
+      "active_mission": "Active Mission"
+    },
+    "analysis": {
+      "title": "Population Data",
+      "base_frequency": "Base Frequency",
+      "hydrophobicity": "Hydrophobicity",
+      "translated_peptide": "Translated Peptide",
+      "no_coding_sequence": "No coding sequence detected."
+    },
+    "sidebar": {
+      "mastery_missions": "Mastery Missions",
+      "active_mission": "Mission: {{target}}",
+      "active_mission_prompt": "Make: {{target}}",
+      "cancel": "Cancel",
+      "mission_silent": "Mission: Silent",
+      "mission_missense": "Mission: Missense",
+      "mission_nonsense": "Mission: Nonsense (STOP)",
+      "dna_editor": "DNA Editor",
+      "example_covid": "Corona Spike",
+      "example_insulin": "Insulin",
+      "base_selection": "Base Selection",
+      "no_base_selected": "Click on the DNA Helix to select a base.",
+      "protein_db": "Protein Database",
+      "viewer_mode": "Viewer Mode",
+      "real_time": "Real-time",
+      "pdb": "PDB",
+      "replication_mode": "DNA Replication",
+      "lab_tools": "Lab Tools",
+      "tool_gel": "Gel Electro",
+      "tool_pcr": "PCR Therm.",
+      "tool_crispr": "CRISPR-Cas9 Visualizer"
+    }
+  },
+  "microscopy": {
+    "title": "Virtual Microscope",
+    "description": "Virtual Microscope & Cell Analysis",
+    "stage": {
+      "subtitle": "Optical System Active",
+      "plant_cell": "Plant Cell",
+      "animal_cell": "Animal Cell",
+      "select_specimen": "Select Specimen",
+      "specimen_info": "Specimen Info",
+      "plant_description": "Characterized by a rigid cell wall, a large central vacuole, and chloroplasts for photosynthesis.",
+      "animal_description": "Has no cell wall or chloroplasts. The shape is variable and maintained by the cytoskeleton.",
+      "no_specimen": "Use the side panel to place a specimen under the microscope.",
+      "magnification": "MAG",
+      "light": "LIGHT"
+    },
+    "sidebar": {
+      "slides": "Slides",
+      "plant_cell": "Plant Cell",
+      "animal_cell": "Animal Cell",
+      "optical_controls": "Optical Controls",
+      "magnification": "Magnification",
+      "brightness": "Brightness",
+      "contrast": "Contrast"
+    },
+    "analysis": {
+      "cellular_composition": "Cellular Composition (%)",
+      "select_slide_prompt": "Select a slide for automatic image recognition and cell analysis.",
+      "source": "Source"
+    }
+  },
+  "ecology": {
+    "title": "Ecology Simulator",
+    "description": "Population Dynamics & Food Webs",
+    "stage": {
+      "subtitle": "Biosphere Simulation",
+      "title": "Lotka-Volterra Dynamics"
+    },
+    "sidebar": {
+      "environment_vars": "Environment Variables",
+      "growth_rate_prey": "Prey Growth Rate",
+      "consumption_rate": "Consumption Rate",
+      "efficiency_predator": "Predator Efficiency",
+      "mortality_predator": "Predator Mortality",
+      "carrying_capacity": "Carrying Capacity (K)",
+      "reset_population": "Reset Population",
+      "add_prey": "Add Prey"
+    },
+    "analysis": {
+      "phase_portrait": "Phase Portrait (Predator vs Prey)",
+      "system_energy": "System Energy (Total)",
+      "prey": "Prey",
+      "predator": "Predator"
+    }
+  },
+  "physiology": {
+    "title": "Physiology & Anatomy",
+    "description": "Human Body & Organs",
+    "stage": {
+      "subtitle": "Anatomical Diagnostic Tools",
+      "select_system": "Select System",
+      "heart_rate": "Heart Rate"
+    },
+    "sidebar": {
+      "anatomical_systems": "Anatomical Systems",
+      "circulatory": "Circulatory",
+      "respiratory": "Respiratory",
+      "nervous": "Nervous System",
+      "endocrine": "Endocrine System",
+      "stress_test": "Stress Test",
+      "physical_exertion": "Physical Exertion (Heart Rate)"
+    },
+    "parameters": {
+      "blood_pressure_syst": "Blood Pressure (Syst.)",
+      "blood_pressure_diast": "Blood Pressure (Diast.)",
+      "oxygen_saturation": "Oxygen Saturation",
+      "cardiac_output": "Cardiac Output",
+      "stroke_volume": "Stroke Volume",
+      "respiratory_rate": "Respiratory Rate",
+      "map": "Mean Arterial Pressure (MAP)",
+      "normal": "Normal",
+      "homeostasis": "Homeostasis",
+      "optimal": "Optimal",
+      "elevated": "Elevated",
+      "high_stress": "High Stress",
+      "bradycardia": "Bradycardia"
+    },
+    "analysis": {
+      "ecg_monitor": "Real-time ECG Monitor",
+      "system_analysis": "System Analysis",
+      "sympathetic": "Sympathetic Nervous System",
+      "parasympathetic": "Parasympathetic"
+    }
+  }
+}

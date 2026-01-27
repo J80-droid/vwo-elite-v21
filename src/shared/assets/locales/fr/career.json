@@ -1,0 +1,144 @@
+{
+  "hub": {
+    "hero_title": "Design Your Future",
+    "compass": "Boussole de Carrière",
+    "hero_subtitle": "Découvrez qui vous êtes, ce que vous pouvez faire et ce que le monde attend de vous avec nos outils \"500% Elite\".",
+    "tiles": {
+      "bigfive": {
+        "title": "Big Five",
+        "subtitle": "Personnalité"
+      },
+      "riasec": {
+        "title": "RIASEC",
+        "subtitle": "Choix de Carrière"
+      },
+      "coach": {
+        "title": "Coach de Carrière IA",
+        "subtitle": "Obtenez des conseils 24/7"
+      },
+      "explorer": {
+        "title": "Explorateur d'Études",
+        "subtitle": "Chercher & Filtrer les Études"
+      },
+      "universe": {
+        "title": "Univers d'Études",
+        "subtitle": "Visualisation de Réseau 3D"
+      },
+      "selection": {
+        "title": "Entraîneur de Sélection",
+        "subtitle": "Préparation Numerus Fixus"
+      },
+      "plan_b": {
+        "title": "Planification de Scénarios",
+        "subtitle": "Plan A, B & C"
+      },
+      "open_days": {
+        "title": "Journées Portes Ouvertes",
+        "subtitle": "Agenda & Planification"
+      },
+      "gap_year": {
+        "title": "Année Césure",
+        "subtitle": "Guide & Options"
+      }
+    }
+  },
+  "bigfive": {
+    "title": "Votre Profil Big Five",
+    "subtitle": "Ci-dessous, vous pouvez voir votre score sur les cinq dimensions.",
+    "progress_title": "Évaluation Big Five",
+    "question_prefix": "Question",
+    "agree_min": "Pas du tout d'accord",
+    "agree_max": "Tout à fait d'accord",
+    "back_dashboard": "Retour au Tableau de Bord",
+    "retry": "Réessayer",
+    "labels": {
+      "strongly_disagree": "Désaccord++",
+      "disagree": "Désaccord",
+      "neutral": "Neutre",
+      "agree": "D'accord",
+      "strongly_agree": "D'accord++"
+    },
+    "traits": {
+      "openness": "Ouverture à l'expérience, curiosité intellectuelle et créativité.",
+      "conscientiousness": "Conscience professionnelle, autodiscipline, ordre et sens du devoir.",
+      "extraversion": "Extraversion, énergie des situations sociales, affirmation de soi et enthousiasme.",
+      "agreeableness": "Agréabilité, compassion, coopération et confiance en les autres.",
+      "neuroticism": "Sensibilité au stress et aux émotions négatives (versus stabilité émotionnelle)."
+    },
+    "questions": {
+      "1": "Je suis l'âme de la fête.",
+      "2": "Je me soucie peu des autres.",
+      "3": "Je suis toujours préparé.",
+      "4": "Je stresse facilement.",
+      "5": "J'ai un vocabulaire riche.",
+      "6": "Je ne parle pas beaucoup.",
+      "7": "Je m'intéresse aux gens.",
+      "8": "Je laisse traîner mes affaires.",
+      "9": "Je suis souvent détendu.",
+      "10": "J'ai du mal avec les idées abstraites."
+    }
+  },
+  "riasec": {
+    "title": "Votre Code Holland",
+    "subtitle": "Sur la base de vos choix, ces environnements de travail vous conviennent le mieux.",
+    "like_question": "Aimez-vous cela ?",
+    "activity_counter": "Activité",
+    "descriptions": {
+      "realistic": "Vous aimez le travail pratique, travailler avec vos mains, des outils ou des machines.",
+      "investigative": "Vous aimez analyser, rechercher et résoudre des problèmes complexes.",
+      "artistic": "Vous êtes créatif, expressif et aimez concevoir ou l'art.",
+      "social": "Vous aimez travailler avec les gens, les aider et contribuer à leur développement.",
+      "enterprising": "Vous aimez prendre l'initiative, vendre des idées et êtes ambitieux.",
+      "conventional": "Vous travaillez de manière organisée, précise et aimez les structures claires."
+    },
+    "activities": {
+      "1": "Réparer un moteur",
+      "2": "Écrire un article scientifique",
+      "3": "Faire une peinture",
+      "4": "Aider les gens avec des problèmes personnels",
+      "5": "Diriger une équipe de vente",
+      "6": "Tenir la comptabilité",
+      "7": "Travailler le bois",
+      "8": "Résoudre des problèmes mathématiques complexes",
+      "9": "Jouer dans une pièce de théâtre",
+      "10": "Enseigner aux enfants"
+    }
+  },
+  "explorer": {
+    "plan_b": "Plan B",
+    "grades": "Mes Notes",
+    "search_placeholder": "Rechercher des études...",
+    "filters": {
+      "all": "Tout",
+      "tech": "Technologie",
+      "health": "Santé",
+      "economy": "Économie",
+      "society": "Société",
+      "nature": "Nature"
+    },
+    "card": {
+      "numerus_fixus": "Numerus Fixus"
+    },
+    "empty_state": "Aucune étude trouvée correspondant à vos critères.",
+    "swipe_finished": "C'est tout !",
+    "swipe_msg": "Vous n'avez pas vu d'études intéressantes ? Essayez d'ajuster vos filtres.",
+    "restart": "Recommencer",
+    "grades_modal": {
+      "title": "Ma Liste de Notes",
+      "no_grades": "Aucune note trouvée.",
+      "source": "Source: Somtoday",
+      "live_synced": "Synchronisation en direct"
+    }
+  },
+  "coach": {
+    "title": "Coach de Carrière IA",
+    "subtitle": "Propulsé par Gemini 2.0 Flash",
+    "welcome": "Salut ! Je suis votre coach d'études personnel IA. Comment puis-je vous aider dans votre choix d'études ?",
+    "input_placeholder": "Tapez votre message...",
+    "analyzing": "Analyse...",
+    "footer": "VWO Elite AI commet des erreurs. Vérifiez les infos importantes.",
+    "error_offline": "Désolé, je ne peux pas me connecter au serveur pour le moment.",
+    "proactive_single": "Hé, j'ai vu que vous êtes intéressé par {{studies}}. Qu'est-ce qui vous attire le plus là-dedans ?",
+    "proactive_multi": "Je vois que vous hésitez entre par ex. {{studies}}. Devons-nous lister les différences ?"
+  }
+}

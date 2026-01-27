@@ -1,0 +1,11 @@
+{
+  "placeholder_value": "Value...",
+  "error": "An error occurred",
+  "stabilizing": "Stabilizing Engine...",
+  "clear_analysis": "Clear Analysis",
+  "loading": "Loading...",
+  "no_data": "No data available",
+  "welcome": "Welcome back, {{name}}.",
+  "ready": "Ready to optimize your performance?",
+  "subjects_title": "Your Subjects"
+}

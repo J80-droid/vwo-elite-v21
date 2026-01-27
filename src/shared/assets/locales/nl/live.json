@@ -1,0 +1,9 @@
+{
+  "ready": "Klaar voor sessie",
+  "connecting": "Verbinden...",
+  "listening": "Luisteren...",
+  "ended": "Sessie beëindigd",
+  "error": "Fout bij verbinden",
+  "start": "Start Sessie",
+  "end": "Stop Sessie"
+}

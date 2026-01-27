@@ -1,0 +1,141 @@
+{
+  "title": "Smart Library",
+  "modules": {
+    "browse": "Browse",
+    "search": "Search",
+    "network": "Network"
+  },
+  "header": {
+    "subtitle": "Neural Knowledge Hub • AI-Driven Mastery",
+    "new_lesson_btn": "Generate New Lesson"
+  },
+  "stats": {
+    "metacognition": "Metacognition",
+    "mastery_label": "VWO Mastery",
+    "levels": {
+      "elite": "Elite",
+      "progressing": "Progressing"
+    },
+    "focus_advice": "AI Focus Advice"
+  },
+  "advice": {
+    "weak_topics": "Your mastery of {topic} shows gaps in the neural pattern. We recommend generating a new Analysis & Insight module on this topic.",
+    "stable": "Your neural patterns are stable. Keep reviewing to maintain retention at 100%. Consider a simulation test to train your speed."
+  },
+  "tabs": {
+    "overview": "Overview",
+    "literature": "Reading List",
+    "skills": "Skills",
+    "oral": "Oral Exam",
+    "solver": "Step Solver"
+  },
+  "library": {
+    "title": "Library",
+    "search_placeholder": "Search sources...",
+    "no_sources": "No sources found in this library",
+    "add_source": "Add Source",
+    "add_subject": "Add Subject",
+    "add_subject_desc": "Customize your grid"
+  },
+  "subjects": {
+    "math_a": "Mathematics A",
+    "math_b": "Mathematics B",
+    "physics": "Physics",
+    "chemistry": "Chemistry",
+    "biology": "Biology",
+    "dutch": "Dutch",
+    "english": "English",
+    "french": "French",
+    "german": "German",
+    "spanish": "Spanish",
+    "classics": "Classics (Latin)",
+    "greek": "Greek",
+    "economics": "Economics",
+    "business": "Business Economics",
+    "history": "History",
+    "geography": "Geography",
+    "social_studies": "Social Studies",
+    "philosophy": "Philosophy",
+    "psychology": "Psychology",
+    "cs": "Comp. Science",
+    "art": "Art (CKV)"
+  },
+  "config": {
+    "title": "Configure Module",
+    "subtitle": "Set up your neural learning path",
+    "selected_context": "Selected Context",
+    "active_count": "Active",
+    "step_1": "1. Choose Mission",
+    "step_2": "2. Focus Area",
+    "topic_placeholder": "E.g. Era 5, Differential Calculus...",
+    "generating": "Generating neural path...",
+    "generate_btn": "Generate Module",
+    "start_sim_btn": "Start Simulation",
+    "craap_active": "CRAAP Protocol Activated",
+    "sync_text": "Synchronizing neural networks..."
+  },
+  "modes": {
+    "recap": {
+      "label": "Knowledge",
+      "desc": "Recap & Facts"
+    },
+    "deep": {
+      "label": "Insight",
+      "desc": "Connections & Explanations"
+    },
+    "exam": {
+      "label": "Application",
+      "desc": "Exam Training"
+    },
+    "analysis": {
+      "label": "Analysis",
+      "desc": "Source Criticism & Research"
+    },
+    "argument": {
+      "label": "Argumentation",
+      "desc": "Essay & Debate"
+    },
+    "oral": {
+      "label": "Oral",
+      "desc": "Simulation & Literature"
+    }
+  },
+  "modals": {
+    "titles": {
+      "note": "New Note",
+      "url": "Website URL",
+      "youtube": "YouTube Link",
+      "wikipedia": "Wikipedia Article",
+      "search": "Web Search",
+      "save_set": "Save Context Set"
+    },
+    "labels": {
+      "title": "Title (Optional)",
+      "content": "Content",
+      "url": "URL / Link"
+    },
+    "placeholders": {
+      "title": "Name your source...",
+      "content": "Type or paste information here...",
+      "url": "https://example.com/...",
+      "search": "What do you want to search?"
+    },
+    "add_btn": "Add Source",
+    "delete_title": "Delete Lesson?",
+    "delete_desc": "This cannot be undone.",
+    "cancel": "Cancel",
+    "delete": "Delete"
+  },
+  "tile": {
+    "no_data": "No data",
+    "test_planned": "Test scheduled",
+    "no_planning": "No planning",
+    "since_last_test": "Since last test",
+    "no_tests_taken": "No tests taken",
+    "status": {
+      "mastery": "Mastery",
+      "on_track": "On Track",
+      "warning": "Attention"
+    }
+  }
+}

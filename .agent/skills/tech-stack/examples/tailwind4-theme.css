@@ -1,0 +1,78 @@
+/**
+ * Example: Tailwind CSS v4 Configuration
+ * 
+ * This demonstrates the CSS-first configuration approach.
+ * DO NOT create tailwind.config.js - use @theme blocks instead.
+ */
+
+/* Import Tailwind */
+@import "tailwindcss";
+
+/* Theme Configuration (replaces tailwind.config.js) */
+@theme {
+  /* Brand Colors */
+  --color-brand-primary: #3b82f6;
+  --color-brand-secondary: #6366f1;
+  --color-brand-accent: #8b5cf6;
+  --color-brand-dark: #1e3a8a;
+
+  /* Semantic Colors */
+  --color-success: #22c55e;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
+
+  /* Typography */
+  --font-display: "Inter", "system-ui", "sans-serif";
+  --font-mono: "JetBrains Mono", "monospace";
+
+  /* Spacing */
+  --spacing-page: 2rem;
+  --spacing-section: 1.5rem;
+
+  /* Breakpoints */
+  --breakpoint-3xl: 1920px;
+
+  /* Animations */
+  --animate-fade-in: fade-in 0.3s ease-out;
+}
+
+/* Custom Keyframes */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Custom Utilities */
+@layer utilities {
+  .scrollbar-hide {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .text-gradient {
+    background: linear-gradient(
+      to right,
+      var(--color-brand-primary),
+      var(--color-brand-secondary)
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
+
+/* Usage Examples:
+   <div class="bg-brand-primary">...</div>
+   <h1 class="font-display text-gradient">...</h1>
+   <div class="p-page overflow-auto scrollbar-hide">...</div>
+*/

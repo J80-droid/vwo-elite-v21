@@ -1,0 +1,16 @@
+# Elite Agent Context Management
+node_modules/
+dist/
+build/
+coverage/
+.git/
+.next/
+.cache/
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+*.log
+*.svg
+*.png
+*.jpg
+*.ico

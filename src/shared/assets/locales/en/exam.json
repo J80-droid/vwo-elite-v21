@@ -1,0 +1,29 @@
+{
+  "title": "Exam Simulator",
+  "modules": {
+    "practice": "Practice",
+    "simulation": "Simulation",
+    "results": "Results"
+  },
+  "desc": "Test your knowledge with verified quizzes.",
+  "placeholder": "Topic (e.g. Cold War, Organic Chemistry)",
+  "btn_start": "Start Simulation",
+  "btn_gen": "Generating...",
+  "refresh": "Refresh Question (RAG)",
+  "verified": "Verified Sources",
+  "prev": "Previous",
+  "next": "Next",
+  "mode_label": "Mode",
+  "mode_study": "Study Mode (Direct Feedback)",
+  "mode_exam": "Exam Mode (No Feedback)",
+  "timer_label": "Time Limit",
+  "no_timer": "No Timer",
+  "minutes": "min",
+  "finish": "Submit Exam",
+  "results": "Results",
+  "score": "Score",
+  "analysis": "Review",
+  "correct_ans": "Correct answers",
+  "wrong_ans": "Wrong answers",
+  "try_again": "New Exam"
+}

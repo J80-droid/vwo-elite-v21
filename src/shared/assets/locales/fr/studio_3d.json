@@ -1,0 +1,96 @@
+{
+  "back_to_hub": "Retour",
+  "hub_description": "Sélectionnez un module pour commencer votre exploration spatiale. Maîtrisez les géométries complexes, les projections et les structures.",
+  "modules": {
+    "spatial": "Vision Spatiale",
+    "spatial_desc": "Entraînez le raisonnement spatial en faisant pivoter des objets.",
+    "stereo": "Stéréochimie",
+    "stereo_desc": "Identifiez les isomères et les centres chiraux.",
+    "cross_section": "Sections",
+    "cross_section_desc": "Prédisez la forme de la section transversale.",
+    "slicer": "Coupes Transversales",
+    "slicer_desc": "Visualisez des coupes 2D d'objets 3D.",
+    "projection": "Projections",
+    "projection_desc": "Faites correspondre les projections 2D avec l'objet 3D.",
+    "construction": "Construction",
+    "construction_desc": "Résolvez des puzzles de construction.",
+    "build": "Mode Construction",
+    "build_desc": "Placez des blocs pour construire des structures."
+  },
+  "build": {
+    "title": "Mode Construction",
+    "difficulty": {
+      "easy": "Facile",
+      "medium": "Moyen",
+      "hard": "Difficile"
+    },
+    "start": "Commencer le jeu",
+    "goal": "Objectif : Construire ceci !",
+    "views": "Vues",
+    "ghost": "Afficher le fantôme",
+    "reset": "Réinitialiser",
+    "excellent": "Excellent !",
+    "perfect": "Construction parfaite !",
+    "time": "Temps",
+    "mistakes": "Erreurs",
+    "next": "Puzzle Suivant",
+    "menu": "Menu Principal",
+    "projection": {
+      "top": "Vue de dessus",
+      "front": "Vue de face",
+      "side": "Vue de côté"
+    },
+    "levels": {
+      "intro": "Introduction",
+      "basic_skill": "Compétences de Base",
+      "vwo_basic": "VWO Base",
+      "expert": "Analyste Expert",
+      "elite": "VWO Élite"
+    },
+    "difficulty_labels": {
+      "easy": "Entrée",
+      "medium": "Base",
+      "hard": "Avancé",
+      "elite": "VWO Élite"
+    },
+    "spatial": {
+      "controls": "Contrôles",
+      "controls_desc": "Faites pivoter l'objet pour trouver la réponse.",
+      "title": "Vision Spatiale",
+      "high_score": "Meilleur Score",
+      "score": "Score",
+      "units": "Points",
+      "reference": "Référence",
+      "confirm": "Confirmer",
+      "mission_accomplished": "Mission Accomplie !",
+      "instructions": {
+        "rotation": "Quelle figure est une version tournée ?",
+        "counting": "Combien de blocs compte la figure ?",
+        "pov": "Quelle vue correspond à la figure ?",
+        "spot": "Quelle figure est identique (mais tournée) ?",
+        "sequence": "Quel est l'état final après les rotations ?",
+        "xray": "Quel noyau interne correspond à l'extérieur ?",
+        "shadows": "Quelle ombre appartient à cet objet ?",
+        "projection": "Quelle vue de face appartient ici ?",
+        "pathfinding": "Suivez le chemin : Quelle option est identique ?",
+        "chirality": "Quelle molécule est identique (pas une image miroir) ?",
+        "nets": "Quel patron forme un cube fermé ?",
+        "folding": "Quel motif apparaît après le dépliage ?",
+        "mechanical": "Quelle est la direction de la roue JAUNE ?",
+        "cross_section": "Quelle section transversale résulte de la coupe ?",
+        "stability": "Quelle tour est instable et va tomber ?",
+        "label": "Mission"
+      },
+      "feedback": {
+        "correct": "Correct ! +Points",
+        "incorrect": "Incorrect",
+        "investigate": "Examinez la réponse correcte (marquée en vert) et cliquez quand vous êtes prêt :",
+        "next": "Question Suivante"
+      },
+      "footer": {
+        "difficulty": "Difficulté sélectionnée :",
+        "shortcuts": "Utilisez les touches A, B, C, D pour des réponses rapides."
+      }
+    }
+  }
+}

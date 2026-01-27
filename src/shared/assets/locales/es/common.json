@@ -1,0 +1,11 @@
+{
+  "placeholder_value": "Valor...",
+  "error": "Ocurrió un error",
+  "stabilizing": "Estabilizando Motor...",
+  "clear_analysis": "Borrar Análisis",
+  "loading": "Cargando...",
+  "no_data": "No hay datos disponibles",
+  "welcome": "Bienvenido de nuevo, {{name}}.",
+  "ready": "¿Listo para optimizar tu rendimiento?",
+  "subjects_title": "Tus Materias"
+}

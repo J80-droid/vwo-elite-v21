@@ -1,0 +1,29 @@
+{
+  "title": "Simulateur d'Examen",
+  "modules": {
+    "practice": "Pratique",
+    "simulation": "Simulation",
+    "results": "Résultats"
+  },
+  "desc": "Testez vos connaissances avec des quiz vérifiés.",
+  "placeholder": "Sujet (ex. Guerre Froide, Chimie Organique)",
+  "btn_start": "Démarrer Simulation",
+  "btn_gen": "Génération...",
+  "refresh": "Actualiser Question (RAG)",
+  "verified": "Sources Vérifiées",
+  "prev": "Précédent",
+  "next": "Suivant",
+  "mode_label": "Mode",
+  "mode_study": "Mode Étude (Feedback Direct)",
+  "mode_exam": "Mode Examen (Sans Feedback)",
+  "timer_label": "Limite de Temps",
+  "no_timer": "Sans Timer",
+  "minutes": "min",
+  "finish": "Soumettre Examen",
+  "results": "Résultats",
+  "score": "Score",
+  "analysis": "Révision",
+  "correct_ans": "Réponses correctes",
+  "wrong_ans": "Réponses incorrectes",
+  "try_again": "Nouvel Examen"
+}

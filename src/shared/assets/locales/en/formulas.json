@@ -1,0 +1,23 @@
+{
+  "search": "Search Formulas",
+  "search_placeholder": "Search by name or symbol (e.g. F=ma)...",
+  "solver_error": "Calculation error. Check your values.",
+  "graph_title": "Dynamic Analysis",
+  "graph_unavailable": "Enter values for graph",
+  "fill_values": "Enter values to see impact",
+  "category_physics": "Physics",
+  "category_chemistry": "Chemistry",
+  "category_math": "Mathematics",
+  "no_formula": "Select a formula to start",
+  "select_formula": "Select a formula",
+  "variables": "Variables & Units",
+  "solve_hint": "Select 'Solve' for the variable you want to calculate.",
+  "result": "Result",
+  "calculate": "Calculate",
+  "open_browser": "Open Library",
+  "close_browser": "Close Library",
+  "mechanics": "Mechanics",
+  "electricity": "Electricity",
+  "thermodynamics": "Thermodynamics",
+  "waves": "Waves"
+}

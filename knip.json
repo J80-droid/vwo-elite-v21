@@ -1,0 +1,36 @@
+{
+    "$schema": "https://unpkg.com/knip@latest/schema.json",
+    "entry": [
+        "src/index.tsx",
+        "apps/main/src/index.ts",
+        "apps/preload/index.ts"
+    ],
+    "project": [
+        "src/**/*.{ts,tsx}",
+        "apps/**/*.{ts,tsx}",
+        "packages/**/*.{ts,tsx}"
+    ],
+    "ignore": [
+        "**/*.d.ts",
+        "dist/**",
+        "out/**"
+    ],
+    "ignoreBinaries": [
+        "powershell"
+    ],
+    "ignoreDependencies": [
+        "prettier"
+    ],
+    "rules": {
+        "files": "warn",
+        "dependencies": "error",
+        "unlisted": "error",
+        "binaries": "error",
+        "unresolved": "error",
+        "exports": "warn",
+        "types": "warn",
+        "enumMembers": "warn",
+        "classMembers": "warn",
+        "duplicates": "warn"
+    }
+}

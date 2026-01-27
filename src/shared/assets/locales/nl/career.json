@@ -1,0 +1,144 @@
+{
+  "hub": {
+    "hero_title": "Design Your Future",
+    "compass": "Carrière Kompas",
+    "hero_subtitle": "Ontdek wie je bent, wat je kunt en waar de wereld op wacht met onze \"500% Elite\" tools.",
+    "tiles": {
+      "bigfive": {
+        "title": "Big Five",
+        "subtitle": "Persoonlijkheid"
+      },
+      "riasec": {
+        "title": "RIASEC",
+        "subtitle": "Beroepskeuze"
+      },
+      "coach": {
+        "title": "AI Career Coach",
+        "subtitle": "Krijg 24/7 Advies"
+      },
+      "explorer": {
+        "title": "Study Explorer",
+        "subtitle": "Zoek & Filter Studies"
+      },
+      "universe": {
+        "title": "Study Universe",
+        "subtitle": "3D Netwerk Visualisatie"
+      },
+      "selection": {
+        "title": "Selectie Trainer",
+        "subtitle": "Numerus Fixus Prep"
+      },
+      "plan_b": {
+        "title": "Scenario Planning",
+        "subtitle": "Plan A, B & C"
+      },
+      "open_days": {
+        "title": "Open Dagen",
+        "subtitle": "Agenda & Planning"
+      },
+      "gap_year": {
+        "title": "Tussenjaar",
+        "subtitle": "Guide & Opties"
+      }
+    }
+  },
+  "bigfive": {
+    "title": "Jouw Big Five Profiel",
+    "subtitle": "Hieronder zie je hoe je scoort op de vijf dimensies.",
+    "progress_title": "Big Five Assessment",
+    "question_prefix": "Vraag",
+    "agree_min": "Helemaal oneens",
+    "agree_max": "Helemaal eens",
+    "back_dashboard": "Terug naar Dashboard",
+    "retry": "Opnieuw",
+    "labels": {
+      "strongly_disagree": "Oneens++",
+      "disagree": "Oneens",
+      "neutral": "Neutraal",
+      "agree": "Eens",
+      "strongly_agree": "Eens++"
+    },
+    "traits": {
+      "openness": "Openheid voor ervaringen, intellectuele nieuwsgierigheid en creativiteit.",
+      "conscientiousness": "Zorgvuldigheid, zelfdiscipline, ordelijkheid en plichtsgetrouwheid.",
+      "extraversion": "Extraversie, energie uit sociale situaties, assertiviteit en enthousiasme.",
+      "agreeableness": "Vriendelijkheid, medeleven, samenwerking en vertrouwen in anderen.",
+      "neuroticism": "Gevoeligheid voor stress en negatieve emoties (versus emotionele stabiliteit)."
+    },
+    "questions": {
+      "1": "Ik ben het leven van het feest.",
+      "2": "Ik voel weinig bezorgdheid voor anderen.",
+      "3": "Ik ben altijd voorbereid.",
+      "4": "Ik word gemakkelijk gestrest.",
+      "5": "Ik heb een rijke woordenschat.",
+      "6": "Ik praat niet veel.",
+      "7": "Ik ben geïnteresseerd in mensen.",
+      "8": "Ik laat mijn spullen rondslingeren.",
+      "9": "Ik ben vaak ontspannen.",
+      "10": "Ik heb moeite met abstracte ideeën."
+    }
+  },
+  "riasec": {
+    "title": "Jouw Holland Code",
+    "subtitle": "Op basis van je keuzes passen deze werkomgevingen het beste bij jou.",
+    "like_question": "Lijkt je dit leuk?",
+    "activity_counter": "Activiteit",
+    "descriptions": {
+      "realistic": "Je houdt van praktisch bezig zijn, werken met je handen, gereedschap of machines.",
+      "investigative": "Je houdt van analyseren, onderzoeken en complexe problemen oplossen.",
+      "artistic": "Je bent creatief, expressief en houdt van ontwerpen of kunst.",
+      "social": "Je werkt graag met mensen, helpt ze en draagt bij aan hun ontwikkeling.",
+      "enterprising": "Je neemt graag leiding, verkoopt ideeën en bent ambitieus.",
+      "conventional": "Je werkt geordend, nauwkeurig en houdt van duidelijke structuren."
+    },
+    "activities": {
+      "1": "Een motor repareren",
+      "2": "Een wetenschappelijk artikel schrijven",
+      "3": "Een schilderij maken",
+      "4": "Mensen helpen met persoonlijke problemen",
+      "5": "Een verkoopteam leiden",
+      "6": "De boekhouding bijhouden",
+      "7": "Houtbewerken",
+      "8": "Complexe wiskundige problemen oplossen",
+      "9": "Acteren in een toneelstuk",
+      "10": "Lesgeven aan kinderen"
+    }
+  },
+  "explorer": {
+    "plan_b": "Plan B",
+    "grades": "Mijn Cijfers",
+    "search_placeholder": "Zoek studies...",
+    "filters": {
+      "all": "Alles",
+      "tech": "Techniek",
+      "health": "Gezondheid",
+      "economy": "Economie",
+      "society": "Maatschappij",
+      "nature": "Natuur"
+    },
+    "card": {
+      "numerus_fixus": "Numerus Fixus"
+    },
+    "empty_state": "Geen studies gevonden die aan je criteria voldoen.",
+    "swipe_finished": "Dat was alles!",
+    "swipe_msg": "Heb je geen leuke studies gezien? Probeer je filters aan te passen.",
+    "restart": "Opnieuw beginnen",
+    "grades_modal": {
+      "title": "Mijn Cijferlijst",
+      "no_grades": "Geen cijfers gevonden.",
+      "source": "Bron: Somtoday",
+      "live_synced": "Live Synced"
+    }
+  },
+  "coach": {
+    "title": "AI Career Coach",
+    "subtitle": "Powered by Gemini 2.0 Flash",
+    "welcome": "Hoi! Ik ben je persoonlijke AI studiecoach. Hoe kan ik je helpen bij je studiekeuze?",
+    "input_placeholder": "Typ je bericht...",
+    "analyzing": "Analyseren...",
+    "footer": "VWO Elite AI kan fouten maken. Controleer belangrijke informatie.",
+    "error_offline": "Sorry, ik kan even geen verbinding maken met de server.",
+    "proactive_single": "Hé, ik zag dat je interesse hebt in {{studies}}. Wat spreekt je daar het meeste in aan?",
+    "proactive_multi": "Ik zie dat je twijfelt tussen o.a. {{studies}}. Zullen we de verschillen eens op een rijtje zetten?"
+  }
+}

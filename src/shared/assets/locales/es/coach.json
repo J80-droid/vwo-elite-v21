@@ -1,0 +1,25 @@
+{
+  "title": "Coach Socrático Pro",
+  "desc": "Tu tutor IA personal que te hace pensar.",
+  "intro": "¡Hola! Soy tu coach socrático. Elige un rol y hazme una pregunta.",
+  "input": "Escribe tu pregunta aquí...",
+  "thinking": "Pensando...",
+  "speak": "Hablar",
+  "stop": "Parar",
+  "liveTitle": "Conversación en Vivo",
+  "liveDesc": "Practica oralmente como si estuvieras frente a un profesor.",
+  "listen": "Escuchar",
+  "roles": {
+    "label": "Elige tu Coach:",
+    "mentor": "Mentor Paciente",
+    "strict": "Entrenador de Examen Estricto",
+    "quiz": "Maestro del Quiz",
+    "peer": "Compañero de Estudio"
+  },
+  "actions": {
+    "finish": "Terminar Sesión",
+    "summary_title": "Resumen",
+    "action_items": "Puntos de Acción",
+    "download_notes": "Guardar Notas"
+  }
+}

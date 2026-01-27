@@ -1,0 +1,153 @@
+{
+  "title": "Labo de Physique",
+  "layout": {
+    "controls": "Contrôles",
+    "minimize": "Réduire",
+    "check_inputs": "Contrôles d'Expérience",
+    "parameters": "Paramètres",
+    "analysis_output": "Données en Direct",
+    "no_controls": "Aucune commande disponible",
+    "no_params": "Aucun paramètre global",
+    "no_data": "Aucune donnée de capteur active"
+  },
+  "modules": {
+    "mechanics": "Mécanique",
+    "optics": "Optique",
+    "spring": "Ressorts",
+    "vectors": "Vecteurs",
+    "waves": "Ondes",
+    "circuits": "Circuits"
+  },
+  "spring": {
+    "mass": "Masse (m)",
+    "spring_constant": "Constante de Rappel (k)",
+    "damping": "Amortissement (b)",
+    "graph": "Graphique",
+    "formulas": "Formules",
+    "energy": "Énergie",
+    "start": "Démarrer",
+    "stop": "Arrêter",
+    "reset": "Réinitialiser",
+    "analyze": "Analyse IA",
+    "analyzing": "Analyse en cours...",
+    "status_active": "Moteur Actif",
+    "status_idle": "Inactif",
+    "energy_balance": "Bilan Énergétique",
+    "conservation": "Conservation de l'Énergie",
+    "kinetic": "Cinétique (Ec)",
+    "potential": "Potentielle (Ep)",
+    "total": "Totale (Etot)",
+    "oscillation_curve": "Courbe d'Oscillation",
+    "displacement": "Déplacement Actuel (u)"
+  },
+  "optics": {
+    "focal_length": "Distance Focale (f)",
+    "rays": "Rayons Lumineux",
+    "object_distance": "Distance Objet (p)",
+    "object_height": "Hauteur Objet (h)",
+    "lens_type": "Type de Lentille: Convexe",
+    "values": "Valeurs",
+    "lens_formula": "Formule des Lentilles",
+    "theory_title": "Théorie des Lentilles",
+    "theory_text": "Pour une <b>lentille convexe (positive)</b>, les rayons parallèles convergent au foyer. <br>La formule: 1/f = 1/p + 1/p' décrit la relation entre la distance focale (f), la distance objet (p) et la distance image (p').",
+    "real_image": "Image Réelle (b)",
+    "virtual_image": "Image Virtuelle",
+    "object": "Objet (v)",
+    "optical_bench": "Banc Optique",
+    "beam_status": "Rayon: Stable | Media: Vide",
+    "convex": "Lentille Convexe (+)",
+    "concave": "Lentille Concave (-)"
+  },
+  "waves": {
+    "frequency": "Fréquence (f)",
+    "doppler_velocity": "Vitesse Source (v_src)",
+    "enable_audio": "Activer Audio",
+    "disable_audio": "Désactiver Audio",
+    "waveform_lab": "Labo d'Ondes",
+    "engine_status": "Moteur: Tone.js | Type: {{type}}",
+    "click_start": "Cliquez Démarrer Audio",
+    "acoustic_theory": "Théorie Acoustique",
+    "analysis": "Analyse"
+  },
+  "thermodynamics": {
+    "title": "Labo Gaz Idéal",
+    "temperature": "Température (T)",
+    "volume": "Volume (V)",
+    "pressure": "Pression (P)",
+    "particles": "Particules (N)",
+    "piston_control": "Contrôle Piston",
+    "heat": "Ajouter/Retirer Chaleur",
+    "pv_diagram": "Diagramme PV",
+    "ideal_gas_law": "Loi des Gaz Parfaits: PV = nRT",
+    "kinetic_theory": "Théorie Cinétique: Ek ∝ T"
+  },
+  "nuclear": {
+    "title": "Labo Physique Nucléaire",
+    "isotope": "Isotope",
+    "half_life": "Demi-vie (t½)",
+    "decay_constant": "Constante de désintégration (λ)",
+    "stable_nuclei": "Noyaux Stables",
+    "unstable_nuclei": "Noyaux Instables",
+    "time": "Temps Écoulé",
+    "activity": "Activité (Bq)",
+    "start_decay": "Démarrer Désintégration",
+    "reset": "Réinitialiser",
+    "graph_title": "Désintégration Radioactive N(t)"
+  },
+  "kinematics": {
+    "title": "Mouvement (1D)",
+    "position": "Position (x)",
+    "velocity": "Vitesse (v)",
+    "acceleration": "Accélération (a)",
+    "time": "Temps (t)",
+    "start_position": "Position Initiale (x0)",
+    "start_velocity": "Vitesse Initiale (v0)",
+    "constant_acceleration": "Accélération (a)",
+    "graphs": "Graphiques de Mouvement"
+  },
+  "snapshot": {
+    "tooltip": "Prendre une Capture",
+    "title": "Configuration de Capture",
+    "report_title": "Titre du Rapport",
+    "report_placeholder": "Ex. Expérience: Chute Libre...",
+    "visible_data": "Données Visibles",
+    "toggles": {
+      "functions": "Mesures",
+      "params": "Paramètres",
+      "analysis": "Données d'Analyse",
+      "meta": "Date et Auteur"
+    },
+    "cancel": "Annuler",
+    "save": "Enregistrer",
+    "student": "Étudiant",
+    "module_context": "Contexte du Module"
+  },
+  "mechanics": {
+    "sidebar_title": "Instructions",
+    "instructions": "Faites glisser les objets pour les déplacer. Utilisez les outils pour appliquer des forces."
+  },
+  "quantum": {
+    "title": "Labo Quantique",
+    "photoelectric": "Effet Photoélectrique",
+    "frequency": "Fréquence (f)",
+    "intensity": "Intensité (I)",
+    "work_function": "Travail d'Extraction (W)",
+    "voltage": "Tension d'Arrêt (V)",
+    "electrons": "Électrons",
+    "photons": "Photons",
+    "kinetic_energy": "Énergie Cinétique (Ec)",
+    "cutoff_frequency": "Fréquence de Seuil"
+  },
+  "vector_field": {
+    "lorentz_force": "Force de Lorentz (F = qv x B)",
+    "particle_charge": "Charge (q)",
+    "particle_mass": "Masse (m)",
+    "shoot_particle": "Tirer Particule",
+    "cyclotron_radius": "Rayon Cyclotron"
+  },
+  "circuit_ac": {
+    "ac_source": "Source CA",
+    "frequency": "Fréquence (Hz)",
+    "peak_voltage": "Tension Crête (Vmax)"
+  }
+}

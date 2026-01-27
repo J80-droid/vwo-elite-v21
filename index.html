@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="nl">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VWO-Elite | High-Performance Study Partner</title>
+
+
+  <!-- PWA / Mobile Meta -->
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="VWO-Elite" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+
+  <!-- Favicon -->
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="shortcut icon" href="/favicon.ico" />
+
+  <!-- Open Graph / Social Media Meta Tags -->
+  <meta property="og:title" content="VWO-Elite | High-Performance Study Partner" />
+  <meta property="og:description"
+    content="Jouw AI-gedreven studieplatform voor VWO succes. Van natuurkunde tot talen - leer slimmer met interactieve simulaties en AI-assistentie." />
+  <meta property="og:image" content="https://vwo-elite.vercel.app/android-chrome-512x512.png" />
+  <meta property="og:url" content="https://vwo-elite.vercel.app" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="VWO-Elite" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="VWO-Elite | High-Performance Study Partner" />
+  <meta name="twitter:description" content="Jouw AI-gedreven studieplatform voor VWO succes." />
+  <meta name="twitter:image" content="https://vwo-elite.vercel.app/android-chrome-512x512.png" />
+
+  <!-- General Meta Tags -->
+  <meta name="description"
+    content="VWO-Elite: Jouw AI-gedreven studieplatform voor VWO succes. Interactieve simulaties, AI-tutors en studiehulp voor natuurkunde, scheikunde, wiskunde en talen." />
+  <meta name="theme-color" content="#020617" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <!-- Async font loading: preload + onload swap to eliminate render-blocking -->
+  <link rel="preload" as="style"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Outfit:wght@100..900&family=Space+Grotesk:wght@300..700&display=swap"
+    onload="
+        this.onload = null;
+        this.rel = 'stylesheet';
+      " />
+  <noscript>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Outfit:wght@100..900&family=Space+Grotesk:wght@300..700&display=swap"
+      rel="stylesheet" />
+  </noscript>
+  <style>
+    /* Critical CSS - Above the fold styles for instant FCP */
+    :root {
+      color-scheme: dark;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #020617;
+      color: #e2e8f0;
+      font-family:
+        "Inter",
+        system-ui,
+        -apple-system,
+        sans-serif;
+      min-height: 100vh;
+      margin: 0;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Loader */
+    #app-loader {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at 50% 0%,
+          #1e293b 0%,
+          #020617 60%,
+          #000 100%);
+      z-index: 9999;
+      gap: 24px;
+      transition: opacity 0.5s ease;
+    }
+
+    .loader-spin {
+      width: 48px;
+      height: 48px;
+      border: 3px solid rgba(99, 102, 241, 0.2);
+      border-top-color: #6366f1;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    .loader-text {
+      color: #94a3b8;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* Header Shell */
+    .glass {
+      background: rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      height: 64px;
+    }
+
+    /* Core Layout */
+    .min-h-screen {
+      min-height: 100vh;
+    }
+
+    .flex {
+      display: flex;
+    }
+
+    .items-center {
+      align-items: center;
+    }
+
+    .justify-between {
+      justify-content: space-between;
+    }
+
+    .gap-2 {
+      gap: 0.5rem;
+    }
+
+    .gap-3 {
+      gap: 0.75rem;
+    }
+
+    .gap-4 {
+      gap: 1rem;
+    }
+
+    .p-4 {
+      padding: 1rem;
+    }
+
+    .px-4 {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+
+    .py-8 {
+      padding-top: 2rem;
+      padding-bottom: 2rem;
+    }
+
+    .w-full {
+      width: 100%;
+    }
+
+    .h-16 {
+      height: 4rem;
+    }
+
+    .text-white {
+      color: #fff;
+    }
+
+    .text-slate-200 {
+      color: #e2e8f0;
+    }
+
+    .text-slate-400 {
+      color: #94a3b8;
+    }
+
+    .text-xl {
+      font-size: 1.25rem;
+      line-height: 1.75rem;
+    }
+
+    .font-bold {
+      font-weight: 700;
+    }
+
+    .tracking-tight {
+      letter-spacing: -0.025em;
+    }
+
+    .rounded-lg {
+      border-radius: 0.5rem;
+    }
+
+    .rounded-full {
+      border-radius: 9999px;
+    }
+
+    .bg-obsidian-950 {
+      background-color: #020617;
+    }
+
+    .bg-electric {
+      background-color: #2962ff;
+    }
+
+    .text-electric {
+      color: #2962ff !important;
+      background: none !important;
+      -webkit-text-fill-color: initial !important;
+      text-shadow: 0 0 10px rgba(41, 98, 255, 0.3);
+    }
+
+    .antialiased {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .cursor-pointer {
+      cursor: pointer;
+    }
+
+    .transition-colors {
+      transition:
+        color 0.15s,
+        background-color 0.15s,
+        border-color 0.15s;
+    }
+
+    .animate-fade-in {
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Selection */
+    ::selection {
+      background: #3b82f6;
+      color: #fff;
+    }
+
+    .selection\:bg-electric::selection {
+      background: #3b82f6;
+    }
+
+    .selection\:text-white::selection {
+      color: #fff;
+    }
+
+    /* Hide default scrollbar flash */
+    html {
+      scrollbar-gutter: stable;
+    }
+  </style>
+</head>
+
+<body class="antialiased selection:bg-electric selection:text-white">
+  <div id="root">
+    <!-- Inline loading skeleton for instant FCP -->
+    <!-- Loader removed to allow React SystemLoader to take over immediately -->
+  </div>
+  <script type="module" src="/src/index.tsx"></script>
+</body>
+
+</html>

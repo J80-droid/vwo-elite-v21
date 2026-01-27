@@ -1,0 +1,9 @@
+{
+  "ready": "Listo para la sesión",
+  "connecting": "Conectando...",
+  "listening": "Escuchando...",
+  "ended": "Sesión terminada",
+  "error": "Error de conexión",
+  "start": "Iniciar Sesión",
+  "end": "Terminar Sesión"
+}

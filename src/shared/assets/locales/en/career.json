@@ -1,0 +1,144 @@
+{
+  "hub": {
+    "hero_title": "Design Your Future",
+    "compass": "Career Compass",
+    "hero_subtitle": "Discover who you are, what you can do, and what the world is waiting for with our \"500% Elite\" tools.",
+    "tiles": {
+      "bigfive": {
+        "title": "Big Five",
+        "subtitle": "Personality"
+      },
+      "riasec": {
+        "title": "RIASEC",
+        "subtitle": "Career Choices"
+      },
+      "coach": {
+        "title": "AI Career Coach",
+        "subtitle": "Get 24/7 Advice"
+      },
+      "explorer": {
+        "title": "Study Explorer",
+        "subtitle": "Search & Filter Studies"
+      },
+      "universe": {
+        "title": "Study Universe",
+        "subtitle": "3D Network Visualization"
+      },
+      "selection": {
+        "title": "Selection Trainer",
+        "subtitle": "Numerus Fixus Prep"
+      },
+      "plan_b": {
+        "title": "Scenario Planning",
+        "subtitle": "Plan A, B & C"
+      },
+      "open_days": {
+        "title": "Open Days",
+        "subtitle": "Agenda & Planning"
+      },
+      "gap_year": {
+        "title": "Gap Year",
+        "subtitle": "Guide & Options"
+      }
+    }
+  },
+  "bigfive": {
+    "title": "Your Big Five Profile",
+    "subtitle": "Below you can see how you score on the five dimensions.",
+    "progress_title": "Big Five Assessment",
+    "question_prefix": "Question",
+    "agree_min": "Strongly Disagree",
+    "agree_max": "Strongly Agree",
+    "back_dashboard": "Back to Dashboard",
+    "retry": "Retry",
+    "labels": {
+      "strongly_disagree": "Disagree++",
+      "disagree": "Disagree",
+      "neutral": "Neutral",
+      "agree": "Agree",
+      "strongly_agree": "Agree++"
+    },
+    "traits": {
+      "openness": "Openness to experience, intellectual curiosity, and creativity.",
+      "conscientiousness": "Conscientiousness, self-discipline, orderliness, and dutifulness.",
+      "extraversion": "Extraversion, energy from social situations, assertiveness, and enthusiasm.",
+      "agreeableness": "Agreeableness, compassion, cooperation, and trust in others.",
+      "neuroticism": "Sensitivity to stress and negative emotions (versus emotional stability)."
+    },
+    "questions": {
+      "1": "I am the life of the party.",
+      "2": "I feel little concern for others.",
+      "3": "I am always prepared.",
+      "4": "I get stressed easily.",
+      "5": "I have a rich vocabulary.",
+      "6": "I don't talk much.",
+      "7": "I am interested in people.",
+      "8": "I leave my belongings lying around.",
+      "9": "I am often relaxed.",
+      "10": "I have difficulty with abstract ideas."
+    }
+  },
+  "riasec": {
+    "title": "Your Holland Code",
+    "subtitle": "Based on your choices, these work environments suit you best.",
+    "like_question": "Do you like this?",
+    "activity_counter": "Activity",
+    "descriptions": {
+      "realistic": "You like practical work, working with your hands, tools, or machines.",
+      "investigative": "You like analyzing, researching, and solving complex problems.",
+      "artistic": "You are creative, expressive, and like designing or art.",
+      "social": "You enjoy working with people, helping them, and contributing to their development.",
+      "enterprising": "You like taking the lead, selling ideas, and being ambitious.",
+      "conventional": "You work in an organized, accurate way and like clear structures."
+    },
+    "activities": {
+      "1": "Repairing an engine",
+      "2": "Writing a scientific article",
+      "3": "Making a painting",
+      "4": "Helping people with personal problems",
+      "5": "Leading a sales team",
+      "6": "Keeping the accounts",
+      "7": "Woodworking",
+      "8": "Solving complex mathematical problems",
+      "9": "Acting in a play",
+      "10": "Teaching children"
+    }
+  },
+  "explorer": {
+    "plan_b": "Plan B",
+    "grades": "My Grades",
+    "search_placeholder": "Search studies...",
+    "filters": {
+      "all": "All",
+      "tech": "Tech",
+      "health": "Health",
+      "economy": "Economy",
+      "society": "Society",
+      "nature": "Nature"
+    },
+    "card": {
+      "numerus_fixus": "Numerus Fixus"
+    },
+    "empty_state": "No studies found matching your criteria.",
+    "swipe_finished": "That was all!",
+    "swipe_msg": "Didn't see any studies you liked? Try adjusting your filters.",
+    "restart": "Start Over",
+    "grades_modal": {
+      "title": "My Grade List",
+      "no_grades": "No grades found.",
+      "source": "Source: Somtoday",
+      "live_synced": "Live Synced"
+    }
+  },
+  "coach": {
+    "title": "AI Career Coach",
+    "subtitle": "Powered by Gemini 2.0 Flash",
+    "welcome": "Hi! I am your personal AI study coach. How can I help you with your study choice?",
+    "input_placeholder": "Type your message...",
+    "analyzing": "Analyzing...",
+    "footer": "VWO Elite AI makes mistakes. Check important info.",
+    "error_offline": "Sorry, I cannot connect to the server right now.",
+    "proactive_single": "Hey, I saw you are interested in {{studies}}. What appeals to you most about it?",
+    "proactive_multi": "I see you are doubting between e.g. {{studies}}. Shall we list the differences?"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "placeholder_value": "Waarde...",
+  "error": "Er is een fout opgetreden",
+  "stabilizing": "Engine Stabiliseren...",
+  "clear_analysis": "Analyse Wissen",
+  "loading": "Laden...",
+  "no_data": "Geen gegevens beschikbaar",
+  "welcome": "Welkom terug, {{name}}.",
+  "ready": "Klaar om je prestaties te optimaliseren?",
+  "subjects_title": "Jouw Vakken"
+}

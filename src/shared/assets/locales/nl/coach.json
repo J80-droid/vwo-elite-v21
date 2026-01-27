@@ -1,0 +1,35 @@
+{
+  "title": "Socratische Coach Pro",
+  "desc": "Je persoonlijke AI-tutor die je laat nadenken.",
+  "intro": "Hoi! Ik ben je Socratische coach. Kies een rol en stel me een vraag.",
+  "input": "Typ je vraag hier...",
+  "thinking": "Denken...",
+  "speak": "Spreek",
+  "stop": "Stop",
+  "liveTitle": "Live Gesprek",
+  "liveDesc": "Oefen mondeling alsof je tegenover een docent zit.",
+  "listen": "Luisteren",
+  "roles": {
+    "label": "Kies je Coach:",
+    "mentor": "Geduldige Mentor",
+    "strict": "Strenge Examentrainer",
+    "quiz": "Quiz Meester",
+    "peer": "Studiemaatje"
+  },
+  "actions": {
+    "finish": "Sessie Afronden",
+    "summary_title": "Samenvatting",
+    "action_items": "Actiepunten",
+    "download_notes": "Notities Opslaan"
+  },
+  "career": {
+    "title": "AI Career Coach",
+    "subtitle": "ONLINE • POWERED BY GEMINI",
+    "welcome": "Hi! Ik ben je persoonlijke AI Career Coach. Op basis van je Big Five en RIASEC scores kan ik je helpen met studiekeuze, profielkeuze en loopbaanvragen. Waar wil je het over hebben?",
+    "input_placeholder": "Stel je vraag aan de coach...",
+    "analyzing": "Analyseren van profiel...",
+    "error_offline": "Sorry, ik heb even geen verbinding met de AI server. Probeer het later opnieuw.",
+    "footer": "GEBASEERD OP JOUW UNIEKE PROFIEL",
+    "start_button": "Start AI Coach"
+  }
+}

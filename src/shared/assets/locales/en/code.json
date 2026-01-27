@@ -1,0 +1,8 @@
+{
+  "title": "Code Lab",
+  "modules": {
+    "python": "Python",
+    "web": "Web Development",
+    "sql": "SQL Database"
+  }
+}

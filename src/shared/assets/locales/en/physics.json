@@ -1,0 +1,168 @@
+{
+  "title": "Physics Lab",
+  "hub_description": "Advanced physics simulations. Explore mechanics, optics, and quantum phenomena.",
+  "layout": {
+    "controls": "Controls",
+    "minimize": "Minimize",
+    "check_inputs": "Experiment Controls",
+    "parameters": "Parameters",
+    "analysis_output": "Live Data",
+    "no_controls": "No controls available",
+    "no_params": "No global parameters",
+    "no_data": "No sensor data active",
+    "graph_tools": {
+      "tangent": "Tangent Tool (Derivative)",
+      "integral": "Integral Tool (Area)",
+      "slope": "Slope",
+      "area": "Area"
+    }
+  },
+  "categories": {
+    "basis": "Base",
+    "substances": "Substances & Fields",
+    "waves": "Waves & Vibrations",
+    "modern": "Modern & Astro",
+    "tools": "Tools",
+    "training": "Training"
+  },
+  "modules": {
+    "mechanics": "Mechanics",
+    "optics": "Optics",
+    "spring": "Springs",
+    "vectors": "Vectors",
+    "waves": "Waves",
+    "circuits": "Circuits"
+  },
+  "spring": {
+    "mass": "Mass (m)",
+    "spring_constant": "Spring Constant (k)",
+    "damping": "Damping (b)",
+    "graph": "Graph",
+    "formulas": "Formulas",
+    "energy": "Energy",
+    "start": "Run",
+    "stop": "Stop",
+    "reset": "Reset",
+    "analyze": "AI Analysis",
+    "analyzing": "Analyzing...",
+    "status_active": "Active Engine",
+    "status_idle": "Idle",
+    "energy_balance": "Energy Balance",
+    "conservation": "Conservation of Energy",
+    "kinetic": "Kinetic (Ek)",
+    "potential": "Potential (Ep)",
+    "total": "Total (Etot)",
+    "oscillation_curve": "Oscillation Curve",
+    "displacement": "Current Displacement (u)"
+  },
+  "optics": {
+    "focal_length": "Focal Length (f)",
+    "rays": "Light Rays",
+    "object_distance": "Object Distance (u)",
+    "object_height": "Object Height (h)",
+    "lens_type": "Lens Type: Convex",
+    "values": "Values",
+    "lens_formula": "Lens Formula",
+    "theory_title": "Lens Theory",
+    "theory_text": "For a <b>convex (positive) lens</b>, parallel rays converge at the focal point. <br>The lens formula: 1/f = 1/v + 1/u describes the relationship between focal length (f), object distance (u), and image distance (v).",
+    "real_image": "Real Image (b)",
+    "virtual_image": "Virtual Image",
+    "object": "Object (v)",
+    "optical_bench": "Optical Bench",
+    "beam_status": "Beam: Steady | Media: Vacuum",
+    "convex": "Convex Lens (+)",
+    "concave": "Concave Lens (-)"
+  },
+  "waves": {
+    "frequency": "Frequency (f)",
+    "doppler_velocity": "Source Velocity (v_src)",
+    "enable_audio": "Enable Audio",
+    "disable_audio": "Disable Audio",
+    "waveform_lab": "Waveform Lab",
+    "engine_status": "Engine: Tone.js | Type: {{type}}",
+    "click_start": "Click Start Audio in Sidebar",
+    "acoustic_theory": "Acoustic Theory",
+    "analysis": "Analysis"
+  },
+  "thermodynamics": {
+    "title": "Ideal Gas Lab",
+    "temperature": "Temperature (T)",
+    "volume": "Volume (V)",
+    "pressure": "Pressure (P)",
+    "particles": "Particles (N)",
+    "piston_control": "Piston Control",
+    "heat": "Add/Remove Heat",
+    "pv_diagram": "PV-Diagram",
+    "ideal_gas_law": "Ideal Gas Law: PV = nRT",
+    "kinetic_theory": "Kinetic Theory: Ek ∝ T"
+  },
+  "nuclear": {
+    "title": "Nuclear Physics Lab",
+    "isotope": "Isotope",
+    "half_life": "Half-life (t½)",
+    "decay_constant": "Decay Constant (λ)",
+    "stable_nuclei": "Stable Nuclei",
+    "unstable_nuclei": "Unstable Nuclei",
+    "time": "Elapsed Time",
+    "activity": "Activity (Bq)",
+    "start_decay": "Start Decay",
+    "reset": "Reset",
+    "graph_title": "Radioactive Decay N(t)"
+  },
+  "kinematics": {
+    "title": "Motion (1D)",
+    "position": "Position (x)",
+    "velocity": "Velocity (v)",
+    "acceleration": "Acceleration (a)",
+    "time": "Time (t)",
+    "start_position": "Start Position (x0)",
+    "start_velocity": "Start Velocity (v0)",
+    "constant_acceleration": "Acceleration (a)",
+    "graphs": "Motion Graphs"
+  },
+  "snapshot": {
+    "tooltip": "Take Snapshot",
+    "title": "Snapshot Configuration",
+    "report_title": "Report Title",
+    "report_placeholder": "E.g. Experiment: Free Fall...",
+    "visible_data": "Visible Data",
+    "toggles": {
+      "functions": "Measurements",
+      "params": "Parameters",
+      "analysis": "Analysis Data",
+      "meta": "Date & Author"
+    },
+    "cancel": "Cancel",
+    "save": "Save to Lib",
+    "student": "Student",
+    "module_context": "Module Context"
+  },
+  "mechanics": {
+    "sidebar_title": "Instructions",
+    "instructions": "Drag objects to move them. Use tools to apply forces."
+  },
+  "quantum": {
+    "title": "Quantum Lab",
+    "photoelectric": "Photoelectric Effect",
+    "frequency": "Frequency (f)",
+    "intensity": "Intensity (I)",
+    "work_function": "Work Function (W)",
+    "voltage": "Stopping Voltage (V)",
+    "electrons": "Electrons",
+    "photons": "Photons",
+    "kinetic_energy": "Kinetic Energy (Ek)",
+    "cutoff_frequency": "Cutoff Frequency"
+  },
+  "vector_field": {
+    "lorentz_force": "Lorentz Force (F = qv x B)",
+    "particle_charge": "Charge (q)",
+    "particle_mass": "Mass (m)",
+    "shoot_particle": "Shoot Particle",
+    "cyclotron_radius": "Cyclotron Radius"
+  },
+  "circuit_ac": {
+    "ac_source": "AC Source",
+    "frequency": "Frequency (Hz)",
+    "peak_voltage": "Peak Voltage (Vmax)"
+  }
+}

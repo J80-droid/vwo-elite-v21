@@ -1,0 +1,10 @@
+{
+  "physics": "Physique",
+  "math": "Mathématiques",
+  "chemistry": "Chimie",
+  "biology": "Biologie",
+  "dutch": "Néerlandais",
+  "english": "Anglais",
+  "french": "Français",
+  "philosophy": "Philosophie"
+}

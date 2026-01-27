@@ -1,0 +1,9 @@
+{
+  "title": "Lab Visual (Veo)",
+  "desc": "Genera y Anima videos educativos.",
+  "vid_title": "Generador de Video Veo",
+  "vid_desc": "Genera clips educativos 1080p desde Texto o Anima una Imagen.",
+  "prompt": "Describe un video (ej. Una animación 3D de replicación de ADN)",
+  "img_title": "Generador de Diagramas",
+  "img_prompt": "Describe un diagrama (ej. Corte transversal de una célula vegetal)"
+}

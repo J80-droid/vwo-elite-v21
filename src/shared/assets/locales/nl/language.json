@@ -1,0 +1,28 @@
+{
+  "title": "Talen Lab",
+  "modules": {
+    "idioms": "Spreekwoorden",
+    "scenarios": "Rollenspel",
+    "sjt": "Situational Tests"
+  },
+  "scenarios": {
+    "title": "Scenario Training",
+    "status_online": "Online",
+    "type_ai": "AI Scenario",
+    "voice_coach": "Welkom bij Scenario Training. Oefen je spraak en interactie in realistische situaties.",
+    "respond_as": "Reageer als"
+  },
+  "idioms": {
+    "title": "Idioom Meester",
+    "voice_coach": "Welkom bij de Idioom Meester. Leer de diepere betekenis van uitdrukkingen.",
+    "correct": "Correct!",
+    "incorrect": "Helaas...",
+    "example_label": "Voorbeeld",
+    "question": "Wat betekent deze uitdrukking?",
+    "next_button": "Volgende Idioom"
+  },
+  "sjt": {
+    "title": "Situational Judgment Test",
+    "voice_coach": "Welkom bij de SIT Test. Hoe reageer je in lastige sociale situaties?"
+  }
+}

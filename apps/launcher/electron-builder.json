@@ -1,0 +1,20 @@
+{
+    "appId": "com.vwo.elite.setup",
+    "productName": "VWO Elite Setup",
+    "directories": {
+        "output": "../../dist/launcher-build"
+    },
+    "asar": true,
+    "asarUnpack": [
+        "**/public/Installer/*.webm"
+    ],
+    "files": [
+        "src/**/*",
+        "public/**/*",
+        "package.json"
+    ],
+    "win": {
+        "target": "portable",
+        "icon": "public/icon.png"
+    }
+}

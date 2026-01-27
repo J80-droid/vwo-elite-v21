@@ -1,0 +1,28 @@
+{
+  "name": "vwo-elite-launcher",
+  "productName": "VWO Elite Setup",
+  "version": "1.0.0",
+  "description": "Secure Launcher for VWO Elite",
+  "author": "Jamel <jamel@example.com>",
+  "main": "src/main.js",
+  "type": "module",
+  "dependencies": {},
+  "devDependencies": {
+    "electron": "^35.7.5",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "com.vwo.elite.setup",
+    "productName": "VWO Elite Setup",
+    "win": {
+      "target": "nsis"
+    },
+    "nsis": {
+      "oneClick": true,
+      "perMachine": false,
+      "allowElevation": true,
+      "runAfterFinish": true,
+      "shortcutName": "VWO Elite Setup"
+    }
+  }
+}

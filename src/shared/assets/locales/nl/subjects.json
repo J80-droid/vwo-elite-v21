@@ -1,0 +1,12 @@
+{
+  "physics": "Natuurkunde",
+  "math": "Wiskunde",
+  "chemistry": "Scheikunde",
+  "biology": "Biologie",
+  "dutch": "Nederlands",
+  "english": "Engels",
+  "french": "Frans",
+  "philosophy": "Filosofie",
+  "psychology": "Psychologie",
+  "it": "Informatica"
+}

@@ -1,0 +1,10 @@
+export { analysisConfig } from "./analysis/config";
+export { battleConfig } from "./battle/config";
+export { conceptMatrixConfig } from "./concept-matrix/config";
+export { dialogueConfig } from "./dialogue/config";
+export { ethicsConfig } from "./ethics/config";
+export { examConfig } from "./exam/config";
+export { logicConfig } from "./logic/config";
+export { scienceConfig } from "./science/config";
+export { societyConfig } from "./society/config";
+export { technoHumanConfig } from "./techno-human/config";

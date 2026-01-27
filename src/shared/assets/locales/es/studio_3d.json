@@ -1,0 +1,96 @@
+{
+  "back_to_hub": "Volver",
+  "hub_description": "Selecciona un módulo para comenzar tu exploración espacial. Domina geometrías complejas, proyecciones y estructuras.",
+  "modules": {
+    "spatial": "Visión Espacial",
+    "spatial_desc": "Entrena el razonamiento espacial rotando objetos.",
+    "stereo": "Estereoquímica",
+    "stereo_desc": "Identifica isómeros y centros quirales.",
+    "cross_section": "Secciones",
+    "cross_section_desc": "Predice la forma de la sección transversal.",
+    "slicer": "Cortes",
+    "slicer_desc": "Visualiza cortes 2D de objetos 3D.",
+    "projection": "Proyecciones",
+    "projection_desc": "Coincide proyecciones 2D con el objeto 3D.",
+    "construction": "Construcción",
+    "construction_desc": "Resuelve rompecabezas de construcción.",
+    "build": "Modo Construcción",
+    "build_desc": "Coloca bloques para construir estructuras."
+  },
+  "build": {
+    "title": "Modo Construcción",
+    "difficulty": {
+      "easy": "Fácil",
+      "medium": "Medio",
+      "hard": "Difícil"
+    },
+    "start": "Empezar Juego",
+    "goal": "Meta: ¡Construye esto!",
+    "views": "Vistas",
+    "ghost": "Mostrar Fantasma",
+    "reset": "Reiniciar",
+    "excellent": "¡Excelente!",
+    "perfect": "¡Construcción perfecta!",
+    "time": "Tiempo",
+    "mistakes": "Errores",
+    "next": "Siguiente Puzzle",
+    "menu": "Menú Principal",
+    "projection": {
+      "top": "Vista Superior",
+      "front": "Vista Frontal",
+      "side": "Vista Lateral"
+    },
+    "levels": {
+      "intro": "Introducción",
+      "basic_skill": "Habilidades Básicas",
+      "vwo_basic": "VWO Básico",
+      "expert": "Analista Experto",
+      "elite": "VWO Élite"
+    },
+    "difficulty_labels": {
+      "easy": "Entrada",
+      "medium": "Básico",
+      "hard": "Avanzado",
+      "elite": "VWO Élite"
+    },
+    "spatial": {
+      "controls": "Controles",
+      "controls_desc": "Rota el objeto para encontrar la respuesta.",
+      "title": "3D Insight",
+      "high_score": "Puntuación Alta",
+      "score": "Puntuación",
+      "units": "Puntos",
+      "reference": "Referencia",
+      "confirm": "Confirmar",
+      "mission_accomplished": "¡Misión Cumplida!",
+      "instructions": {
+        "rotation": "¿Qué figura es una versión rotada?",
+        "counting": "¿Cuántos bloques tiene la figura?",
+        "pov": "¿Qué vista coincide con la figura?",
+        "spot": "¿Qué figura es idéntica (pero rotada)?",
+        "sequence": "¿Cuál es el estado final después de las rotaciones?",
+        "xray": "¿Qué núcleo interno coincide con el exterior?",
+        "shadows": "¿Qué sombra pertenece a este objeto?",
+        "projection": "¿Qué vista frontal pertenece aquí?",
+        "pathfinding": "Sigue el camino: ¿Qué opción es idéntica?",
+        "chirality": "¿Qué molécula es idéntica (no imagen especular)?",
+        "nets": "¿Qué red forma un cubo cerrado?",
+        "folding": "¿Qué patrón emerge después de desplegar?",
+        "mechanical": "¿Cuál es la dirección de la rueda AMARILLA?",
+        "cross_section": "¿Qué sección transversal resulta del corte?",
+        "stability": "¿Qué torre es inestable y caerá?",
+        "label": "Misión"
+      },
+      "feedback": {
+        "correct": "¡Correcto! +Puntos",
+        "incorrect": "Incorrecto",
+        "investigate": "Investiga la respuesta correcta (marcada en verde) y haz clic cuando estés listo:",
+        "next": "Siguiente Pregunta"
+      },
+      "footer": {
+        "difficulty": "Dificultad seleccionada:",
+        "shortcuts": "Usa las teclas A, B, C, D para respuestas rápidas."
+      }
+    }
+  }
+}

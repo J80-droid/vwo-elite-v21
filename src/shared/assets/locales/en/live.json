@@ -1,0 +1,9 @@
+{
+  "ready": "Ready for session",
+  "connecting": "Connecting...",
+  "listening": "Listening...",
+  "ended": "Session ended",
+  "error": "Connection error",
+  "start": "Start Session",
+  "end": "End Session"
+}

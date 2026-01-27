@@ -1,0 +1,252 @@
+[
+  {
+    "id": "wb_2023_I",
+    "subject": "Wiskunde B",
+    "year": 2023,
+    "period": "I",
+    "questionFile": "/exams/wb/2023/I/opgaven.pdf",
+    "answerFile": "/exams/wb/2023/I/correctievoorschrift.pdf",
+    "conversionFile": "/exams/wb/2023/I/omzettingstabel.html"
+  },
+  {
+    "id": "wb_2023_II",
+    "subject": "Wiskunde B",
+    "year": 2023,
+    "period": "II",
+    "questionFile": "/exams/wb/2023/II/opgaven.pdf",
+    "answerFile": "/exams/wb/2023/II/correctievoorschrift.pdf",
+    "conversionFile": "/exams/wb/2023/II/omzettingstabel.html"
+  },
+  {
+    "id": "wa_2023_I",
+    "subject": "Wiskunde A",
+    "year": 2023,
+    "period": "I",
+    "questionFile": "/exams/wa/2023/I/opgaven.pdf",
+    "answerFile": "/exams/wa/2023/I/correctievoorschrift.pdf",
+    "conversionFile": "/exams/wa/2023/I/omzettingstabel.html",
+    "addendumFile": "/exams/wa/2023/I/aanvulling.pdf",
+    "worksheetFile": "/exams/wa/2023/I/uitwerkbijlage.pdf"
+  },
+  {
+    "id": "wa_2023_II",
+    "subject": "Wiskunde A",
+    "year": 2023,
+    "period": "II",
+    "questionFile": "/exams/wa/2023/II/opgaven.pdf",
+    "answerFile": "/exams/wa/2023/II/correctievoorschrift.pdf",
+    "conversionFile": "/exams/wa/2023/II/omzettingstabel.html",
+    "addendumFile": "/exams/wa/2023/II/aanvulling.pdf",
+    "worksheetFile": "/exams/wa/2023/II/uitwerkbijlage.pdf"
+  },
+  {
+    "id": "nat_2023_I",
+    "subject": "Natuurkunde",
+    "year": 2023,
+    "period": "I",
+    "questionFile": "/exams/nat/2023/I/opgaven.pdf",
+    "answerFile": "/exams/nat/2023/I/correctievoorschrift.pdf",
+    "conversionFile": "/exams/nat/2023/I/omzettingstabel.html",
+    "addendumFile": "/exams/nat/2023/I/aanvulling.pdf",
+    "worksheetFile": "/exams/nat/2023/I/uitwerkbijlage.pdf"
+  },
+  {
+    "id": "nat_2023_II",
+    "subject": "Natuurkunde",
+    "year": 2023,
+    "period": "II",
+    "questionFile": "/exams/nat/2023/II/opgaven.pdf",
+    "answerFile": "/exams/nat/2023/II/correctievoorschrift.pdf",
+    "conversionFile": "/exams/nat/2023/II/omzettingstabel.html",
+    "worksheetFile": "/exams/nat/2023/II/uitwerkbijlage.pdf"
+  },
+  {
+    "id": "sch_2023_I",
+    "subject": "Scheikunde",
+    "year": 2023,
+    "period": "I",
+    "questionFile": "/exams/sch/2023/I/opgaven.pdf",
+    "answerFile": "/exams/sch/2023/I/correctievoorschrift.pdf",
+    "conversionFile": "/exams/sch/2023/I/omzettingstabel.html",
+    "addendumFile": "/exams/sch/2023/I/aanvulling.pdf",
+    "worksheetFile": "/exams/sch/2023/I/uitwerkbijlage.pdf"
+  },
+  {
+    "id": "sch_2023_II",
+    "subject": "Scheikunde",
+    "year": 2023,
+    "period": "II",
+    "questionFile": "/exams/sch/2023/II/opgaven.pdf",
+    "answerFile": "/exams/sch/2023/II/correctievoorschrift.pdf",
+    "conversionFile": "/exams/sch/2023/II/omzettingstabel.html",
+    "addendumFile": "/exams/sch/2023/II/aanvulling.pdf",
+    "worksheetFile": "/exams/sch/2023/II/uitwerkbijlage.pdf"
+  },
+  {
+    "id": "bio_2023_I",
+    "subject": "Biologie",
+    "year": 2023,
+    "period": "I",
+    "questionFile": "/exams/bio/2023/I/opgaven.pdf",
+    "answerFile": "/exams/bio/2023/I/correctievoorschrift.pdf",
+    "conversionFile": "/exams/bio/2023/I/omzettingstabel.html"
+  },
+  {
+    "id": "bio_2023_II",
+    "subject": "Biologie",
+    "year": 2023,
+    "period": "II",
+    "questionFile": "/exams/bio/2023/II/opgaven.pdf",
+    "answerFile": "/exams/bio/2023/II/correctievoorschrift.pdf",
+    "conversionFile": "/exams/bio/2023/II/omzettingstabel.html"
+  },
+  {
+    "id": "nl_2023_I",
+    "subject": "Nederlands",
+    "year": 2023,
+    "period": "I",
+    "questionFile": "/exams/nl/2023/I/opgaven.pdf",
+    "answerFile": "/exams/nl/2023/I/correctievoorschrift.pdf",
+    "conversionFile": "/exams/nl/2023/I/omzettingstabel.html"
+  },
+  {
+    "id": "nl_2023_II",
+    "subject": "Nederlands",
+    "year": 2023,
+    "period": "II",
+    "questionFile": "/exams/nl/2023/II/opgaven.pdf",
+    "answerFile": "/exams/nl/2023/II/correctievoorschrift.pdf",
+    "conversionFile": "/exams/nl/2023/II/omzettingstabel.html"
+  },
+  {
+    "id": "en_2023_I",
+    "subject": "Engels",
+    "year": 2023,
+    "period": "I",
+    "questionFile": "/exams/en/2023/I/opgaven.pdf",
+    "answerFile": "/exams/en/2023/I/correctievoorschrift.pdf",
+    "conversionFile": "/exams/en/2023/I/omzettingstabel.html",
+    "addendumFile": "/exams/en/2023/I/aanvulling.pdf"
+  },
+  {
+    "id": "en_2023_II",
+    "subject": "Engels",
+    "year": 2023,
+    "period": "II",
+    "questionFile": "/exams/en/2023/II/opgaven.pdf",
+    "answerFile": "/exams/en/2023/II/correctievoorschrift.pdf",
+    "conversionFile": "/exams/en/2023/II/omzettingstabel.html"
+  },
+  {
+    "id": "fa_2023_I",
+    "subject": "Frans",
+    "year": 2023,
+    "period": "I",
+    "questionFile": "/exams/fa/2023/I/opgaven.pdf",
+    "answerFile": "/exams/fa/2023/I/correctievoorschrift.pdf",
+    "conversionFile": "/exams/fa/2023/I/omzettingstabel.html"
+  },
+  {
+    "id": "fa_2023_II",
+    "subject": "Frans",
+    "year": 2023,
+    "period": "II",
+    "questionFile": "/exams/fa/2023/II/opgaven.pdf",
+    "answerFile": "/exams/fa/2023/II/correctievoorschrift.pdf",
+    "conversionFile": "/exams/fa/2023/II/omzettingstabel.html"
+  },
+  {
+    "id": "du_2023_I",
+    "subject": "Duits",
+    "year": 2023,
+    "period": "I",
+    "questionFile": "/exams/du/2023/I/opgaven.pdf",
+    "answerFile": "/exams/du/2023/I/correctievoorschrift.pdf",
+    "conversionFile": "/exams/du/2023/I/omzettingstabel.html",
+    "addendumFile": "/exams/du/2023/I/aanvulling.pdf"
+  },
+  {
+    "id": "du_2023_II",
+    "subject": "Duits",
+    "year": 2023,
+    "period": "II",
+    "questionFile": "/exams/du/2023/II/opgaven.pdf",
+    "answerFile": "/exams/du/2023/II/correctievoorschrift.pdf",
+    "conversionFile": "/exams/du/2023/II/omzettingstabel.html"
+  },
+  {
+    "id": "fi_2023_I",
+    "subject": "Filosofie",
+    "year": 2023,
+    "period": "I",
+    "questionFile": "/exams/fi/2023/I/opgaven.pdf",
+    "answerFile": "/exams/fi/2023/I/correctievoorschrift.pdf",
+    "conversionFile": "/exams/fi/2023/I/omzettingstabel.html"
+  },
+  {
+    "id": "fi_2023_II",
+    "subject": "Filosofie",
+    "year": 2023,
+    "period": "II",
+    "questionFile": "/exams/fi/2023/II/opgaven.pdf",
+    "answerFile": "/exams/fi/2023/II/correctievoorschrift.pdf",
+    "conversionFile": "/exams/fi/2023/II/omzettingstabel.html"
+  },
+  {
+    "id": "gs_2023_I",
+    "subject": "Geschiedenis",
+    "year": 2023,
+    "period": "I",
+    "questionFile": "/exams/gs/2023/I/opgaven.pdf",
+    "answerFile": "/exams/gs/2023/I/correctievoorschrift.pdf",
+    "conversionFile": "/exams/gs/2023/I/omzettingstabel.html"
+  },
+  {
+    "id": "gs_2023_II",
+    "subject": "Geschiedenis",
+    "year": 2023,
+    "period": "II",
+    "questionFile": "/exams/gs/2023/II/opgaven.pdf",
+    "answerFile": "/exams/gs/2023/II/correctievoorschrift.pdf",
+    "conversionFile": "/exams/gs/2023/II/omzettingstabel.html"
+  },
+  {
+    "id": "ak_2023_I",
+    "subject": "Aardrijkskunde",
+    "year": 2023,
+    "period": "I",
+    "questionFile": "/exams/ak/2023/I/opgaven.pdf",
+    "answerFile": "/exams/ak/2023/I/correctievoorschrift.pdf",
+    "conversionFile": "/exams/ak/2023/I/omzettingstabel.html",
+    "addendumFile": "/exams/ak/2023/I/aanvulling.pdf"
+  },
+  {
+    "id": "ak_2023_II",
+    "subject": "Aardrijkskunde",
+    "year": 2023,
+    "period": "II",
+    "questionFile": "/exams/ak/2023/II/opgaven.pdf",
+    "answerFile": "/exams/ak/2023/II/correctievoorschrift.pdf",
+    "conversionFile": "/exams/ak/2023/II/omzettingstabel.html",
+    "addendumFile": "/exams/ak/2023/II/aanvulling.pdf"
+  },
+  {
+    "id": "econ_2023_I",
+    "subject": "Economie",
+    "year": 2023,
+    "period": "I",
+    "questionFile": "/exams/econ/2023/I/opgaven.pdf",
+    "answerFile": "/exams/econ/2023/I/correctievoorschrift.pdf",
+    "conversionFile": "/exams/econ/2023/I/omzettingstabel.html"
+  },
+  {
+    "id": "econ_2023_II",
+    "subject": "Economie",
+    "year": 2023,
+    "period": "II",
+    "questionFile": "/exams/econ/2023/II/opgaven.pdf",
+    "answerFile": "/exams/econ/2023/II/correctievoorschrift.pdf",
+    "conversionFile": "/exams/econ/2023/II/omzettingstabel.html",
+    "worksheetFile": "/exams/econ/2023/II/uitwerkbijlage.pdf"
+  }
+]

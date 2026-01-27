@@ -1,0 +1,27 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "composite": true,
+    "jsx": "react-jsx",
+    "types": [
+      "node"
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "@renderer/*": [
+        "src/*"
+      ],
+      "@vwo/shared-types": [
+        "../../packages/shared-types/index.ts"
+      ]
+    }
+  },
+  "include": [
+    "src/**/*",
+    "src/types/*.d.ts",
+    "../../packages/shared-types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

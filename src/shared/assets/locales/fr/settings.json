@@ -1,0 +1,65 @@
+{
+  "title": "Paramètres et Personnalisation",
+  "desc": "Gérez votre profil, données et expérience de l'app.",
+  "tabs": {
+    "profile": "Profil et Langue",
+    "appearance": "Apparence",
+    "ai": "Préférences IA",
+    "prompts": "Prompts IA",
+    "api": "Connexions API",
+    "focus": "Focus et Audio",
+    "data": "Données et Bibliothèque",
+    "storage": "Stockage et Système",
+    "shortcuts": "Raccourcis"
+  },
+  "profile": {
+    "title": "Profil Personnel",
+    "name": "Nom",
+    "exam_year": "Année d'Examen",
+    "profile_type": "Profil",
+    "app_language": "Langue de l'App",
+    "target_grades": "Notes Cibles"
+  },
+  "appearance": {
+    "title": "Apparence",
+    "gamification": "Éléments de Gamification",
+    "gamification_desc": "Afficher la barre XP, niveaux et avatar.",
+    "graphics": "Qualité Graphique",
+    "graphics_desc": "Réduire pour une meilleure autonomie sur mobile.",
+    "themes": "Thèmes"
+  },
+  "focus": {
+    "title": "Focus et Audio",
+    "subtitle": "Optimisez votre état mental avec Pomodoro et Beats Binauraux.",
+    "pomodoro_title": "Travail Profond (Pomodoro)",
+    "audio_title": "Neural Sync (Audio)",
+    "focus_label": "Focus (min)",
+    "break_label": "Pause (min)",
+    "audio_mode": "Mode",
+    "audio_volume": "Volume",
+    "speech_title": "Reconnaissance Vocale",
+    "speech_desc": "Appuyez sur espace (dans le coach) pour parler directement."
+  },
+  "common": {
+    "save": "Sauvegarder",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "ai_status_warning": "⚠️ Statut du fournisseur IA: Certains modèles sont temporairement plus lents.",
+    "loading": "Chargement...",
+    "error": "Une erreur s'est produite",
+    "success": "Sauvegardé avec succès",
+    "search": "Rechercher...",
+    "back": "Retour",
+    "reset_standard": "Réinitialiser par Défaut",
+    "confirm_reset": "Êtes-vous sûr de vouloir réinitialiser tous les prompts aux standards Elite?"
+  },
+  "prompts": {
+    "base_title": "Prompt Système de Base (Elite Core)",
+    "base_subtitle": "Ceci est l'instruction fondamentale pour tous les modèles IA. Modifiez ceci pour changer la personnalité globale de l'IA.",
+    "socratic_coach": "Coach Socratique",
+    "planner": "Planificateur Stratégique",
+    "critic": "Critique Académique",
+    "tutor": "Tuteur"
+  }
+}

@@ -1,0 +1,16 @@
+{
+    "appId": "com.vwo.elite.setup",
+    "productName": "VWO Elite Setup",
+    "directories": {
+        "output": "../../dist/launcher-build"
+    },
+    "asar": true,
+    "files": [
+        "src/**/*",
+        "public/**/*",
+        "package.json"
+    ],
+    "win": {
+        "target": "dir"
+    }
+}

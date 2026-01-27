@@ -1,0 +1,96 @@
+{
+  "back_to_hub": "Back",
+  "hub_description": "Select a module to begin your spatial exploration. Master complex geometries, projections, and structures.",
+  "modules": {
+    "spatial": "Spatial Insight",
+    "spatial_desc": "Train spatial reasoning by rotating objects.",
+    "stereo": "Stereochemistry",
+    "stereo_desc": "Identify isomers and chiral centers.",
+    "cross_section": "Sections",
+    "cross_section_desc": "Predict the shape of the cross-section.",
+    "slicer": "Cross-sections",
+    "slicer_desc": "Visualize 2D cross-sections of 3D objects.",
+    "projection": "Projections",
+    "projection_desc": "Match 2D projections with the 3D object.",
+    "construction": "Construction",
+    "construction_desc": "Solve construction puzzles.",
+    "build": "Build Mode",
+    "build_desc": "Place blocks to build structures."
+  },
+  "build": {
+    "title": "Build Mode",
+    "difficulty": {
+      "easy": "Easy",
+      "medium": "Medium",
+      "hard": "Hard"
+    },
+    "start": "Start Game",
+    "goal": "Goal: Replicate this!",
+    "views": "Views",
+    "ghost": "Show Ghost",
+    "reset": "Reset",
+    "excellent": "Excellent!",
+    "perfect": "Perfectly built!",
+    "time": "Time",
+    "mistakes": "Mistakes",
+    "next": "Next Puzzle",
+    "menu": "Main Menu",
+    "projection": {
+      "top": "Top View",
+      "front": "Front View",
+      "side": "Side View"
+    },
+    "levels": {
+      "intro": "Introduction",
+      "basic_skill": "Basic Skills",
+      "vwo_basic": "VWO Basic",
+      "expert": "Expert Analyst",
+      "elite": "VWO Elite"
+    },
+    "difficulty_labels": {
+      "easy": "Entry",
+      "medium": "Basic",
+      "hard": "Advanced",
+      "elite": "VWO Elite"
+    },
+    "spatial": {
+      "controls": "Controls",
+      "controls_desc": "Rotate the object to find the answer.",
+      "title": "3D Insight",
+      "high_score": "High Score",
+      "score": "Score",
+      "units": "Units",
+      "reference": "Reference",
+      "confirm": "Confirm",
+      "mission_accomplished": "Mission Accomplished!",
+      "instructions": {
+        "rotation": "Which figure is a rotated version?",
+        "counting": "How many blocks does the figure count?",
+        "pov": "Which view matches the figure?",
+        "spot": "Which figure is identical (but rotated)?",
+        "sequence": "What is the final state after rotations?",
+        "xray": "Which inner core matches the outside?",
+        "shadows": "Which shadow belongs to this object?",
+        "projection": "Which front view belongs here?",
+        "pathfinding": "Follow the path: Which option is identical?",
+        "chirality": "Which molecule is identical (not mirror image)?",
+        "nets": "Which net forms a closed cube?",
+        "folding": "Which pattern emerges after unfolding?",
+        "mechanical": "What is the direction of the YELLOW wheel?",
+        "cross_section": "Which cross-section results from the cut?",
+        "stability": "Which tower is unstable and will fall?",
+        "label": "Mission"
+      },
+      "feedback": {
+        "correct": "Correct! +Points",
+        "incorrect": "Incorrect",
+        "investigate": "Investigate the correct answer (marked green) and click when ready:",
+        "next": "Next Question"
+      },
+      "footer": {
+        "difficulty": "Selected difficulty:",
+        "shortcuts": "Use keys A, B, C, D for quick answers."
+      }
+    }
+  }
+}

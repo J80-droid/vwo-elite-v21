@@ -1,0 +1,65 @@
+{
+  "title": "Settings & Personalization",
+  "desc": "Manage your profile, data and app experience.",
+  "tabs": {
+    "profile": "Profile & Language",
+    "appearance": "Appearance",
+    "ai": "AI Preferences",
+    "prompts": "AI Prompts",
+    "api": "API Connections",
+    "focus": "Focus & Audio",
+    "data": "Data & Library",
+    "storage": "Storage & System",
+    "shortcuts": "Shortcuts"
+  },
+  "profile": {
+    "title": "Personal Profile",
+    "name": "Name",
+    "exam_year": "Exam Year",
+    "profile_type": "Profile",
+    "app_language": "App Language",
+    "target_grades": "Target Grades"
+  },
+  "appearance": {
+    "title": "Look & Feel",
+    "gamification": "Gamification Elements",
+    "gamification_desc": "Show XP bar, levels and avatar.",
+    "graphics": "Graphics Quality",
+    "graphics_desc": "Set lower for better battery life on mobile.",
+    "themes": "Themes"
+  },
+  "focus": {
+    "title": "Focus & Audio",
+    "subtitle": "Optimize your mental state with Pomodoro and Binaural Beats.",
+    "pomodoro_title": "Deep Work (Pomodoro)",
+    "audio_title": "Neural Sync (Audio)",
+    "focus_label": "Focus (min)",
+    "break_label": "Break (min)",
+    "audio_mode": "Mode",
+    "audio_volume": "Volume",
+    "speech_title": "Speech Recognition",
+    "speech_desc": "Press spacebar (in coach) to speak directly."
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "ai_status_warning": "⚠️ AI Provider status: Some models are temporarily slower.",
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "success": "Successfully saved",
+    "search": "Search...",
+    "back": "Back",
+    "reset_standard": "Reset to Standard",
+    "confirm_reset": "Are you sure you want to reset all prompts to Elite standards?"
+  },
+  "prompts": {
+    "base_title": "Base System Prompt (Elite Core)",
+    "base_subtitle": "This is the fundamental instruction for all AI models. Edit this to change the AI's global personality.",
+    "socratic_coach": "Socratic Coach",
+    "planner": "Strategic Planner",
+    "critic": "Academic Critic",
+    "tutor": "Subject Tutor"
+  }
+}

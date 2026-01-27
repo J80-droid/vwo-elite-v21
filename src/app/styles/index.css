@@ -1,0 +1,547 @@
+@import "tailwindcss";
+
+@theme {
+  --color-obsidian-950: #020617;
+  --color-obsidian-900: #0f172a;
+  --color-obsidian-800: #1e293b;
+  --color-electric: #2962ff;
+  --color-electric-glow: rgba(41, 98, 255, 0.4);
+  --color-gold: #eab308;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+/* Global Dark Scrollbar - Elite Theme */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #020617;
+  /* obsidian-950 */
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid #020617;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Firefox Support */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.1) #020617;
+}
+
+@layer base {
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    cursor: pointer;
+  }
+
+  input[type="time"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    cursor: pointer;
+  }
+
+  select {
+    color-scheme: dark;
+    @apply bg-obsidian-900 text-white border-white/10 rounded-lg;
+  }
+
+  .dropdown-dark {
+    @apply bg-obsidian-950/90 backdrop-blur-xl border border-white/10 shadow-2xl rounded-xl text-white;
+    color-scheme: dark;
+  }
+}
+
+@layer utilities {
+  .drag-region {
+    -webkit-app-region: drag;
+  }
+
+  .no-drag {
+    -webkit-app-region: no-drag;
+  }
+
+  .glass {
+    @apply bg-obsidian-900/40 backdrop-blur-md border border-white/10 shadow-lg;
+  }
+
+  /* Glass Button Base */
+  .btn-glass {
+    @apply px-4 py-2 rounded-xl border transition-all duration-300 backdrop-blur-md font-medium flex items-center justify-center gap-2;
+  }
+
+  .btn-glass:hover {
+    @apply scale-105;
+  }
+
+  .btn-glass:active {
+    @apply scale-95;
+  }
+
+  /* Glass Variants */
+  .btn-glass-primary {
+    @apply bg-indigo-500/20 border-indigo-500/50 text-indigo-200 hover:bg-indigo-500/30 hover:border-indigo-400/60 hover:text-white;
+    box-shadow: 0 0 15px -5px rgba(99, 102, 241, 0.4);
+  }
+
+  .btn-glass-primary:hover {
+    box-shadow: 0 0 20px -5px rgba(99, 102, 241, 0.6);
+  }
+
+  .btn-glass-violet {
+    @apply bg-violet-500/20 border-violet-500/50 text-violet-300 hover:bg-violet-500/30 hover:border-violet-400/60 hover:text-white;
+    box-shadow: 0 0 15px -5px rgba(139, 92, 246, 0.5);
+  }
+
+  .btn-glass-violet:hover {
+    box-shadow: 0 0 20px -5px rgba(139, 92, 246, 0.6);
+  }
+
+  .btn-glass-teal {
+    @apply bg-teal-500/20 border-teal-500/50 text-teal-300 hover:bg-teal-500/30 hover:border-teal-400/60 hover:text-white;
+    box-shadow: 0 0 15px -5px rgba(20, 184, 166, 0.5);
+  }
+
+  .btn-glass-teal:hover {
+    box-shadow: 0 0 20px -5px rgba(20, 184, 166, 0.6);
+  }
+
+  .btn-glass-emerald {
+    @apply bg-emerald-500/20 border-emerald-500/50 text-emerald-300 hover:bg-emerald-500/30 hover:border-emerald-400/60 hover:text-white;
+    box-shadow: 0 0 15px -5px rgba(16, 185, 129, 0.5);
+  }
+
+  .btn-glass-emerald:hover {
+    box-shadow: 0 0 20px -5px rgba(16, 185, 129, 0.6);
+  }
+
+  .btn-glass-rose {
+    @apply bg-rose-500/20 border-rose-500/50 text-rose-300 hover:bg-rose-500/30 hover:border-rose-400/60 hover:text-white;
+    box-shadow: 0 0 15px -5px rgba(244, 63, 94, 0.5);
+  }
+
+  .btn-glass-rose:hover {
+    box-shadow: 0 0 20px -5px rgba(244, 63, 94, 0.6);
+  }
+
+  .glass-hover {
+    @apply transition-all duration-300 hover:bg-obsidian-800/60 hover:border-electric/50 hover:shadow-electric/20 hover:-translate-y-1;
+  }
+
+  .text-glow {
+    text-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+  }
+
+  .quantum-glass {
+    @apply bg-obsidian-950/80 backdrop-blur-[40px] border border-white/10 shadow-2xl;
+  }
+
+  .glow-emerald {
+    box-shadow: 0 0 30px rgba(16, 185, 129, 0.4);
+  }
+
+  .glow-violet {
+    box-shadow: 0 0 30px rgba(139, 92, 246, 0.4);
+  }
+
+  /* Elite Glass Button System - REFINED (Semi-transparent) */
+  .btn-elite-glass {
+    @apply px-5 py-3 rounded-xl border transition-all duration-300 backdrop-blur-md font-black uppercase tracking-[0.2em] text-[10px] flex items-center justify-center gap-3 active:scale-95 hover:scale-[1.02] shadow-sm bg-transparent;
+  }
+
+  /* Elite Neon Button Style (Strictly Minimalist, Transparent, Subtle Glow) */
+  .btn-elite-neon {
+    @apply px-5 py-2.5 rounded-xl border transition-all duration-300 backdrop-blur-md font-black uppercase tracking-[0.2em] text-[10px] flex items-center justify-center gap-3 active:scale-95 hover:scale-[1.05] bg-transparent;
+  }
+
+  .btn-elite-neon-cyan {
+    @apply border-cyan-500/20 text-cyan-400/80 hover:border-cyan-400 hover:text-white hover:bg-cyan-500/5;
+    box-shadow: 0 0 10px rgba(6, 182, 212, 0.05);
+  }
+
+  .btn-elite-neon-cyan:hover {
+    box-shadow: 0 0 15px rgba(6, 182, 212, 0.15);
+    text-shadow: 0 0 8px rgba(6, 182, 212, 0.3);
+  }
+
+  .btn-elite-neon-cyan.active {
+    @apply border-cyan-500/50 text-cyan-200 bg-cyan-500/10;
+    box-shadow: 0 0 20px rgba(6, 182, 212, 0.2);
+  }
+
+  .btn-elite-neon-indigo {
+    @apply border-indigo-500/20 text-indigo-400/80 hover:border-indigo-400 hover:text-white hover:bg-indigo-500/5;
+    box-shadow: 0 0 10px rgba(99, 102, 241, 0.05);
+  }
+
+  .btn-elite-neon-indigo:hover {
+    box-shadow: 0 0 15px rgba(99, 102, 241, 0.15);
+    text-shadow: 0 0 8px rgba(99, 102, 241, 0.3);
+  }
+
+  .btn-elite-neon-indigo.active {
+    @apply border-indigo-500/50 text-indigo-200 bg-indigo-500/10;
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.2);
+  }
+
+  .btn-elite-neon-emerald {
+    @apply border-emerald-500/20 text-emerald-400/80 hover:border-emerald-400 hover:text-white hover:bg-emerald-500/5;
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.05);
+  }
+
+  .btn-elite-neon-emerald:hover {
+    box-shadow: 0 0 15px rgba(16, 185, 129, 0.15);
+    text-shadow: 0 0 8px rgba(16, 185, 129, 0.3);
+  }
+
+  .btn-elite-neon-emerald.active {
+    @apply border-emerald-500/50 text-emerald-200 bg-emerald-500/10;
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
+  }
+
+  .btn-elite-neon-rose {
+    @apply border-rose-500/20 text-rose-400/80 hover:border-rose-400 hover:text-white hover:bg-rose-500/5;
+    box-shadow: 0 0 10px rgba(244, 63, 94, 0.05);
+  }
+
+  .btn-elite-neon-rose:hover {
+    box-shadow: 0 0 15px rgba(244, 63, 94, 0.15);
+    text-shadow: 0 0 8px rgba(244, 63, 94, 0.3);
+  }
+
+  .btn-elite-neon-rose.active {
+    @apply border-rose-500/50 text-rose-200 bg-rose-500/10;
+    box-shadow: 0 0 20px rgba(244, 63, 94, 0.2);
+  }
+
+  .btn-elite-neon-purple {
+    @apply border-purple-500/20 text-purple-400/80 hover:border-purple-400 hover:text-white hover:bg-purple-500/5;
+    box-shadow: 0 0 10px rgba(168, 85, 247, 0.05);
+  }
+
+  .btn-elite-neon-purple:hover {
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.15);
+    text-shadow: 0 0 8px rgba(168, 85, 247, 0.3);
+  }
+
+  .btn-elite-neon-purple.active {
+    @apply border-purple-500/50 text-purple-200 bg-purple-500/10;
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.2);
+  }
+
+  .btn-elite-neon-amber {
+    @apply border-amber-500/20 text-amber-400/80 hover:border-amber-400 hover:text-white hover:bg-amber-500/5;
+    box-shadow: 0 0 10px rgba(245, 158, 11, 0.05);
+  }
+
+  .btn-elite-neon-amber:hover {
+    box-shadow: 0 0 15px rgba(245, 158, 11, 0.15);
+    text-shadow: 0 0 8px rgba(245, 158, 11, 0.3);
+  }
+
+  .btn-elite-neon-amber.active {
+    @apply border-amber-500/50 text-amber-200 bg-amber-500/10;
+    box-shadow: 0 0 20px rgba(245, 158, 11, 0.2);
+  }
+
+  .btn-elite-neon-blue {
+    @apply border-blue-500/20 text-blue-400/80 hover:border-blue-400 hover:text-white hover:bg-blue-500/5;
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.05);
+  }
+
+  .btn-elite-neon-blue:hover {
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.15);
+    text-shadow: 0 0 8px rgba(59, 130, 246, 0.3);
+  }
+
+  .btn-elite-neon-blue.active {
+    @apply border-blue-500/50 text-blue-200 bg-blue-500/10;
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
+  }
+
+  .btn-elite-neon-fuchsia {
+    @apply border-fuchsia-500/20 text-fuchsia-400/80 hover:border-fuchsia-400 hover:text-white hover:bg-fuchsia-500/5;
+    box-shadow: 0 0 10px rgba(217, 70, 239, 0.05);
+  }
+
+  .btn-elite-neon-fuchsia:hover {
+    box-shadow: 0 0 15px rgba(217, 70, 239, 0.15);
+    text-shadow: 0 0 8px rgba(217, 70, 239, 0.3);
+  }
+
+  .btn-elite-neon-fuchsia.active {
+    @apply border-fuchsia-500/50 text-fuchsia-200 bg-fuchsia-500/10;
+    box-shadow: 0 0 20px rgba(217, 70, 239, 0.2);
+  }
+
+  .btn-elite-neon-slate {
+    @apply border-slate-500/30 text-slate-500 hover:border-slate-400 hover:text-slate-300 bg-transparent;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-white/10 rounded-full hover:bg-white/20 transition-colors;
+  }
+
+  /* Elastic & Dynamic Question Styles */
+  .elite-alive-glow {
+    animation: elite-pulse-glow 4s ease-in-out infinite;
+  }
+
+  @keyframes elite-pulse-glow {
+    0%,
+    100% {
+      opacity: 0.1;
+      transform: scale(1);
+    }
+
+    50% {
+      opacity: 0.25;
+      transform: scale(1.05);
+    }
+  }
+
+  .elite-question-enter {
+    animation: elite-fade-in-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  @keyframes elite-fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+/* Custom Utilities if needed */
+/* Cache Buster: v1.0.2 */
+
+/* Dark mode number input spinners */
+input[type="number"] {
+  color-scheme: dark;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
+/* Custom spinner buttons */
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+/* Force dark color picker */
+input[type="color"] {
+  color-scheme: dark;
+}
+
+/* --- MATH (KATEX) VISIBILITY FIXES --- */
+.katex {
+  font-size: 1.45em !important;
+  text-shadow: 0 0 1px rgba(0, 0, 0, 0.5);
+  line-height: 1.4 !important;
+}
+
+.katex-display {
+  margin: 0 !important;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0 !important;
+  background: transparent !important;
+  border: none !important;
+}
+
+.elite-question-text {
+  font-family:
+    "Outfit",
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: #fff;
+  text-align: center;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+}
+
+/* Study Lists - subtle markers */
+.markdown-content ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.markdown-content ul li {
+  position: relative;
+  padding-left: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+.markdown-content ul li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: rgba(94, 234, 212, 0.6);
+  /* Teal subtle */
+  font-weight: bold;
+}
+
+/* Force base color to soft cyan for math/text distinction */
+.katex .base {
+  color: #bae6fd !important;
+  /* sky-200 */
+}
+
+/* Fix tiny fractions - Boosted for Elite readability */
+.katex .mord.mfrac {
+  margin: 0.3em 0.15em;
+}
+
+.katex .mord.mfrac > .vlist-t {
+  font-size: 1.65em !important;
+  padding-bottom: 8px;
+}
+
+/* Ensure sub/superscripts are readable - Upscaled */
+.katex .msupsub {
+  font-size: 1.35em !important;
+}
+
+/* Color inheritance for Headers */
+h2 .katex,
+h3 .katex {
+  color: inherit !important;
+  text-shadow: inherit !important;
+}
+
+h2 .katex .base,
+h3 .katex .base {
+  color: inherit !important;
+  text-shadow: inherit !important;
+}
+
+.katex .msupsub {
+  font-size: 1.1em !important;
+}
+
+/* --- BIOLOGY LAB ELITE STYLES --- */
+
+.bio-glass {
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(12px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.bio-glow-emerald {
+  filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.4));
+}
+
+.bio-glow-purple {
+  filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.5));
+}
+
+@keyframes bio-pulse-glow {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.6;
+    transform: scale(1.1);
+  }
+}
+
+.bio-radial-glow {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(
+    circle,
+    rgba(16, 185, 129, 0.15) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 0;
+  animation: bio-pulse-glow 10s ease-in-out infinite;
+}
+
+.bio-sidebar-item {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.bio-sidebar-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateX(4px);
+}
+
+/* Unify custom-scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* --- HIDE DEFAULT XR BUTTONS --- */
+#XRButton,
+#VRButton,
+#ARButton,
+.XRButton,
+button[aria-label="Enter XR"],
+button[title="Enter XR"],
+button[title="Enter VR"],
+div[id^="XRButton"] {
+  display: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+  z-index: -9999 !important;
+  position: fixed !important;
+  top: -9999px !important;
+}

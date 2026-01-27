@@ -1,0 +1,29 @@
+{
+  "title": "Examen Simulator",
+  "modules": {
+    "practice": "Oefenen",
+    "simulation": "Simulatie",
+    "results": "Resultaten"
+  },
+  "desc": "Test je kennis met geverifieerde quizzen.",
+  "placeholder": "Onderwerp (bijv. Koude Oorlog, Organische Chemie)",
+  "btn_start": "Start Simulatie",
+  "btn_gen": "Genereren...",
+  "refresh": "Vraag Vernieuwen (RAG)",
+  "verified": "Geverifieerde Bronnen",
+  "prev": "Vorige",
+  "next": "Volgende",
+  "mode_label": "Modus",
+  "mode_study": "Studiemodus (Directe Feedback)",
+  "mode_exam": "Examenmodus (Geen Feedback)",
+  "timer_label": "Tijdslimiet",
+  "no_timer": "Geen Timer",
+  "minutes": "min",
+  "finish": "Examen Inleveren",
+  "results": "Resultaten",
+  "score": "Cijfer",
+  "analysis": "Nabespreking",
+  "correct_ans": "Goede antwoorden",
+  "wrong_ans": "Foute antwoorden",
+  "try_again": "Nieuw Examen"
+}

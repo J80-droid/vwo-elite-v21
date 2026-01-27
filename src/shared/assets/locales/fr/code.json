@@ -1,0 +1,8 @@
+{
+  "title": "Labo de Code",
+  "modules": {
+    "python": "Python",
+    "web": "Développement Web",
+    "sql": "Base de Données SQL"
+  }
+}

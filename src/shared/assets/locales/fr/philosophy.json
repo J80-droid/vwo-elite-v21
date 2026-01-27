@@ -1,0 +1,16 @@
+{
+  "title": "Labo de Philosophie",
+  "modules": {
+    "dialogue": "Dialogue Socratique",
+    "logic": "Labo de Logique",
+    "ethics": "Labo d'Éthique",
+    "concept-matrix": "Matrice de Concepts",
+    "exam": "Entraîneur d'Examen",
+    "techno_human": "Labo de Techno-Anthropologie",
+    "battle": "Bataille Philosophique",
+    "science": "Labo de Sciences",
+    "society": "Labo Maren Wehrle",
+    "analysis": "Analyse de Texte"
+  },
+  "hub_description": "Explorez les profondeurs de la pensée humaine à travers des dialogues socratiques, la logique formelle et l'exploration éthique."
+}

@@ -1,0 +1,10 @@
+// Barrel export for lesson components
+export { DeleteConfirmModal } from "./DeleteConfirmModal";
+export { FileUploadZone } from "./FileUploadZone";
+export { LessonContent } from "./LessonContent";
+export { LessonItem } from "./LessonGenerator/LessonItem";
+export { MaterialCard } from "./MaterialCard";
+export { MaterialGrid } from "./MaterialGrid";
+export { MaterialsLibrary } from "./MaterialsLibrary";
+export { ProgressBar } from "./ProgressBar";
+export { UploadZone } from "./UploadZone";

@@ -1,0 +1,603 @@
+export interface Question {
+  id: number;
+  text: string;
+  trait:
+    | "extraversion"
+    | "agreeableness"
+    | "conscientiousness"
+    | "neuroticism"
+    | "openness";
+  reverse: boolean;
+}
+
+export const BIG_FIVE_QUESTIONS: Question[] = [
+  // --- Neuroticism (Stressgevoeligheid) ---
+  {
+    id: 1,
+    text: "Ik word snel gestrest.",
+    trait: "neuroticism",
+    reverse: false,
+  },
+  {
+    id: 2,
+    text: "Ik ben vaak ontspannen.",
+    trait: "neuroticism",
+    reverse: true,
+  },
+  {
+    id: 3,
+    text: "Ik maak me veel zorgen.",
+    trait: "neuroticism",
+    reverse: false,
+  },
+  {
+    id: 4,
+    text: "Ik voel me zelden somber.",
+    trait: "neuroticism",
+    reverse: true,
+  },
+  {
+    id: 5,
+    text: "Ik raak snel van streek.",
+    trait: "neuroticism",
+    reverse: false,
+  },
+  {
+    id: 6,
+    text: "Ik heb frequente stemmingswisselingen.",
+    trait: "neuroticism",
+    reverse: false,
+  },
+  {
+    id: 7,
+    text: "Ik blijf kalm onder druk.",
+    trait: "neuroticism",
+    reverse: true,
+  },
+  {
+    id: 8,
+    text: "Ik voel me vaak angstig.",
+    trait: "neuroticism",
+    reverse: false,
+  },
+  {
+    id: 9,
+    text: "Ik raak zelden geïrriteerd.",
+    trait: "neuroticism",
+    reverse: true,
+  },
+  {
+    id: 10,
+    text: "Ik voel me vaak neerslachtig.",
+    trait: "neuroticism",
+    reverse: false,
+  },
+  {
+    id: 11,
+    text: "Ik voel me op mijn gemak met mezelf.",
+    trait: "neuroticism",
+    reverse: true,
+  },
+  {
+    id: 12,
+    text: "Ik ben vaak bang dat dingen fout gaan.",
+    trait: "neuroticism",
+    reverse: false,
+  },
+  {
+    id: 13,
+    text: "Ik raak snel in paniek.",
+    trait: "neuroticism",
+    reverse: false,
+  },
+  {
+    id: 14,
+    text: "Ik ben een stabiel persoon.",
+    trait: "neuroticism",
+    reverse: true,
+  },
+  {
+    id: 15,
+    text: "Ik voel me overweldigd door emoties.",
+    trait: "neuroticism",
+    reverse: false,
+  },
+  {
+    id: 16,
+    text: "Ik voel me zelden eenzaam.",
+    trait: "neuroticism",
+    reverse: true,
+  },
+  { id: 17, text: "Ik word snel boos.", trait: "neuroticism", reverse: false },
+  {
+    id: 18,
+    text: "Ik kan goed omgaan met tegenslagen.",
+    trait: "neuroticism",
+    reverse: true,
+  },
+  {
+    id: 19,
+    text: "Ik voel me vaak gespannen.",
+    trait: "neuroticism",
+    reverse: false,
+  },
+  {
+    id: 20,
+    text: "Ik heb veel zelfvertrouwen.",
+    trait: "neuroticism",
+    reverse: true,
+  },
+
+  // --- Extraversion (Extraversie) ---
+  {
+    id: 21,
+    text: "Ik ben het leven van het feest.",
+    trait: "extraversion",
+    reverse: false,
+  },
+  { id: 22, text: "Ik praat niet veel.", trait: "extraversion", reverse: true },
+  {
+    id: 23,
+    text: "Ik voel me op mijn gemak bij andere mensen.",
+    trait: "extraversion",
+    reverse: false,
+  },
+  {
+    id: 24,
+    text: "Ik blijf vaak op de achtergrond.",
+    trait: "extraversion",
+    reverse: true,
+  },
+  {
+    id: 25,
+    text: "Ik begin gesprekken.",
+    trait: "extraversion",
+    reverse: false,
+  },
+  {
+    id: 26,
+    text: "Ik heb weinig te zeggen.",
+    trait: "extraversion",
+    reverse: true,
+  },
+  {
+    id: 27,
+    text: "Ik praat met veel verschillende mensen op feestjes.",
+    trait: "extraversion",
+    reverse: false,
+  },
+  {
+    id: 28,
+    text: "Ik vind het niet erg om in het middelpunt van de belangstelling te staan.",
+    trait: "extraversion",
+    reverse: false,
+  },
+  {
+    id: 29,
+    text: "Ik ben rustig rond vreemden.",
+    trait: "extraversion",
+    reverse: true,
+  },
+  {
+    id: 30,
+    text: "Ik maak makkelijk vrienden.",
+    trait: "extraversion",
+    reverse: false,
+  },
+  {
+    id: 31,
+    text: "Ik houd niet van drukke plaatsen.",
+    trait: "extraversion",
+    reverse: true,
+  },
+  {
+    id: 32,
+    text: "Ik neem vaak de leiding.",
+    trait: "extraversion",
+    reverse: false,
+  },
+  {
+    id: 33,
+    text: "Ik word moe van te veel mensen om me heen.",
+    trait: "extraversion",
+    reverse: true,
+  },
+  {
+    id: 34,
+    text: "Ik ben een energiek persoon.",
+    trait: "extraversion",
+    reverse: false,
+  },
+  {
+    id: 35,
+    text: "Ik wacht liever tot anderen iets zeggen.",
+    trait: "extraversion",
+    reverse: true,
+  },
+  {
+    id: 36,
+    text: "Ik ben graag in actie.",
+    trait: "extraversion",
+    reverse: false,
+  },
+  {
+    id: 37,
+    text: "Ik zoek de stilte op.",
+    trait: "extraversion",
+    reverse: true,
+  },
+  {
+    id: 38,
+    text: "Ik lach veel en gemakkelijk.",
+    trait: "extraversion",
+    reverse: false,
+  },
+  {
+    id: 39,
+    text: "Ik ben een gereserveerd persoon.",
+    trait: "extraversion",
+    reverse: true,
+  },
+  {
+    id: 40,
+    text: "Ik voel me enthousiast.",
+    trait: "extraversion",
+    reverse: false,
+  },
+
+  // --- Openness (Openheid) ---
+  {
+    id: 41,
+    text: "Ik heb een rijke woordenschat.",
+    trait: "openness",
+    reverse: false,
+  },
+  {
+    id: 42,
+    text: "Ik heb moeite met abstracte ideeën.",
+    trait: "openness",
+    reverse: true,
+  },
+  {
+    id: 43,
+    text: "Ik heb een levendige verbeelding.",
+    trait: "openness",
+    reverse: false,
+  },
+  {
+    id: 44,
+    text: "Ik ben niet geïnteresseerd in abstracte ideeën.",
+    trait: "openness",
+    reverse: true,
+  },
+  {
+    id: 45,
+    text: "Ik heb uitstekende ideeën.",
+    trait: "openness",
+    reverse: false,
+  },
+  {
+    id: 46,
+    text: "Ik heb niet veel artistieke interesse.",
+    trait: "openness",
+    reverse: true,
+  },
+  {
+    id: 47,
+    text: "Ik begrijp dingen snel.",
+    trait: "openness",
+    reverse: false,
+  },
+  {
+    id: 48,
+    text: "Ik vermijd filosofische discussies.",
+    trait: "openness",
+    reverse: true,
+  },
+  {
+    id: 49,
+    text: "Ik gebruik moeilijke woorden.",
+    trait: "openness",
+    reverse: false,
+  },
+  {
+    id: 50,
+    text: "Ik ben niet erg creatief.",
+    trait: "openness",
+    reverse: true,
+  },
+  {
+    id: 51,
+    text: "Ik spendeer tijd aan reflectie.",
+    trait: "openness",
+    reverse: false,
+  },
+  {
+    id: 52,
+    text: "Ik geef de voorkeur aan routine boven vernieuwing.",
+    trait: "openness",
+    reverse: true,
+  },
+  {
+    id: 53,
+    text: "Ik ben geïnteresseerd in kunst en cultuur.",
+    trait: "openness",
+    reverse: false,
+  },
+  {
+    id: 54,
+    text: "Ik leer liever feiten dan theorieën.",
+    trait: "openness",
+    reverse: true,
+  },
+  {
+    id: 55,
+    text: "Ik houd van complexe problemen.",
+    trait: "openness",
+    reverse: false,
+  },
+  {
+    id: 56,
+    text: "Ik ben conservatief ingesteld.",
+    trait: "openness",
+    reverse: true,
+  },
+  {
+    id: 57,
+    text: "Ik wil graag weten hoe dingen werken.",
+    trait: "openness",
+    reverse: false,
+  },
+  {
+    id: 58,
+    text: "Ik houd niet van poëzie.",
+    trait: "openness",
+    reverse: true,
+  },
+  {
+    id: 59,
+    text: "Ik zie schoonheid in dingen die anderen niet opvallen.",
+    trait: "openness",
+    reverse: false,
+  },
+  {
+    id: 60,
+    text: "Ik lees liever geen boeken.",
+    trait: "openness",
+    reverse: true,
+  },
+
+  // --- Agreeableness (Vriendelijkheid) ---
+  {
+    id: 61,
+    text: "Ik ben geïnteresseerd in mensen.",
+    trait: "agreeableness",
+    reverse: false,
+  },
+  {
+    id: 62,
+    text: "Ik beledig mensen wel eens.",
+    trait: "agreeableness",
+    reverse: true,
+  },
+  {
+    id: 63,
+    text: "Ik leef mee met de gevoelens van anderen.",
+    trait: "agreeableness",
+    reverse: false,
+  },
+  {
+    id: 64,
+    text: "Ik ben niet geïnteresseerd in andermans problemen.",
+    trait: "agreeableness",
+    reverse: true,
+  },
+  {
+    id: 65,
+    text: "Ik ben zachtaardig.",
+    trait: "agreeableness",
+    reverse: false,
+  },
+  {
+    id: 66,
+    text: "Ik ben niet echt bezorgd om anderen.",
+    trait: "agreeableness",
+    reverse: true,
+  },
+  {
+    id: 67,
+    text: "Ik maak tijd voor anderen.",
+    trait: "agreeableness",
+    reverse: false,
+  },
+  {
+    id: 68,
+    text: "Ik voel weinig medeleven.",
+    trait: "agreeableness",
+    reverse: true,
+  },
+  {
+    id: 69,
+    text: "Ik stel anderen op hun gemak.",
+    trait: "agreeableness",
+    reverse: false,
+  },
+  {
+    id: 70,
+    text: "Ik kan koud en afstandelijk zijn.",
+    trait: "agreeableness",
+    reverse: true,
+  },
+  {
+    id: 71,
+    text: "Ik help graag anderen.",
+    trait: "agreeableness",
+    reverse: false,
+  },
+  {
+    id: 72,
+    text: "Ik begin vaak discussies.",
+    trait: "agreeableness",
+    reverse: true,
+  },
+  {
+    id: 73,
+    text: "Ik vertrouw mensen snel.",
+    trait: "agreeableness",
+    reverse: false,
+  },
+  {
+    id: 74,
+    text: "Ik ben achterdochtig naar de intenties van anderen.",
+    trait: "agreeableness",
+    reverse: true,
+  },
+  {
+    id: 75,
+    text: "Ik vergeef mensen snel.",
+    trait: "agreeableness",
+    reverse: false,
+  },
+  {
+    id: 76,
+    text: "Ik ben vaak sarcastisch.",
+    trait: "agreeableness",
+    reverse: true,
+  },
+  {
+    id: 77,
+    text: "Ik houd er niet van om mensen te oordelen.",
+    trait: "agreeableness",
+    reverse: false,
+  },
+  {
+    id: 78,
+    text: "Ik vind dat ik beter ben dan anderen.",
+    trait: "agreeableness",
+    reverse: true,
+  },
+  {
+    id: 79,
+    text: "Ik werk het liefst samen.",
+    trait: "agreeableness",
+    reverse: false,
+  },
+  {
+    id: 80,
+    text: "Ik negeer mensen soms.",
+    trait: "agreeableness",
+    reverse: true,
+  },
+
+  // --- Conscientiousness (Zorgvuldigheid) ---
+  {
+    id: 81,
+    text: "Ik ben altijd voorbereid.",
+    trait: "conscientiousness",
+    reverse: false,
+  },
+  {
+    id: 82,
+    text: "Ik laat mijn spullen vaak rondslingeren.",
+    trait: "conscientiousness",
+    reverse: true,
+  },
+  {
+    id: 83,
+    text: "Ik let op details.",
+    trait: "conscientiousness",
+    reverse: false,
+  },
+  {
+    id: 84,
+    text: "Ik maak een rommeltje van dingen.",
+    trait: "conscientiousness",
+    reverse: true,
+  },
+  {
+    id: 85,
+    text: "Ik krijg taken meteen gedaan.",
+    trait: "conscientiousness",
+    reverse: false,
+  },
+  {
+    id: 86,
+    text: "Ik vergeet vaak mijn spullen op te ruimen.",
+    trait: "conscientiousness",
+    reverse: true,
+  },
+  {
+    id: 87,
+    text: "Ik houd van orde en regelmaat.",
+    trait: "conscientiousness",
+    reverse: false,
+  },
+  {
+    id: 88,
+    text: "Ik ontwijk mijn taken/verplichtingen.",
+    trait: "conscientiousness",
+    reverse: true,
+  },
+  {
+    id: 89,
+    text: "Ik volg een schema/planning.",
+    trait: "conscientiousness",
+    reverse: false,
+  },
+  {
+    id: 90,
+    text: "Ik doe dingen vaak op het laatste moment.",
+    trait: "conscientiousness",
+    reverse: true,
+  },
+  {
+    id: 91,
+    text: "Ik ben nauwkeurig in mijn werk.",
+    trait: "conscientiousness",
+    reverse: false,
+  },
+  {
+    id: 92,
+    text: "Ik vind het lastig om aan de slag te gaan.",
+    trait: "conscientiousness",
+    reverse: true,
+  },
+  {
+    id: 93,
+    text: "Ik zorg dat alles perfect is.",
+    trait: "conscientiousness",
+    reverse: false,
+  },
+  {
+    id: 94,
+    text: "Ik ben een beetje chaotisch.",
+    trait: "conscientiousness",
+    reverse: true,
+  },
+  {
+    id: 95,
+    text: "Ik ben efficiënt.",
+    trait: "conscientiousness",
+    reverse: false,
+  },
+  {
+    id: 96,
+    text: "Ik verspil vaak mijn tijd.",
+    trait: "conscientiousness",
+    reverse: true,
+  },
+  {
+    id: 97,
+    text: "Ik kom mijn afspraken na.",
+    trait: "conscientiousness",
+    reverse: false,
+  },
+  {
+    id: 98,
+    text: "Ik maak dingen soms niet af.",
+    trait: "conscientiousness",
+    reverse: true,
+  },
+  { id: 99, text: "Ik werk hard.", trait: "conscientiousness", reverse: false },
+  { id: 100, text: "Ik ben lui.", trait: "conscientiousness", reverse: true },
+];

@@ -1,0 +1,8 @@
+{
+  "title": "Psychology Lab",
+  "modules": {
+    "cognition": "Cognitive Science",
+    "personality": "Personality",
+    "social": "Social Psychology"
+  }
+}

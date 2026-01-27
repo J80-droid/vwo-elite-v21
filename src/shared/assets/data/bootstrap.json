@@ -1,0 +1,243 @@
+{
+  "study_materials": [
+    {
+      "id": "boot-mat-1",
+      "name": "DNA Replicatie Overzicht",
+      "subject": "Biologie",
+      "type": "txt",
+      "content": "DNA-replicatie is het proces waarin een DNA-molecuul wordt gekopieerd...",
+      "date": "2025-01-01T10:00:00Z",
+      "created_at": 1735725600000
+    },
+    {
+      "id": "boot-mat-2",
+      "name": "Newton's Wetten",
+      "subject": "Natuurkunde",
+      "type": "txt",
+      "content": "1. Traagheidswet, 2. F=m*a, 3. Actie=Reactie...",
+      "date": "2025-01-01T11:00:00Z",
+      "created_at": 1735729200000
+    }
+  ],
+  "pws_projects": [
+    {
+      "id": "boot-pws-1",
+      "title": "De Impact van Microplastics",
+      "subject": "Biologie",
+      "research_question": "Hoe beïnvloeden microplastics de groei van waterplanten in Nederlandse sloten?",
+      "sources": ["boot-mat-1"],
+      "current_phase": "Onderzoek",
+      "checklist_progress": {
+        "Onderwerp gekozen": true,
+        "Hoofdvraag geformuleerd": true,
+        "Deelvragen opgesteld": true,
+        "Bronnen verzameld": true
+      },
+      "logbook": [
+        {
+          "id": "log-1",
+          "timestamp": 1735732800000,
+          "action": "research",
+          "details": "Eerste bronnenonderzoek naar microplastics uitgevoerd."
+        }
+      ],
+      "apa_citations": {},
+      "created_at": 1735725600000,
+      "updated_at": 1735732800000
+    }
+  ],
+  "flashcards": [
+    {
+      "id": "boot-fc-1",
+      "front": "Wat is de tweede wet van Newton?",
+      "back": "F = m * a (Kracht is massa maal versnelling)",
+      "material_id": "boot-mat-2",
+      "due": 1735736400000,
+      "stability": 2.0,
+      "difficulty": 3.0,
+      "reps": 1,
+      "lapses": 0,
+      "state": "Review",
+      "last_review": 1735729200000,
+      "tags": ["Natuurkunde", "Wetten"]
+    }
+  ],
+  "user_settings": [
+    {
+      "id": "current_user",
+      "profile": {
+        "name": "VWO Student",
+        "grade": "6",
+        "profile": "NT",
+        "examYear": 2026,
+        "targetGrades": {
+          "Biologie": 8.5,
+          "Natuurkunde": 8.0
+        }
+      },
+      "theme": "electric",
+      "ai_config": {
+        "persona": "socratic"
+      },
+      "shortcuts": {},
+      "pomodoro_work": 25,
+      "pomodoro_break": 5,
+      "streak": 7
+    }
+  ],
+  "lab_scores": [
+    {
+      "lab_name": "Bio Lab",
+      "score": 85,
+      "date": "2025-01-01T12:00:00Z"
+    },
+    {
+      "lab_name": "Chem Lab",
+      "score": 70,
+      "date": "2025-01-01T13:00:00Z"
+    },
+    {
+      "lab_name": "Phys Lab",
+      "score": 60,
+      "date": "2025-01-01T14:00:00Z"
+    },
+    {
+      "lab_name": "Math Lab",
+      "score": 90,
+      "date": "2025-01-01T15:00:00Z"
+    }
+  ],
+  "open_days": [
+    {
+      "id": "rug-jan",
+      "institution": "Rijksuniversiteit Groningen",
+      "date": "2026-01-30",
+      "time": "10:00 - 17:00",
+      "type": "On-Campus",
+      "description": "Ontdek de RUG tijdens de Bachelor Open Dag. Bezoek faculteiten en proef de sfeer in het hoge noorden.",
+      "link": "https://www.rug.nl/education/bachelor/open-days"
+    },
+    {
+      "id": "tue-feb",
+      "institution": "TU Eindhoven",
+      "date": "2026-02-07",
+      "time": "10:00 - 16:00",
+      "type": "On-Campus",
+      "description": "Bezoek de campus van de TU/e. Check de Innovation Space en praat met studenten.",
+      "link": "https://www.tue.nl/studeren/studievoorlichting/bachelor-open-dagen"
+    },
+    {
+      "id": "maastricht-feb",
+      "institution": "Maastricht University",
+      "date": "2026-02-07",
+      "time": "10:00 - 16:00",
+      "type": "On-Campus",
+      "description": "Ervaar het Probleemgestuurd Onderwijs (PGO) en de internationale sfeer in Maastricht.",
+      "link": "https://www.maastrichtuniversity.nl/education/bachelors/open-days"
+    },
+    {
+      "id": "leiden-mar",
+      "institution": "Universiteit Leiden",
+      "date": "2026-03-07",
+      "time": "09:30 - 17:00",
+      "type": "On-Campus",
+      "description": "Maak kennis met de oudste universiteit van Nederland in Leiden en Den Haag.",
+      "link": "https://www.universiteitleiden.nl/onderwijs/bachelors/voorlichtingsactiviteiten/open-dagen"
+    },
+    {
+      "id": "uva-mar",
+      "institution": "Universiteit van Amsterdam",
+      "date": "2026-03-14",
+      "time": "10:00 - 16:00",
+      "type": "On-Campus",
+      "description": "Bachelor Open Dag. Bezoek de binnenstadslocaties en Science Park.",
+      "link": "https://www.uva.nl/onderwijs/bachelor/open-dagen/open-dagen.html"
+    },
+    {
+      "id": "uu-mar",
+      "institution": "Universiteit Utrecht",
+      "date": "2026-03-14",
+      "time": "10:00 - 16:00",
+      "type": "On-Campus",
+      "description": "Verken de Universiteit Utrecht. De Uithof en de binnenstad openen hun deuren.",
+      "link": "https://www.uu.nl/bachelors/open-dagen"
+    },
+    {
+      "id": "tudelft-mar",
+      "institution": "TU Delft",
+      "date": "2026-03-20",
+      "time": "12:00 - 17:00",
+      "type": "On-Campus",
+      "description": "Open Campus Dag. Loop rond op de campus, bezoek labs en de Dream Hall.",
+      "link": "https://www.tudelft.nl/onderwijs/voorlichting-en-ervaren/bachelorvoorlichting/open-dagen"
+    },
+    {
+      "id": "utwente-mar",
+      "institution": "Universiteit Twente",
+      "date": "2026-03-21",
+      "time": "10:00 - 16:00",
+      "type": "On-Campus",
+      "description": "Bezoek de enige echte campusuniversiteit van Nederland in Enschede.",
+      "link": "https://www.utwente.nl/onderwijs/bachelor/open-dagen/"
+    },
+    {
+      "id": "rug-apr",
+      "institution": "Rijksuniversiteit Groningen",
+      "date": "2026-04-11",
+      "time": "10:00 - 17:00",
+      "type": "On-Campus",
+      "description": "De tweede kans om Groningen te bezoeken dit voorjaar.",
+      "link": "https://www.rug.nl/education/bachelor/open-days"
+    },
+    {
+      "id": "tue-may",
+      "institution": "TU Eindhoven",
+      "date": "2026-05-23",
+      "time": "10:00 - 14:00",
+      "type": "Online",
+      "description": "Online Bachelor Open Dag. Volg presentaties en Q&A's vanuit huis.",
+      "link": "https://www.tue.nl/studeren/studievoorlichting/bachelor-open-dagen"
+    }
+  ],
+  "sjt_scenarios": [
+    {
+      "id": 1,
+      "context": "Samenwerken in een team (Geneeskunde)",
+      "question": "Je werkt aan een groepsproject. Eén student, Mark, komt steeds te laat en levert slecht werk. De deadline is over 2 dagen. Wat doe je?",
+      "options": [
+        "Je negeert Mark en doet zijn deel zelf om zeker te zijn van een goed cijfer.",
+        "Je spreekt Mark in de groep aan en zegt dat hij het team laat zakken.",
+        "Je vraagt Mark apart waarom het niet lukt en kijkt of je taken kunt herverdelen.",
+        "Je gaat direct naar de docent om te klagen over Mark."
+      ],
+      "bestIndex": 2,
+      "rationale": "In de zorg (en veel andere vakgebieden) is empathie en constructief problemen oplossen cruciaal. Optie C toont leiderschap en begrip."
+    },
+    {
+      "id": 2,
+      "context": "Integriteit & Druk (Bedrijfskunde)",
+      "question": "Je ontdekt dat je beste vriend, die op het punt staat te zakken, spiekt tijdens een belangrijk tentamen. Niemand anders heeft het gezien.",
+      "options": [
+        "Je doet niets; vriendschap gaat voor alles.",
+        "Je meldt het anoniem bij de examencommissie na het tentamen.",
+        "Je confronteert hem na afloop en dringt aan dat hij zichzelf meldt.",
+        "Je maakt een grapje erover zodat hij weet dat je het gezien hebt."
+      ],
+      "bestIndex": 2,
+      "rationale": "Integriteit is belangrijk, maar direct verraad beschadigt relaties. Hem de kans geven verantwoordelijkheid te nemen (C) is de meest volwassen stap."
+    },
+    {
+      "id": 3,
+      "context": "Stressbestendigheid (Luchtvaart)",
+      "question": "Tijdens een simulatietest gaan er drie alarmen tegelijk af. Je copiloot raakt in paniek en bevriest. Wat is je eerste actie?",
+      "options": [
+        "Je schreeuwt tegen de copiloot om hem wakker te schudden.",
+        "Je negeert de copiloot en probeert alles zelf op te lossen.",
+        "Je roept \"MY CONTROLS\", neemt de besturing over en vraagt de copiloot specifiek één checklist te lezen.",
+        "Je stopt de simulatie omdat het onveilig is."
+      ],
+      "bestIndex": 2,
+      "rationale": "Daadkracht en delegeren zijn key. Door een specifieke, simpele taak te geven (Checklist), help je de copiloot uit zijn \"bevriezing\"."
+    }
+  ]
+}

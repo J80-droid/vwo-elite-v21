@@ -1,0 +1,20 @@
+{
+  "title": "Studiezoeker",
+  "subtitle": "Vind jouw ideale WO bachelor",
+  "search_placeholder": "Zoek op studie, stad of interesse...",
+  "filters": {
+    "all": "Alles",
+    "tech": "Techniek",
+    "health": "Gezondheid",
+    "economy": "Economie",
+    "society": "Maatschappij",
+    "nature": "Natuur"
+  },
+  "card": {
+    "numerus_fixus": "Numerus Fixus",
+    "requirements": "Eisen:",
+    "city": "Stad:",
+    "view_details": "Bekijk Details"
+  },
+  "empty_state": "Geen studies gevonden die aan je criteria voldoen."
+}

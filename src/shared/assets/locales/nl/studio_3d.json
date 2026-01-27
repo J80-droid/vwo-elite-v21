@@ -1,0 +1,126 @@
+{
+  "back_to_hub": "Terug",
+  "hub_description": "Kies een module om je ruimtelijk inzicht te trainen. Beheers complexe geometrie, projecties en structuren.",
+  "modules": {
+    "spatial": "Ruimtelijk Inzicht",
+    "spatial_desc": "Train je ruimtelijk inzicht door objecten te roteren.",
+    "stereo": "Stereochemie",
+    "stereo_desc": "Identificeer isomeren en chirale centra.",
+    "cross_section": "Secties",
+    "cross_section_desc": "Voorspel de vorm van de doorsnede.",
+    "slicer": "Doorsnedes",
+    "slicer_desc": "Visualiseer 2D doorsnedes van 3D objecten.",
+    "projection": "Projecties",
+    "projection_desc": "Match de 2D projecties met het 3D object.",
+    "construction": "Constructie",
+    "construction_desc": "Los de bouwpuzzels op.",
+    "build": "Bouwmodus",
+    "build_desc": "Plaats blokken om structuren te bouwen."
+  },
+  "build": {
+    "title": "Bouwmodus",
+    "difficulty": {
+      "easy": "Makkelijk",
+      "medium": "Gemiddeld",
+      "hard": "Moeilijk"
+    },
+    "start": "Start Spel",
+    "goal": "Doel: Bouw dit na!",
+    "views": "Aanzichten",
+    "ghost": "Toon Geest",
+    "reset": "Reset",
+    "excellent": "Uitstekend!",
+    "perfect": "Perfect gebouwd!",
+    "time": "Tijd",
+    "mistakes": "Fouten",
+    "next": "Volgende Puzzel",
+    "menu": "Hoofdmenu",
+    "projection": {
+      "top": "Bovenaanzicht",
+      "front": "Vooraanzicht",
+      "side": "Zijaanzicht"
+    },
+    "levels": {
+      "intro": "Introductie",
+      "basic_skill": "Basisvaardigheid",
+      "vwo_basic": "VWO Basis",
+      "expert": "Expert Analist",
+      "elite": "VWO Elite"
+    },
+    "difficulty_labels": {
+      "easy": "Instap",
+      "medium": "Basis",
+      "hard": "Gevorderd",
+      "elite": "VWO Elite"
+    }
+  },
+  "spatial": {
+    "controls": "Besturing",
+    "controls_desc": "Roteer het object om het antwoord te vinden.",
+    "title": "3D Inzicht",
+    "high_score": "Hoogste Score",
+    "score": "Score",
+    "units": "Punten",
+    "reference": "Referentie",
+    "hint_text": "Vergelijk het doelfiguur met de opties. Let op oriëntatie en structuur.",
+    "confirm": "Bevestig",
+    "mission_accomplished": "Missie Volbracht!",
+    "instructions": {
+      "rotation": "Welke figuur is een geroteerde versie?",
+      "counting": "Hoeveel blokken telt het figuur?",
+      "pov": "Welk aanzicht past bij het figuur?",
+      "spot": "Welk figuur is identiek (maar gedraaid)?",
+      "sequence": "Wat is de eindstand na de rotaties?",
+      "xray": "Welke interne kern past bij de buitenkant?",
+      "shadows": "Welke schaduw hoort bij dit object?",
+      "projection": "Welk vooraanzicht hoort hierbij?",
+      "pathfinding": "Volg het pad: Welke optie is identiek?",
+      "chirality": "Welk molecuul is identiek (geen spiegelbeeld)?",
+      "nets": "Welke uitslag vormt een gesloten kubus?",
+      "folding": "Welk patroon ontstaat na het uitvouwen?",
+      "mechanical": "Wat is de richting van het GELE wiel?",
+      "cross_section": "Welke doorsnede ontstaat bij de snede?",
+      "stability": "Welke toren is onstabiel en valt om?",
+      "label": "Opdracht"
+    },
+    "feedback": {
+      "correct": "Correct! +Punten",
+      "incorrect": "Fout",
+      "investigate": "Onderzoek het juiste antwoord (groen gemarkeerd) en klik wanneer je klaar bent:",
+      "next": "Volgende Vraag"
+    },
+    "explanations": {
+      "rotation_correct": "Correct! Dit figuur komt overeen met het doel na rotatie.",
+      "rotation_correct_detailed": "Correct! Dit figuur komt overeen na: {{details}}.",
+      "rotation_incorrect": "Incorrect. Dit is een gespiegelde versie of incorrecte rotatie.",
+      "counting_correct": "Correct! Er zijn precies {{count}} blokken zichtbaar of verborgen.",
+      "counting_incorrect": "Incorrect. Deze optie suggereert er {{count}}, maar het werkelijke aantal is anders.",
+      "nets_correct": "Correct! Deze 6 vierkanten vouwen tot een perfecte kubus.",
+      "nets_incorrect": "Incorrect. Deze opstelling zorgt voor overlappende vlakken.",
+      "stability_correct": "Correct! Deze toren is onstabiel omdat het zwaartepunt buiten de basis valt.",
+      "stability_incorrect": "Incorrect. Deze toren is stabiel. Het zwaartepunt blijft binnen de basis.",
+      "generic_correct": "Correct! Dit is het juiste antwoord.",
+      "generic_incorrect": "Incorrect. Kijk goed naar de details.",
+      "default_explanation": "Dit is het enige figuur dat exact overeenkomt met de gestelde vraag.",
+      "shadows_correct": "Correct! Deze schaduw matcht precies met de contouren van bovenaf.",
+      "shadows_incorrect": "Incorrect. Deze schaduw mist een blokje of heeft er een teveel.",
+      "projection_correct": "Correct! Dit is exact wat je ziet als je recht van voren kijkt.",
+      "projection_incorrect": "Incorrect. Dit aanzicht klopt niet met de actuele blokken.",
+      "cross_section_correct": "Correct! Een {{shape}} is de juiste doorsnede op deze positie.",
+      "cross_section_incorrect": "Incorrect. Een {{shape}} kan hier niet gevormd worden.",
+      "pathfinding_correct": "Correct! Dit pad is een exacte kopie (in 3D gedraaid).",
+      "pathfinding_incorrect": "Incorrect. Dit pad wijkt op minstens één punt af.",
+      "chirality_correct": "Correct! Dit molecuul is identiek aan het doel.",
+      "chirality_incorrect_mirror": "Incorrect. Dit is het spiegelbeeld (enantiomeer), niet het origineel.",
+      "chirality_incorrect_random": "Incorrect. Dit is een compleet ander molecuul.",
+      "pov_correct": "Correct! Dit is wat je ziet vanaf de aangegeven camera-positie.",
+      "pov_incorrect": "Incorrect. Dit toont een ander aanzicht of een verkeerde hoek.",
+      "xray_correct": "Correct! Deze binnenkern past precies in het omhulsel.",
+      "xray_incorrect": "Incorrect. Deze kern heeft een andere vorm."
+    },
+    "footer": {
+      "difficulty": "Geselecteerde moeilijkheid:",
+      "shortcuts": "Maak gebruik van de toetsen A, B, C, D voor snelle antwoorden."
+    }
+  }
+}

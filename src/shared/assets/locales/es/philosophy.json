@@ -1,0 +1,16 @@
+{
+  "title": "Laboratorio de Filosofía",
+  "modules": {
+    "dialogue": "Diálogo Socrático",
+    "logic": "Laboratorio de Lógica",
+    "ethics": "Laboratorio de Ética",
+    "concept-matrix": "Matriz de Conceptos",
+    "exam": "Entrenador de Examen",
+    "techno_human": "Laboratorio de Tecno-Antropología",
+    "battle": "Batalla Filosófica",
+    "science": "Laboratorio de Ciencia",
+    "society": "Laboratorio Maren Wehrle",
+    "analysis": "Análisis de Texto"
+  },
+  "hub_description": "Explora las profundidades del pensamiento humano a través de diálogos socráticos, lógica formal y exploración ética."
+}

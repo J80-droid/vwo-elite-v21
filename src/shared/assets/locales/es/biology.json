@@ -1,0 +1,162 @@
+{
+  "title": "Laboratorio de Biología",
+  "modules": {
+    "genomics": "Genómica",
+    "microscopy": "Microscopía",
+    "ecology": "Ecología",
+    "physiology": "Fisiología"
+  },
+  "layout": {
+    "instrumentation": "Instrumentación",
+    "parameters": "Parámetros del Sistema",
+    "analysis": "Datos de Población"
+  },
+  "common": {
+    "mastery_title": "Panel de Maestría",
+    "mastery_description": "Completa misiones de maestría y responde preguntas de examen para aumentar tus niveles Bloom. Una puntuación de 80%+ en todos los niveles indica preparación para VWO.",
+    "exam_title": "Entrenador de Examen VWO",
+    "zen_mode": "Modo Zen"
+  },
+  "genomics": {
+    "stage": {
+      "coach_analysing": "Analizando...",
+      "coach_title": "Análisis del Coach IA",
+      "close": "Cerrar",
+      "gel_control": "Control",
+      "gel_patient_a": "Paciente A",
+      "gel_patient_b": "Paciente B"
+    },
+    "parameters": {
+      "title": "Parámetros Genéticos",
+      "sequence_length": "Longitud de Secuencia",
+      "gc_content": "Contenido de GC",
+      "melting_temp": "Temp. de Fusión (Tm)",
+      "reading_frame": "Marco de Lectura",
+      "status_monitor": "Monitor de Estado",
+      "active_mission": "Misión Activa"
+    },
+    "analysis": {
+      "title": "Datos de Población",
+      "base_frequency": "Frecuencia de Base",
+      "hydrophobicity": "Hidrofobicidad",
+      "translated_peptide": "Péptido Traducido",
+      "no_coding_sequence": "No se detectó secuencia de codificación."
+    },
+    "sidebar": {
+      "mastery_missions": "Misiones de Maestría",
+      "active_mission": "Misión: {{target}}",
+      "active_mission_prompt": "Hacer: {{target}}",
+      "cancel": "Cancelar",
+      "mission_silent": "Misión: Silenciosa",
+      "mission_missense": "Misión: Sentido erróneo",
+      "mission_nonsense": "Misión: Sinsentido (STOP)",
+      "dna_editor": "Editor de ADN",
+      "example_covid": "Espiga Corona",
+      "example_insulin": "Insulina",
+      "base_selection": "Selección de Base",
+      "no_base_selected": "Haga clic en la hélice de ADN para seleccionar una base.",
+      "protein_db": "Base de Datos de Proteínas",
+      "viewer_mode": "Modo de Visor",
+      "real_time": "Tiempo real",
+      "pdb": "PDB",
+      "replication_mode": "Replicación de ADN",
+      "lab_tools": "Herramientas de Lab",
+      "tool_gel": "Electro de GEL",
+      "tool_pcr": "Termo PCR",
+      "tool_crispr": "Visualizador CRISPR-Cas9"
+    }
+  },
+  "microscopy": {
+    "title": "Microscopio Virtual",
+    "description": "Microscopio Virtual y Análisis Celular",
+    "stage": {
+      "subtitle": "Sistema Óptico Activo",
+      "plant_cell": "Célula Vegetal",
+      "animal_cell": "Célula Animal",
+      "select_specimen": "Seleccionar Espécimen",
+      "specimen_info": "Info de Espécimen",
+      "plant_description": "Caracterizada por una pared celular rígida, una gran vacuola central y cloroplastos para la fotosíntesis.",
+      "animal_description": "No tiene pared celular ni cloroplastos. La forma es variable y se mantiene por el citoesqueleto.",
+      "no_specimen": "Use el panel lateral para colocar un espécimen bajo el microscopio.",
+      "magnification": "AUMENTO",
+      "light": "LUZ"
+    },
+    "sidebar": {
+      "slides": "Portaobjetos",
+      "plant_cell": "Célula Vegetal",
+      "animal_cell": "Célula Animal",
+      "optical_controls": "Controles Ópticos",
+      "magnification": "Aumento",
+      "brightness": "Brillo",
+      "contrast": "Contraste"
+    },
+    "analysis": {
+      "cellular_composition": "Composición Celular (%)",
+      "select_slide_prompt": "Seleccione una diapositiva para el reconocimiento automático de imágenes y el análisis celular.",
+      "source": "Fuente"
+    }
+  },
+  "ecology": {
+    "title": "Simulador de Ecología",
+    "description": "Dinámica de Población y Redes Alimentarias",
+    "stage": {
+      "subtitle": "Simulación de Biosfera",
+      "title": "Dinámica de Lotka-Volterra"
+    },
+    "sidebar": {
+      "environment_vars": "Variables de Entorno",
+      "growth_rate_prey": "Tasa de Crecimiento Presa",
+      "consumption_rate": "Tasa de Consumo",
+      "efficiency_predator": "Eficiencia Depredador",
+      "mortality_predator": "Mortalidad Depredador",
+      "carrying_capacity": "Capacidad de Carga (K)",
+      "reset_population": "Reiniciar Población",
+      "add_prey": "Añadir Presa"
+    },
+    "analysis": {
+      "phase_portrait": "Retrato de Fase (Depredador vs Presa)",
+      "system_energy": "Energía del Sistema (Total)",
+      "prey": "Presa",
+      "predator": "Depredador"
+    }
+  },
+  "physiology": {
+    "title": "Fisiología y Anatomía",
+    "description": "Cuerpo Humano y Órganos",
+    "stage": {
+      "subtitle": "Herramientas de Diagnóstico Anatómico",
+      "select_system": "Seleccionar Sistema",
+      "heart_rate": "Ritmo Cardíaco"
+    },
+    "sidebar": {
+      "anatomical_systems": "Sistemas Anatómicos",
+      "circulatory": "Circulatorio",
+      "respiratory": "Respiratorio",
+      "nervous": "Sistema Nervioso",
+      "endocrine": "Sistema Endocrino",
+      "stress_test": "Prueba de Estrés",
+      "physical_exertion": "Esfuerzo Físico (Ritmo Cardíaco)"
+    },
+    "parameters": {
+      "blood_pressure_syst": "Presión Arterial (Sist.)",
+      "blood_pressure_diast": "Presión Arterial (Diast.)",
+      "oxygen_saturation": "Saturación de Oxígeno",
+      "cardiac_output": "Gasto Cardíaco",
+      "stroke_volume": "Volumen Sistólico",
+      "respiratory_rate": "Frecuencia Respiratoria",
+      "map": "Presión Arterial Media (PAM)",
+      "normal": "Normal",
+      "homeostasis": "Homeostasis",
+      "optimal": "Óptimo",
+      "elevated": "Elevado",
+      "high_stress": "Estrés Alto",
+      "bradycardia": "Bradicardia"
+    },
+    "analysis": {
+      "ecg_monitor": "Monitor ECG en Tiempo Real",
+      "system_analysis": "Análisis del Sistema",
+      "sympathetic": "Sistema Nervioso Simpático",
+      "parasympathetic": "Parasimpático"
+    }
+  }
+}

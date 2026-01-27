@@ -1,0 +1,176 @@
+{
+  "title": "Slimme Bibliotheek",
+  "modules": {
+    "browse": "Bladeren",
+    "search": "Zoeken",
+    "network": "Netwerk"
+  },
+  "header": {
+    "subtitle": "Neural Knowledge Hub • AI-Driven Mastery",
+    "new_lesson_btn": "Genereer Nieuwe Les"
+  },
+  "stats": {
+    "metacognition": "Metacognitie",
+    "mastery_label": "VWO Beheersing",
+    "levels": {
+      "elite": "Elite",
+      "progressing": "Vorderend"
+    },
+    "focus_advice": "AI Focus Advies"
+  },
+  "advice": {
+    "weak_topics": "Je beheersing van {topic} vertoont gaten in het neurale patroon. We raden aan om een nieuwe Analyse & Inzicht module te genereren over dit onderwerp.",
+    "stable": "Je neurale patronen zijn stabiel. Blijf herhalen om retentie op 100% te houden. Overweeg een simulatie-toets om je snelheid te trainen."
+  },
+  "tabs": {
+    "overview": "Overzicht",
+    "literature": "Literatuurlijst",
+    "skills": "Vaardigheden",
+    "oral": "Mondeling",
+    "solver": "Stap Oplosser"
+  },
+  "library": {
+    "title": "Bibliotheek",
+    "search_placeholder": "Zoek bronnen...",
+    "no_sources": "Geen bronnen gevonden in deze bibliotheek",
+    "add_source": "Bron Toevoegen",
+    "add_subject": "Vak Toevoegen",
+    "add_subject_desc": "Pas je overzicht aan"
+  },
+  "subjects": {
+    "math_a": "Wiskunde A",
+    "math_b": "Wiskunde B",
+    "physics": "Natuurkunde",
+    "chem": "Scheikunde",
+    "biology": "Biologie",
+    "dutch": "Nederlands",
+    "english": "Engels",
+    "french": "Frans",
+    "german": "Duits",
+    "spanish": "Spaans",
+    "classics": "Latijn",
+    "greek": "Grieks",
+    "economics": "Economie",
+    "business": "Bedrijfseconomie",
+    "history": "Geschiedenis",
+    "geography": "Aardrijkskunde",
+    "social_studies": "Maatschappijleer",
+    "philosophy": "Filosofie",
+    "psychology": "Psychologie",
+    "cs": "Informatica",
+    "art": "Kunst (CKV)"
+  },
+  "config": {
+    "title": "Configureer Module",
+    "subtitle": "Stel je neurale leerpad in",
+    "selected_context": "Geselecteerde Context",
+    "active_count": "Actief",
+    "step_1": "1. Kies je Missie",
+    "step_2": "2. Focus Gebied",
+    "topic_placeholder": "Bijv. Tijdvak 5, Differentiaalrekening...",
+    "generating": "Neuronaal pad genereren...",
+    "generate_btn": "Genereer Module",
+    "start_sim_btn": "Start Simulatie",
+    "craap_active": "CRAAP-Protocol Geactiveerd",
+    "sync_text": "Neurale netwerken synchroniseren..."
+  },
+  "modes": {
+    "recap": {
+      "label": "Kennis",
+      "desc": "Samenvatten & Feiten"
+    },
+    "deep": {
+      "label": "Inzicht",
+      "desc": "Verbanden & Uitleg"
+    },
+    "exam": {
+      "label": "Toepassing",
+      "desc": "Examentraining"
+    },
+    "analysis": {
+      "label": "Analyse",
+      "desc": "Bronkritiek & Onderzoek"
+    },
+    "argument": {
+      "label": "Betogen",
+      "desc": "Essay & Debat"
+    },
+    "oral": {
+      "label": "Mondeling",
+      "desc": "Simulatie & Literatuur"
+    }
+  },
+  "modals": {
+    "titles": {
+      "note": "Nieuwe Notitie",
+      "url": "Website URL",
+      "youtube": "YouTube Link",
+      "wikipedia": "Wikipedia Artikel",
+      "search": "Web Zoekopdracht",
+      "save_set": "Context Set Opslaan"
+    },
+    "labels": {
+      "title": "Titel (Optioneel)",
+      "content": "Inhoud",
+      "url": "URL / Link"
+    },
+    "placeholders": {
+      "title": "Geef je bron een naam...",
+      "content": "Typ of plak hier je informatie...",
+      "url": "https://example.com/...",
+      "search": "Waar wil je op zoeken?"
+    },
+    "add_btn": "Bron Toevoegen",
+    "delete_title": "Les Verwijderen?",
+    "delete_desc": "Dit kan niet ongedaan worden gemaakt.",
+    "cancel": "Annuleren",
+    "delete": "Verwijderen"
+  },
+  "tile": {
+    "no_data": "Geen data",
+    "test_planned": "Toets gepland",
+    "no_planning": "Geen planning",
+    "since_last_test": "Sinds laatste toets",
+    "no_tests_taken": "Geen toetsen gemaakt",
+    "status": {
+      "mastery": "Mastery",
+      "on_track": "Op Schema",
+      "warning": "Let op"
+    }
+  },
+  "cockpit": {
+    "depth": {
+      "espresso": "Espresso",
+      "filter": "Filterkoffie",
+      "deep": "Deep Dive",
+      "label": "Tijd & Diepgang"
+    },
+    "scaffolding": {
+      "guide": "Gids Me",
+      "collab": "Samenwerken",
+      "exam": "Examen Modus",
+      "label": "Ondersteuning"
+    },
+    "role": {
+      "learn": "Leren",
+      "teach": "Doceren",
+      "debate": "Debatteren",
+      "label": "Interactie Rol"
+    },
+    "focus": {
+      "concepts": "Begrippen",
+      "relations": "Verbanden",
+      "mechanics": "Mechanica",
+      "all": "Alles",
+      "label": "Focus Gebied"
+    },
+    "status": {
+      "load": "Cognitieve Belasting",
+      "high": "High Impact",
+      "flow": "Optimum Flow",
+      "engage": "Start Neurale Motor...",
+      "init": "Activeer Les Generatie"
+    },
+    "target": "Doel Vak"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "title": "Simulador de Examen",
+  "modules": {
+    "practice": "Práctica",
+    "simulation": "Simulación",
+    "results": "Resultados"
+  },
+  "desc": "Pon a prueba tu conocimiento con quizzes verificados.",
+  "placeholder": "Tema (ej. Guerra Fría, Química Orgánica)",
+  "btn_start": "Iniciar Simulación",
+  "btn_gen": "Generando...",
+  "refresh": "Actualizar Pregunta (RAG)",
+  "verified": "Fuentes Verificadas",
+  "prev": "Anterior",
+  "next": "Siguiente",
+  "mode_label": "Modo",
+  "mode_study": "Modo Estudio (Feedback Directo)",
+  "mode_exam": "Modo Examen (Sin Feedback)",
+  "timer_label": "Límite de Tiempo",
+  "no_timer": "Sin Timer",
+  "minutes": "min",
+  "finish": "Entregar Examen",
+  "results": "Resultados",
+  "score": "Puntuación",
+  "analysis": "Revisión",
+  "correct_ans": "Respuestas correctas",
+  "wrong_ans": "Respuestas incorrectas",
+  "try_again": "Nuevo Examen"
+}

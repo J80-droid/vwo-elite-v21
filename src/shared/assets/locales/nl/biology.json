@@ -1,0 +1,162 @@
+{
+  "title": "Biologie Lab",
+  "modules": {
+    "genomics": "Genomica",
+    "microscopy": "Microscopie",
+    "ecology": "Ecologie",
+    "physiology": "Fysiologie"
+  },
+  "layout": {
+    "instrumentation": "Instrumentatie",
+    "parameters": "Systeem Parameters",
+    "analysis": "Populatie Data"
+  },
+  "common": {
+    "mastery_title": "Mastery Dashboard",
+    "mastery_description": "Completeer Mastery Missies en beantwoord Examenvragen om je Bloom-levels te verhogen. Een score van 80%+ op alle levels duidt op VWO-klaarheid.",
+    "exam_title": "VWO Examentrainer",
+    "zen_mode": "Zen Modus"
+  },
+  "genomics": {
+    "stage": {
+      "coach_analysing": "Analyseren...",
+      "coach_title": "AI Coach Analyse",
+      "close": "Sluiten",
+      "gel_control": "Controle",
+      "gel_patient_a": "Patiënt A",
+      "gel_patient_b": "Patiënt B"
+    },
+    "parameters": {
+      "title": "Genetische Parameters",
+      "sequence_length": "Sequentie Lengte",
+      "gc_content": "GC Gehalte",
+      "melting_temp": "Smelttemperatuur (Tm)",
+      "reading_frame": "Reading Frame",
+      "status_monitor": "Status Monitor",
+      "active_mission": "Actieve Missie"
+    },
+    "analysis": {
+      "title": "Populatie Data",
+      "base_frequency": "Base Frequentie",
+      "hydrophobicity": "Hydrofobiciteit",
+      "translated_peptide": "Vertaalde Peptide",
+      "no_coding_sequence": "Geen coding sequence gedetecteerd."
+    },
+    "sidebar": {
+      "mastery_missions": "Mastery Missies",
+      "active_mission": "Missie: {{target}}",
+      "active_mission_prompt": "Maak: {{target}}",
+      "cancel": "Annuleer",
+      "mission_silent": "Missie: Silent (Stil)",
+      "mission_missense": "Missie: Missense",
+      "mission_nonsense": "Missie: Nonsense (STOP)",
+      "dna_editor": "DNA Editor",
+      "example_covid": "Corona Spike",
+      "example_insulin": "Insuline",
+      "base_selection": "Base Selectie",
+      "no_base_selected": "Klik op de DNA Helix om een base te selecteren.",
+      "protein_db": "Eiwit Database",
+      "viewer_mode": "Viewer Modus",
+      "real_time": "Real-time",
+      "pdb": "PDB",
+      "replication_mode": "DNA Replicatie",
+      "lab_tools": "Lab Gereedschap",
+      "tool_gel": "Gel Elektro",
+      "tool_pcr": "PCR Therm.",
+      "tool_crispr": "CRISPR-Cas9 Visualisator"
+    }
+  },
+  "microscopy": {
+    "title": "Virtuele Microscoop",
+    "description": "Virtuele Microscoop & Cel Analyse",
+    "stage": {
+      "subtitle": "Optisch Systeem Actief",
+      "plant_cell": "Plantencel",
+      "animal_cell": "Dierlijke Cel",
+      "select_specimen": "Selecteer Specimen",
+      "specimen_info": "Specimen Info",
+      "plant_description": "Kenmerkt zich door een stevige celwand, een grote centrale vacuole en bladgroenkorrels (chloroplasten) voor fotosynthese.",
+      "animal_description": "Heeft geen celwand of chloroplasten. De vorm is variabel en wordt behouden door het cytoskelet.",
+      "no_specimen": "Gebruik het zijpaneel om een preparaat onder de microscoop te leggen.",
+      "magnification": "VERG",
+      "light": "LICHT"
+    },
+    "sidebar": {
+      "slides": "Preparaten",
+      "plant_cell": "Plantencel",
+      "animal_cell": "Dierlijke Cel",
+      "optical_controls": "Optische Controles",
+      "magnification": "Vergroting",
+      "brightness": "Helderheid",
+      "contrast": "Contrast"
+    },
+    "analysis": {
+      "cellular_composition": "Cellulaire Compositie (%)",
+      "select_slide_prompt": "Selecteer een preparaat voor automatische beeldherkenning en cel-analyse.",
+      "source": "Bron"
+    }
+  },
+  "ecology": {
+    "title": "Ecologie Simulator",
+    "description": "Populatie Dynamica & Voedselwebben",
+    "stage": {
+      "subtitle": "Biosfeer Simulatie",
+      "title": "Lotka-Volterra Dynamica"
+    },
+    "sidebar": {
+      "environment_vars": "Milieu Variabelen",
+      "growth_rate_prey": "Groeisnelheid Prooi",
+      "consumption_rate": "Consumptiesnelheid",
+      "efficiency_predator": "Efficiëntie Roofdier",
+      "mortality_predator": "Sterftecijfer Roofdier",
+      "carrying_capacity": "Draagkracht (K)",
+      "reset_population": "Reset Populatie",
+      "add_prey": "Extra Prooi"
+    },
+    "analysis": {
+      "phase_portrait": "Phase Portrait (Predator vs Prey)",
+      "system_energy": "Systeem Energie (Totaal)",
+      "prey": "Prooi",
+      "predator": "Rover"
+    }
+  },
+  "physiology": {
+    "title": "Fysiologie & Anatomie",
+    "description": "Menselijk Lichaam & Organen",
+    "stage": {
+      "subtitle": "Anatomische Diagnostiek",
+      "select_system": "Selecteer Systeem",
+      "heart_rate": "Hartslag"
+    },
+    "sidebar": {
+      "anatomical_systems": "Anatomische Systemen",
+      "circulatory": "Bloedsomloop",
+      "respiratory": "Ademhaling",
+      "nervous": "Zenuwstelsel",
+      "endocrine": "Hormoonstelsel",
+      "stress_test": "Stress Test",
+      "physical_exertion": "Fysieke Inspanning (Hartslag)"
+    },
+    "parameters": {
+      "blood_pressure_syst": "Bloeddruk (Syst.)",
+      "blood_pressure_diast": "Bloeddruk (Diast.)",
+      "oxygen_saturation": "Zuurstofverzadiging",
+      "cardiac_output": "Hartminuutvolume",
+      "stroke_volume": "Slagvolume",
+      "respiratory_rate": "Ademhalingsfrequentie",
+      "map": "Gemiddelde Arteriële Druk (MAP)",
+      "normal": "Normaal",
+      "homeostasis": "Homeostase",
+      "optimal": "Optimaal",
+      "elevated": "Verhoogd",
+      "high_stress": "Hoge Stress",
+      "bradycardia": "Bradycardie"
+    },
+    "analysis": {
+      "ecg_monitor": "Real-time ECG Monitor",
+      "system_analysis": "Systeem Analyse",
+      "sympathetic": "Sympatisch Zenuwstelsel",
+      "parasympathetic": "Parasympatisch"
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "title": "Coach Socratique Pro",
+  "desc": "Votre tuteur IA personnel qui vous fait réfléchir.",
+  "intro": "Salut! Je suis votre coach socratique. Choisissez un rôle et posez-moi une question.",
+  "input": "Tapez votre question ici...",
+  "thinking": "Réflexion...",
+  "speak": "Parler",
+  "stop": "Arrêter",
+  "liveTitle": "Conversation en Direct",
+  "liveDesc": "Pratiquez oralement comme si vous étiez face à un professeur.",
+  "listen": "Écouter",
+  "roles": {
+    "label": "Choisissez votre Coach:",
+    "mentor": "Mentor Patient",
+    "strict": "Entraîneur d'Examen Strict",
+    "quiz": "Maître du Quiz",
+    "peer": "Partenaire d'Étude"
+  },
+  "actions": {
+    "finish": "Terminer Session",
+    "summary_title": "Résumé",
+    "action_items": "Points d'Action",
+    "download_notes": "Sauvegarder Notes"
+  }
+}

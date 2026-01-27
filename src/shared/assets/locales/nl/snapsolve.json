@@ -1,0 +1,16 @@
+{
+  "title": "Snap Solve",
+  "subtitle": "AI-gedreven visuele analyse",
+  "upload": "Upload / Snap",
+  "upload_sub": "Afbeelding of Video",
+  "btn_select": "Kies Bestand",
+  "btn_analyze": "START ANALYSE",
+  "analyzing": "Analyse bezig...",
+  "thinking": "Nadenken...",
+  "mode_select": "MODUS SELECTEREN",
+  "mode_solution": "Oplossing",
+  "mode_coach": "Coach",
+  "waiting": "Wachten op Media",
+  "ai_analysis": "AI ANALYSE",
+  "socratic_prompt": "Gebruiker wil hulp bij deze opgave. Start een Socratisch gesprek."
+}

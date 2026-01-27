@@ -1,0 +1,9 @@
+{
+  "title": "Visual Lab (Veo)",
+  "desc": "Generate & Animate educational videos.",
+  "vid_title": "Veo Video Generator",
+  "vid_desc": "Generate 1080p educational clips from Text or Animate an Image.",
+  "prompt": "Describe a video (e.g. A 3D animation of DNA replication)",
+  "img_title": "Diagram Generator",
+  "img_prompt": "Describe a diagram (e.g. Cross-section of a plant cell)"
+}

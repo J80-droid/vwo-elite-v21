@@ -1,0 +1,217 @@
+[
+  {
+    "id": "wo-tudelft-cs",
+    "name": "Computer Science and Engineering",
+    "institution": "TU Delft",
+    "type": "WO Bachelor",
+    "language": "en",
+    "profiles": ["NT"],
+    "requirements": ["Wiskunde B"],
+    "admissionRequirements": {
+      "minGrades": {
+        "Wiskunde B": 7.0
+      },
+      "mandatorySubjects": ["Wiskunde B"]
+    },
+    "description": "Leer software en computersystemen van binnen en buiten kennen.",
+    "sectors": ["Techniek", "ICT"],
+    "city": "Delft",
+    "stats": {
+      "startingSalary": 3400,
+      "roa": "Zeer Goed",
+      "studentSatisfaction": 4.2
+    },
+    "numerusFixus": true
+  },
+  {
+    "id": "wo-tudelft-lr",
+    "name": "Luchtvaart- en Ruimtevaarttechniek",
+    "institution": "TU Delft",
+    "type": "WO Bachelor",
+    "language": "en",
+    "profiles": ["NT"],
+    "requirements": ["Wiskunde B", "Natuurkunde"],
+    "admissionRequirements": {
+      "minGrades": {
+        "Wiskunde B": 7.5,
+        "Natuurkunde": 7.5
+      },
+      "mandatorySubjects": ["Wiskunde B", "Natuurkunde"]
+    },
+    "description": "Ontwerp vliegtuigen, satellieten en windturbines.",
+    "sectors": ["Techniek", "Luchtvaart"],
+    "city": "Delft",
+    "numerusFixus": true,
+    "stats": {
+      "startingSalary": 3200,
+      "roa": "Goed",
+      "studentSatisfaction": 4.5
+    }
+  },
+  {
+    "id": "wo-uva-med",
+    "name": "Geneeskunde",
+    "institution": "UvA",
+    "type": "WO Bachelor",
+    "language": "nl",
+    "profiles": ["NG", "NT"],
+    "requirements": ["Natuurkunde", "Scheikunde", "Biologie", "Wiskunde A/B"],
+    "admissionRequirements": {
+      "mandatorySubjects": ["Natuurkunde", "Scheikunde", "Biologie"]
+    },
+    "description": "De weg naar het arts-zijn.",
+    "sectors": ["Gezondheid"],
+    "city": "Amsterdam",
+    "numerusFixus": true,
+    "stats": {
+      "startingSalary": 3600,
+      "roa": "Utstekend",
+      "studentSatisfaction": 4.1
+    }
+  },
+  {
+    "id": "wo-eur-iba",
+    "name": "International Business Administration",
+    "institution": "Erasmus Universiteit",
+    "type": "WO Bachelor",
+    "language": "en",
+    "profiles": ["EM", "CM", "NG", "NT"],
+    "requirements": ["Wiskunde A/B"],
+    "admissionRequirements": {
+      "minGrades": {
+        "Engels": 7.0,
+        "Wiskunde A": 7.0
+      },
+      "mandatorySubjects": ["Wiskunde A"]
+    },
+    "description": "Bedrijfskunde met een internationale focus.",
+    "sectors": ["Economie", "Management"],
+    "city": "Rotterdam",
+    "numerusFixus": true,
+    "stats": {
+      "startingSalary": 3100,
+      "roa": "Goed",
+      "studentSatisfaction": 4.0
+    }
+  },
+  {
+    "id": "wo-leiden-psy",
+    "name": "Psychologie",
+    "institution": "Universiteit Leiden",
+    "type": "WO Bachelor",
+    "language": "en/nl",
+    "profiles": ["EM", "CM", "NG", "NT"],
+    "requirements": ["Wiskunde A/B"],
+    "admissionRequirements": {
+      "mandatorySubjects": ["Wiskunde A"]
+    },
+    "description": "Bestudeer menselijk gedrag en mentale processen.",
+    "sectors": ["Gedrag", "Maatschappij"],
+    "city": "Leiden",
+    "numerusFixus": true,
+    "stats": {
+      "startingSalary": 2700,
+      "roa": "Matig",
+      "studentSatisfaction": 3.9
+    }
+  },
+  {
+    "id": "wo-ut-create",
+    "name": "Creative Technology",
+    "institution": "Universiteit Twente",
+    "type": "WO Bachelor",
+    "language": "en",
+    "profiles": ["NT", "NG", "EM", "CM"],
+    "requirements": ["Wiskunde B"],
+    "admissionRequirements": {
+      "mandatorySubjects": ["Wiskunde B"]
+    },
+    "description": "Combineer techniek met creativiteit en design.",
+    "sectors": ["Design", "Techniek"],
+    "city": "Enschede",
+    "stats": {
+      "startingSalary": 3000,
+      "roa": "Goed",
+      "studentSatisfaction": 4.3
+    }
+  },
+  {
+    "id": "wo-uu-rechtsgeleerdheid",
+    "name": "Rechtsgeleerdheid",
+    "institution": "Universiteit Utrecht",
+    "type": "WO Bachelor",
+    "language": "nl",
+    "profiles": ["CM", "EM", "NG", "NT"],
+    "requirements": [],
+    "admissionRequirements": {},
+    "description": "Verdiep je in het Nederlandse rechtssysteem.",
+    "sectors": ["Recht", "Maatschappij"],
+    "city": "Utrecht",
+    "stats": {
+      "startingSalary": 2900,
+      "roa": "Redelijk",
+      "studentSatisfaction": 3.8
+    }
+  },
+  {
+    "id": "wo-rug-aib",
+    "name": "Artificial Intelligence",
+    "institution": "Rijksuniversiteit Groningen",
+    "type": "WO Bachelor",
+    "language": "en",
+    "profiles": ["NT", "NG"],
+    "requirements": ["Wiskunde B"],
+    "admissionRequirements": {
+      "mandatorySubjects": ["Wiskunde B"]
+    },
+    "description": "Onderzoek intelligentie in mens en machine.",
+    "sectors": ["ICT", "Cognitieve Wetenschap"],
+    "city": "Groningen",
+    "numerusFixus": true,
+    "stats": {
+      "startingSalary": 3300,
+      "roa": "Zeer Goed",
+      "studentSatisfaction": 4.4
+    }
+  },
+  {
+    "id": "wo-wur-bio",
+    "name": "Biologie",
+    "institution": "Wageningen University",
+    "type": "WO Bachelor",
+    "language": "nl",
+    "profiles": ["NG", "NT"],
+    "requirements": ["Biologie", "Scheikunde", "Wiskunde A/B"],
+    "admissionRequirements": {
+      "mandatorySubjects": ["Biologie", "Scheikunde", "Wiskunde A"]
+    },
+    "description": "Bestudeer het leven van molecuul tot ecosysteem.",
+    "sectors": ["Natuur", "Onderzoek"],
+    "city": "Wageningen",
+    "stats": {
+      "startingSalary": 2800,
+      "roa": "Redelijk",
+      "studentSatisfaction": 4.7
+    }
+  },
+  {
+    "id": "wo-tue-id",
+    "name": "Industrial Design",
+    "institution": "TU Eindhoven",
+    "type": "WO Bachelor",
+    "language": "en",
+    "profiles": ["NT", "NG"],
+    "requirements": ["Wiskunde B", "Natuurkunde"],
+    "admissionRequirements": {
+      "mandatorySubjects": ["Wiskunde B", "Natuurkunde"]
+    },
+    "description": "Ontwerp intelligente systemen en producten voor de toekomst.",
+    "sectors": ["Design", "Techniek"],
+    "city": "Eindhoven",
+    "stats": {
+      "startingSalary": 3100,
+      "roa": "Goed",
+      "studentSatisfaction": 4.0
+    }
+  }
+]

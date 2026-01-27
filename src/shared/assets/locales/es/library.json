@@ -1,0 +1,141 @@
+{
+  "title": "Biblioteca Inteligente",
+  "modules": {
+    "browse": "Navegar",
+    "search": "Buscar",
+    "network": "Red"
+  },
+  "header": {
+    "subtitle": "Centro de Conocimiento Neural • Dominio impulsado por IA",
+    "new_lesson_btn": "Generar Nueva Lección"
+  },
+  "stats": {
+    "metacognition": "Metacognición",
+    "mastery_label": "Dominio VWO",
+    "levels": {
+      "elite": "Élite",
+      "progressing": "Progresando"
+    },
+    "focus_advice": "Consejo de Enfoque IA"
+  },
+  "advice": {
+    "weak_topics": "Tu dominio de {topic} muestra lagunas en el patrón neural. Recomendamos generar un nuevo módulo de Análisis y Comprensión sobre este tema.",
+    "stable": "Tus patrones neurales son estables. Sigue repasando para mantener la retención al 100%. Considera una prueba de simulación para entrenar tu velocidad."
+  },
+  "tabs": {
+    "overview": "Resumen",
+    "literature": "Lista de Lectura",
+    "skills": "Habilidades",
+    "oral": "Examen Oral",
+    "solver": "Solucionador Paso a Paso"
+  },
+  "library": {
+    "title": "Biblioteca",
+    "search_placeholder": "Buscar fuentes...",
+    "no_sources": "No se encontraron fuentes en esta biblioteca",
+    "add_source": "Añadir Fuente",
+    "add_subject": "Añadir Asignatura",
+    "add_subject_desc": "Personaliza tu cuadrícula"
+  },
+  "subjects": {
+    "math_a": "Matemáticas A",
+    "math_b": "Matemáticas B",
+    "physics": "Física",
+    "chemistry": "Química",
+    "biology": "Biología",
+    "dutch": "Holandés",
+    "english": "Inglés",
+    "french": "Francés",
+    "german": "Alemán",
+    "spanish": "Español",
+    "classics": "Clásicos (Latín)",
+    "greek": "Griego",
+    "economics": "Economía",
+    "business": "Economía Empresarial",
+    "history": "Historia",
+    "geography": "Geografía",
+    "social_studies": "Estudios Sociales",
+    "philosophy": "Filosofía",
+    "psychology": "Psicología",
+    "cs": "Informática",
+    "art": "Arte (CKV)"
+  },
+  "config": {
+    "title": "Configurar Módulo",
+    "subtitle": "Configura tu ruta de aprendizaje neural",
+    "selected_context": "Contexto Seleccionado",
+    "active_count": "Activo",
+    "step_1": "1. Elige tu Misión",
+    "step_2": "2. Área de Enfoque",
+    "topic_placeholder": "Ej. Era 5, Cálculo Diferencial...",
+    "generating": "Generando ruta neural...",
+    "generate_btn": "Generar Módulo",
+    "start_sim_btn": "Iniciar Simulación",
+    "craap_active": "Protocolo CRAAP Activado",
+    "sync_text": "Sincronizando redes neurales..."
+  },
+  "modes": {
+    "recap": {
+      "label": "Conocimiento",
+      "desc": "Resumen y Hechos"
+    },
+    "deep": {
+      "label": "Comprensión",
+      "desc": "Conexiones y Explicaciones"
+    },
+    "exam": {
+      "label": "Aplicación",
+      "desc": "Entrenamiento de Examen"
+    },
+    "analysis": {
+      "label": "Análisis",
+      "desc": "Crítica de Fuentes e Investigación"
+    },
+    "argument": {
+      "label": "Argumentación",
+      "desc": "Ensayo y Debate"
+    },
+    "oral": {
+      "label": "Oral",
+      "desc": "Simulación y Literatura"
+    }
+  },
+  "modals": {
+    "titles": {
+      "note": "Nueva Nota",
+      "url": "URL del Sitio Web",
+      "youtube": "Enlace de YouTube",
+      "wikipedia": "Artículo de Wikipedia",
+      "search": "Búsqueda Web",
+      "save_set": "Guardar Conjunto de Contexto"
+    },
+    "labels": {
+      "title": "Título (Opcional)",
+      "content": "Contenido",
+      "url": "URL / Enlace"
+    },
+    "placeholders": {
+      "title": "Nombra tu fuente...",
+      "content": "Escribe o pega información aquí...",
+      "url": "https://example.com/...",
+      "search": "¿Qué quieres buscar?"
+    },
+    "add_btn": "Añadir Fuente",
+    "delete_title": "¿Eliminar Lección?",
+    "delete_desc": "Esto no se puede deshacer.",
+    "cancel": "Cancelar",
+    "delete": "Eliminar"
+  },
+  "tile": {
+    "no_data": "Sin datos",
+    "test_planned": "Examen programado",
+    "no_planning": "Sin planificación",
+    "since_last_test": "Desde el último examen",
+    "no_tests_taken": "No se han realizado exámenes",
+    "status": {
+      "mastery": "Dominio",
+      "on_track": "En camino",
+      "warning": "Atención"
+    }
+  }
+}

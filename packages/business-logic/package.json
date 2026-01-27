@@ -1,0 +1,12 @@
+{
+  "name": "@vwo/business-logic",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./index.ts",
+  "dependencies": {
+    "@vwo/shared-types": "workspace:*",
+    "mathjs": "^14.0.1",
+    "xstate": "^5.25.1"
+  }
+}

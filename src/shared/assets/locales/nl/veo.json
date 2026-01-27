@@ -1,0 +1,9 @@
+{
+  "title": "Visueel Lab (Veo)",
+  "desc": "Genereer & Animeer educatieve video's.",
+  "vid_title": "Veo Video Generator",
+  "vid_desc": "Genereer 1080p educatieve clips van Tekst of Animeer een Afbeelding.",
+  "prompt": "Beschrijf een video (bijv. Een 3D animatie van DNA replicatie)",
+  "img_title": "Diagram Generator",
+  "img_prompt": "Beschrijf een diagram (bijv. Doorsnede van een plantencel)"
+}

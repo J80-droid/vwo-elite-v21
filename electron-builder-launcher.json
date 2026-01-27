@@ -1,0 +1,21 @@
+{
+    "appId": "com.vwo.elite.setup",
+    "productName": "VWO Elite Setup",
+    "directories": {
+        "output": "dist/launcher-build"
+    },
+    "asar": true,
+    "files": [
+        "apps/launcher/src/**/*",
+        "apps/launcher/public/**/*",
+        "apps/launcher/package.json"
+    ],
+    "win": {
+        "target": "portable",
+        "icon": "public/android-chrome-512x512.png"
+    },
+    "portable": {
+        "artifactName": "${productName}.${ext}",
+        "requestExecutionLevel": "user"
+    }
+}

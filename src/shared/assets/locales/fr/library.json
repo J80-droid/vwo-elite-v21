@@ -1,0 +1,141 @@
+{
+  "title": "Bibliothèque Intelligente",
+  "modules": {
+    "browse": "Parcourir",
+    "search": "Recherche",
+    "network": "Réseau"
+  },
+  "header": {
+    "subtitle": "Hub de Connaissances Neurales • Maîtrise par l'IA",
+    "new_lesson_btn": "Générer Nouvelle Leçon"
+  },
+  "stats": {
+    "metacognition": "Métacognition",
+    "mastery_label": "Maîtrise VWO",
+    "levels": {
+      "elite": "Élite",
+      "progressing": "En progrès"
+    },
+    "focus_advice": "Conseil Focus IA"
+  },
+  "advice": {
+    "weak_topics": "Votre maîtrise de {topic} montre des lacunes dans le schéma neural. Nous recommandons de générer un nouveau module Analyse & Compréhension sur ce sujet.",
+    "stable": "Vos schémas neuraux sont stables. Continuez à réviser pour maintenir la rétention à 100%. Envisagez un test de simulation pour entraîner votre vitesse."
+  },
+  "tabs": {
+    "overview": "Aperçu",
+    "literature": "Liste de Lecture",
+    "skills": "Compétences",
+    "oral": "Oral",
+    "solver": "Résolveur d'Étapes"
+  },
+  "library": {
+    "title": "Bibliothèque",
+    "search_placeholder": "Rechercher des sources...",
+    "no_sources": "Aucune source trouvée dans cette bibliothèque",
+    "add_source": "Ajouter une Source",
+    "add_subject": "Ajouter une Matière",
+    "add_subject_desc": "Personnalisez votre grille"
+  },
+  "subjects": {
+    "math_a": "Mathématiques A",
+    "math_b": "Mathématiques B",
+    "physics": "Physique",
+    "chemistry": "Chimie",
+    "biology": "Biologie",
+    "dutch": "Néerlandais",
+    "english": "Anglais",
+    "french": "Français",
+    "german": "Allemand",
+    "spanish": "Espagnol",
+    "classics": "Classiques (Latin)",
+    "greek": "Grec",
+    "economics": "Économie",
+    "business": "Économie d'Entreprise",
+    "history": "Histoire",
+    "geography": "Géographie",
+    "social_studies": "Sciences Sociales",
+    "philosophy": "Philosophie",
+    "psychology": "Psychologie",
+    "cs": "Informatique",
+    "art": "Art (CKV)"
+  },
+  "config": {
+    "title": "Configurer le Module",
+    "subtitle": "Définissez votre parcours d'apprentissage neural",
+    "selected_context": "Contexte Sélectionné",
+    "active_count": "Actif",
+    "step_1": "1. Choisissez votre Mission",
+    "step_2": "2. Zone de Focus",
+    "topic_placeholder": "Ex. Époque 5, Calcul Différentiel...",
+    "generating": "Génération du chemin neural...",
+    "generate_btn": "Générer le Module",
+    "start_sim_btn": "Démarrer Simulation",
+    "craap_active": "Protocole CRAAP Activé",
+    "sync_text": "Synchronisation des réseaux neuraux..."
+  },
+  "modes": {
+    "recap": {
+      "label": "Connaissance",
+      "desc": "Récapitulatif & Faits"
+    },
+    "deep": {
+      "label": "Compréhension",
+      "desc": "Connexions & Explications"
+    },
+    "exam": {
+      "label": "Application",
+      "desc": "Entraînement Examen"
+    },
+    "analysis": {
+      "label": "Analyse",
+      "desc": "Critique de Source & Recherche"
+    },
+    "argument": {
+      "label": "Argumentation",
+      "desc": "Essai & Débat"
+    },
+    "oral": {
+      "label": "Oral",
+      "desc": "Simulation & Littérature"
+    }
+  },
+  "modals": {
+    "titles": {
+      "note": "Nouvelle Note",
+      "url": "URL du Site Web",
+      "youtube": "Lien YouTube",
+      "wikipedia": "Article Wikipédia",
+      "search": "Recherche Web",
+      "save_set": "Enregistrer le Set de Contexte"
+    },
+    "labels": {
+      "title": "Titre (Optionnel)",
+      "content": "Contenu",
+      "url": "URL / Lien"
+    },
+    "placeholders": {
+      "title": "Nommez votre source...",
+      "content": "Tapez ou collez vos informations ici...",
+      "url": "https://example.com/...",
+      "search": "Que voulez-vous chercher ?"
+    },
+    "add_btn": "Ajouter Source",
+    "delete_title": "Supprimer la Leçon ?",
+    "delete_desc": "Ceci ne peut pas être annulé.",
+    "cancel": "Annuler",
+    "delete": "Supprimer"
+  },
+  "tile": {
+    "no_data": "Pas de données",
+    "test_planned": "Test prévu",
+    "no_planning": "Pas de planning",
+    "since_last_test": "Depuis dernier test",
+    "no_tests_taken": "Aucun test passé",
+    "status": {
+      "mastery": "Maîtrise",
+      "on_track": "En bonne voie",
+      "warning": "Attention"
+    }
+  }
+}

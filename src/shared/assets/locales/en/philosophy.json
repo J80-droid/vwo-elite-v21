@@ -1,0 +1,16 @@
+{
+  "title": "Philosophy Lab",
+  "modules": {
+    "dialogue": "Socratic Dialogue",
+    "logic": "Logic Lab",
+    "ethics": "Ethics Lab",
+    "concept-matrix": "Concept Matrix",
+    "exam": "Exam Trainer",
+    "techno_human": "Techno-Anthropology Lab",
+    "battle": "Philosophical Battle",
+    "science": "Science Lab",
+    "society": "Maren Wehrle Lab",
+    "analysis": "Text Analysis"
+  },
+  "hub_description": "Explore the depths of human thought through Socratic dialogues, formal logic, and ethical exploration."
+}

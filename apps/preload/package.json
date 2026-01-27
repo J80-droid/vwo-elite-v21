@@ -1,0 +1,14 @@
+{
+  "name": "@vwo/preload",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@vwo/shared-types": "workspace:*",
+    "electron": "^35.7.5",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/electron": "^1.6.12"
+  }
+}

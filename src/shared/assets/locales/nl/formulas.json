@@ -1,0 +1,23 @@
+{
+  "search": "Zoek Formules",
+  "search_placeholder": "Zoek op naam of symbool (bijv. F=ma)...",
+  "solver_error": "Kan niet berekenen. Controleer je waarden.",
+  "graph_title": "Dynamische Analyse",
+  "graph_unavailable": "Voer waarden in voor grafiek",
+  "fill_values": "Vul waarden in om impact te zien",
+  "category_physics": "Natuurkunde",
+  "category_chemistry": "Scheikunde",
+  "category_math": "Wiskunde",
+  "no_formula": "Selecteer een formule om te beginnen",
+  "select_formula": "Selecteer een formule",
+  "variables": "Grootheden & Eenheden",
+  "solve_hint": "Kies de variabele die je wilt berekenen door op 'DOEL' te klikken.",
+  "result": "Resultaat",
+  "calculate": "Berekenen",
+  "open_browser": "Open Bibliotheek",
+  "close_browser": "Sluit Bibliotheek",
+  "mechanics": "Mechanica",
+  "electricity": "Elektriciteit",
+  "thermodynamics": "Thermodynamica",
+  "waves": "Golven"
+}
