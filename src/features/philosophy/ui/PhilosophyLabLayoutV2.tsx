@@ -20,6 +20,11 @@ import { PhilosophyHub } from "./PhilosophyHub";
 // Categories for the sidebar
 const NAV_CATEGORIES: LabNavCategory[] = [
   {
+    id: "training",
+    label: (t: any) => t("philosophy.categories.training", "Training"),
+    modules: ["gym"],
+  },
+  {
     id: "core",
     label: (t: any) => t("philosophy.categories.core", "Kernmethodes"),
     modules: ["dialogue", "logic", "ethics", "concept-matrix"],
@@ -93,6 +98,12 @@ const MODULE_COMPONENTS: Record<
     Stage: React.lazy(() => import("./modules/exam/index").then(m => ({ default: (m as any).ExamTrainer }))),
     Sidebar: React.lazy(() => import("./modules/exam/index").then(m => ({ default: (m as any).ExamSidebar }))),
   },
+  gym: {
+    Stage: React.lazy(async () => {
+      const m = await import("./gym/PhilosophyGymStage");
+      return { default: m.PhilosophyGymStage };
+    }),
+  },
 };
 
 const PhilosophyLabLayoutInner: React.FC = () => {
@@ -165,6 +176,7 @@ const PhilosophyLabLayoutInner: React.FC = () => {
           themes={MODULE_THEMES as any}
           defaultTheme={DEFAULT_THEME}
           labTitle="Philosophy Mod"
+          onBack={() => navigate("/philosophy")}
         />
 
         {/* 2. MAIN CONTENT AREA (Flex Row for Controls + Stage) */}
@@ -230,6 +242,7 @@ export const PhilosophyLabLayoutV2 = (props: { initialModule?: string }) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
+            className="w-full h-full"
           >
             <PhilosophyLabLayoutInner />
           </motion.div>

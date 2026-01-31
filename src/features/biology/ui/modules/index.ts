@@ -1,13 +1,4 @@
 // Biology Lab Module Imports - Centralized Registration
-import { registerModule } from "../../api/registry";
-import { ecologyConfig } from "./ecology/config";
-import { genomicsConfig } from "./genomics/config";
-import { microscopyConfig } from "./microscopy/config";
-import { physiologyConfig } from "./physiology/config";
-import { proteinConfig } from "./protein/config";
-
-registerModule(genomicsConfig);
-registerModule(microscopyConfig);
-registerModule(ecologyConfig);
-registerModule(physiologyConfig);
-registerModule(proteinConfig);
+// Registration is now handled in api/registry.ts to avoid circular dependencies
+// This file is kept if needed for future distinct module loading logic, or it can be deprecated.
+export { };

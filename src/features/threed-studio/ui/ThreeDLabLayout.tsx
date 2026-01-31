@@ -412,7 +412,7 @@ const ThreeDLabLayoutInner: React.FC = () => {
     : null;
 
   return (
-    <div className="flex h-screen bg-black overflow-hidden relative font-outfit">
+    <div className="flex h-full bg-black overflow-hidden relative font-outfit">
       {/* 1. STAGE (Main Visualization Layer) */}
       <div
         id="threed-stage"
@@ -497,6 +497,7 @@ const ThreeDLabLayoutInner: React.FC = () => {
                     themes={MODULE_THEMES as any}
                     defaultTheme={DEFAULT_THEME}
                     labTitle="3D Studio"
+                    onBack={() => navigate("/3d-studio")}
                   />
                   {/* Active Module Stage */}
                   <div className="flex-1 relative overflow-hidden">

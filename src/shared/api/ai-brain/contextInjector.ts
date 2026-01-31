@@ -93,12 +93,12 @@ export class ContextInjector {
     }
 
     const fullContext = `
-[GEPERSONALISEERDE CONTEXT]
+<personalized_context>
 Gebruik onderstaande informatie om je antwoord beter af te stemmen op de student. 
 Verwijs alleen naar de bibliotheek-context als dat relevant is voor de vraag.
 
 ${sections.join("\n\n")}
-[/GEPERSONALISEERDE CONTEXT]
+</personalized_context>
         `.trim();
 
     return {

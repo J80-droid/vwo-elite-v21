@@ -4,6 +4,7 @@ import type {
   ModelParams,
 } from "@google/generative-ai";
 import { resolveModel } from "@shared/lib/modelDefaults";
+import type { AIConfig } from "./providers/types";
 
 const getStoredKey = () => {
   if (typeof localStorage === "undefined") return "";
@@ -68,12 +69,16 @@ export interface GeminiGenerateOptions {
   stopSequences?: string[] | string;
   jsonMode?: boolean;
   apiKey?: string;
-  aiConfig?: unknown;
-  tools?: FunctionDeclaration[]; // For MCP Tool definitions
+  aiConfig?: AIConfig;
+  tools?: FunctionDeclaration[];
   inlineImages?: { mimeType: string; data: string }[];
   inlineMedia?: { mimeType: string; data: string }[];
   messages?: { role: string; content: string }[];
   signal?: AbortSignal;
+  // Expert Parameters
+  seed?: number;
+  typicalP?: number;
+  minP?: number;
 }
 
 export const geminiGenerate = async (
@@ -106,6 +111,7 @@ export const geminiGenerate = async (
     presencePenalty?: number;
     stopSequences?: string[];
     responseMimeType?: string;
+    seed?: number;
   } = {
     temperature: options.temperature ?? 0.7,
     maxOutputTokens: options.maxTokens ?? 2048,
@@ -114,6 +120,8 @@ export const geminiGenerate = async (
     frequencyPenalty: options.frequencyPenalty,
     presencePenalty: options.presencePenalty,
     stopSequences: typeof options.stopSequences === 'string' ? [options.stopSequences] : options.stopSequences,
+    // ELITE: Map Expert Params
+    seed: options.seed,
   };
 
   if (options.jsonMode) {

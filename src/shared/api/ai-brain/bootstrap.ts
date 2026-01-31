@@ -5,39 +5,45 @@
 
 import { getToolRegistry } from "./ToolRegistry";
 import { registerEducationTools } from "./tools/educationTools";
+import { registerExternalTools } from "./tools/externalTools";
+import { registerLanguageTools } from "./tools/languageTools";
 import { registerMathTools } from "./tools/mathTools";
+import { registerMediaTools } from "./tools/mediaTools";
+import { registerPlanningTools } from "./tools/planningTools";
 import { registerResearchTools } from "./tools/researchTools";
+import { registerScienceTools } from "./tools/scienceTools";
 
 let isInitialized = false;
+let initPromise: Promise<void> | null = null;
 
 /**
  * Initialize the AI Brain with all registered tools
  * Call this once at application startup
  */
 export async function initializeAIBrain(): Promise<void> {
-    if (isInitialized) {
-        console.log("[AIBrain] Already initialized, skipping.");
-        return;
-    }
+    if (isInitialized) return;
+    if (initPromise) return initPromise;
 
-    console.log("[AIBrain] Initializing tool registry...");
+    initPromise = (async () => {
+        console.log("[AIBrain] Initializing tool registry...");
 
-    // Register all tool categories
-    registerEducationTools();
-    registerMathTools();
-    registerResearchTools();
+        // Register all tool categories
+        registerEducationTools();
+        registerMathTools();
+        registerResearchTools();
+        registerScienceTools();
+        registerLanguageTools();
+        registerPlanningTools();
+        registerMediaTools();
+        registerExternalTools();
 
-    // Future: Add more tool registrations here as they are migrated
-    // registerScienceTools();
-    // registerLanguageTools();
-    // registerPlanningTools();
-    // registerMediaTools();
-    // registerExternalTools();
+        const registry = getToolRegistry();
+        console.log(`[AIBrain] Initialized with ${registry.size} registered tools.`);
 
-    const registry = getToolRegistry();
-    console.log(`[AIBrain] Initialized with ${registry.size} registered tools.`);
+        isInitialized = true;
+    })();
 
-    isInitialized = true;
+    return initPromise;
 }
 
 /**

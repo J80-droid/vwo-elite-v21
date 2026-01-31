@@ -101,12 +101,12 @@ export const TrigEngine: GymEngine = {
         const isSin = Math.random() > 0.5;
         return {
           id: `trig-1-${timestamp}`,
-          question: isSin ? `\\sin(${val.rad})` : `\\cos(${val.rad})`,
+          question: isSin ? `$$\\sin(${val.rad})$$` : `$$\\cos(${val.rad})$$`,
           answer: isSin ? val.sin : val.cos,
           context: "Geef de exacte waarde",
           solutionSteps: [
-            `Kijk in de eenheidscirkel bij hoek ${val.rad}.`,
-            `De ${isSin ? "y-coördinaat (sinus)" : "x-coördinaat (cosinus)"} is ${isSin ? val.sin : val.cos}.`,
+            `Kijk in de eenheidscirkel bij hoek $${val.rad}$.`,
+            `De ${isSin ? "y-coördinaat (sinus)" : "x-coördinaat (cosinus)"} is $${isSin ? val.sin : val.cos}$.`,
           ],
         };
       }
@@ -119,12 +119,12 @@ export const TrigEngine: GymEngine = {
         const isSin = Math.random() > 0.5;
         return {
           id: `trig-2-${timestamp}`,
-          question: isSin ? `\\sin(${val.rad})` : `\\cos(${val.rad})`,
+          question: isSin ? `$$\\sin(${val.rad})$$` : `$$\\cos(${val.rad})$$`,
           answer: isSin ? val.sin : val.cos,
           context: "Geef de exacte waarde",
           solutionSteps: [
-            `Bepaal het kwadrant van ${val.rad} (${val.deg}°).`,
-            `De ${isSin ? "sinus" : "cosinus"} is ${isSin ? val.sin : val.cos}.`,
+            `Bepaal het kwadrant van $${val.rad}$ ($${val.deg}^\\circ$).`,
+            `De ${isSin ? "sinus" : "cosinus"} is $${isSin ? val.sin : val.cos}$.`,
           ],
         };
       }
@@ -137,13 +137,13 @@ export const TrigEngine: GymEngine = {
           if (!val) return TrigEngine.generate(1);
           return {
             id: `trig-3-${timestamp}`,
-            question: `${val.deg}^\\circ`,
+            question: `$${val.deg}^\\circ$`,
             answer: val.rad,
             context: "Reken om naar radialen",
             solutionSteps: [
-              `Omrekenen: hoek / 180 * \\pi.`,
-              `${val.deg} / 180 = ${val.rad.replace("\\frac{", "").replace("}{", "/").replace("}\\pi", "")}`,
-              `Antwoord: ${val.rad}`,
+              `Omrekenen: $\\text{hoek} / 180 \\cdot \\pi$.`,
+              `$${val.deg} / 180 = ${val.rad.replace("\\frac{", "").replace("}{", "/").replace("}\\pi", "")}$`,
+              `Antwoord: $${val.rad}$`,
             ],
           };
         } else {
@@ -152,12 +152,12 @@ export const TrigEngine: GymEngine = {
           if (!val) return TrigEngine.generate(1);
           return {
             id: `trig-3b-${timestamp}`,
-            question: val.rad,
+            question: `$${val.rad}$`,
             answer: `${val.deg}`,
             context: "Reken om naar graden",
             solutionSteps: [
-              `Vervang \\pi door 180 graden.`,
-              `Lijn ${val.rad} komt overeen met ${val.deg} graden.`,
+              `Vervang $\\pi$ door $180$ graden.`,
+              `Lijn $${val.rad}$ komt overeen met $${val.deg}$ graden.`,
             ],
           };
         }
@@ -171,12 +171,12 @@ export const TrigEngine: GymEngine = {
         const isSin = Math.random() > 0.5;
         return {
           id: `trig-4-${timestamp}`,
-          question: `${isSin ? "\\sin(x)" : "\\cos(x)"} = ${isSin ? val.sin : val.cos}`,
+          question: `${isSin ? "$$\\sin(x)" : "$$\\cos(x)"} = ${isSin ? val.sin : val.cos}$$`,
           answer: val.rad,
           context: `Wat is x op [0, \\pi]?`,
           solutionSteps: [
-            `Zoek de hoek in de eenheidscirkel waarbij de ${isSin ? "sinus" : "cosinus"} gelijk is aan ${isSin ? val.sin : val.cos}.`,
-            `Antwoord: ${val.rad}`,
+            `Zoek de hoek in de eenheidscirkel waarbij de ${isSin ? "sinus" : "cosinus"} gelijk is aan $${isSin ? val.sin : val.cos}$.`,
+            `Antwoord: $${val.rad}$`,
           ],
         };
       }

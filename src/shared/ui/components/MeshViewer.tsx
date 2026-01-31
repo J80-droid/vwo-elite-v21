@@ -111,7 +111,9 @@ export function MeshViewer({ url, autoRotate = true, shadows = true }: MeshViewe
     if (assetStatus === "error") {
         return (
             <div className="w-full h-full relative bg-zinc-950/50 rounded-2xl overflow-hidden border border-white/5 flex items-center justify-center">
-                <FallbackMesh />
+                <Canvas camera={{ position: [0, 0, 4], fov: 45 }}>
+                    <FallbackMesh />
+                </Canvas>
             </div>
         );
     }

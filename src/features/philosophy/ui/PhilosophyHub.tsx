@@ -90,13 +90,15 @@ const THEMES = {
   },
 };
 
+import { PhilosophyGymStage } from "./gym/PhilosophyGymStage";
+
 export const PhilosophyHub: React.FC = () => {
   const { t } = useTranslations();
   const navigate = useNavigate();
   const modules = getAllModules();
 
   return (
-    <div className="space-y-12">
+    <div className="h-full w-full overflow-y-auto p-4 md:p-8 custom-scrollbar space-y-12">
       {/* Elite Header - Replicating SmartLibrary Hub feel */}
       <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-violet-900/20 via-obsidian-900 to-black border border-white/5 p-6 md:p-8">
         <div className="absolute top-0 right-0 w-64 h-64 bg-violet-500/10 blur-[100px] rounded-full -mr-32 -mt-32" />
@@ -236,6 +238,27 @@ export const PhilosophyHub: React.FC = () => {
             {t("philosophy.coming_soon")}
           </p>
         </div>
+      </div>
+
+      {/* Embedded Gym Section */}
+      <div className="space-y-6 pt-12 border-t border-white/5">
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="text-3xl font-black text-white uppercase tracking-tight mb-2">
+              Training <span className="text-purple-500">Gym</span>
+            </h2>
+            <p className="text-slate-400 text-sm">
+              Oefen specifieke vaardigheden en concepten
+            </p>
+          </div>
+          <button
+            onClick={() => navigate("/philosophy/gym")}
+            className="px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-xs font-bold text-slate-300 hover:bg-white/10 hover:text-white uppercase tracking-widest transition-all"
+          >
+            Full Screen Gym
+          </button>
+        </div>
+        <PhilosophyGymStage embedded={true} />
       </div>
     </div>
   );

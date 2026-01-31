@@ -120,10 +120,10 @@ export function VoiceChatButton({
                     break;
 
                 case "error":
-                    console.error("[VoiceChat] Error:", event.message);
+                    console.error(`[VoiceChat] Error (${event.reason}): ${event.message}`);
                     setError(event.message);
                     onError?.(event.message);
-                    setIsActive(false);
+                    if (event.fatal) setIsActive(false);
                     break;
             }
         },

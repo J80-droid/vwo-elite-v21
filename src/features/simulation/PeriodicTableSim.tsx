@@ -1,25 +1,19 @@
-/* eslint-disable @typescript-eslint/no-explicit-any -- dynamic element and spectral data */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useVoiceCoachContext } from "@shared/lib/contexts/VoiceCoachContext";
 import { motion } from "framer-motion";
-import { Search, Thermometer } from "lucide-react";
+import { Search } from "lucide-react";
 import React from "react";
 import { useTranslation } from "react-i18next";
 
 import { useModuleState } from "../chemistry";
-import { BohrModel } from "./BohrModel";
-import { CrystalLattice } from "./CrystalLattice";
 import {
   ElementData,
-  getCategoryColor,
   getCategoryHex,
   PERIODIC_DATA,
 } from "./data/PeriodicData";
-import { EmissionSpectrum } from "./EmissionSpectrum";
-import { IsotopeSelector } from "./IsotopeSelector";
-import { OrbitalVisualizer } from "./OrbitalSim";
 
 interface PeriodicTableProps {
-  mode?: "sidebar" | "main";
+  mode?: "sidebar" | "main" | "stage" | "controls";
 }
 
 interface PeriodicState {
@@ -54,7 +48,6 @@ export const PeriodicTableSim: React.FC<PeriodicTableProps> = ({ mode }) => {
     heatmapMode,
     filter,
     activeCategories,
-    viewMode = "bohr",
   } = state;
 
   useVoiceCoachContext(
@@ -216,255 +209,104 @@ export const PeriodicTableSim: React.FC<PeriodicTableProps> = ({ mode }) => {
     );
   };
 
-  if (mode === "sidebar") {
+  if (mode === "controls") {
     return (
-      <div className="h-full flex flex-col p-4 overflow-y-auto space-y-6 custom-scrollbar relative z-10">
-        <div className="bg-obsidian-900 p-4 rounded-xl border border-white/10 shadow-inner">
-          <h3 className="font-bold text-[10px] text-slate-500 uppercase tracking-[0.2em] mb-4 flex items-center gap-2">
-            <Thermometer size={14} className="text-cyan-500" />{" "}
-            {t("periodic_table.trend_visualization")}
-          </h3>
-          <div className="grid grid-cols-1 gap-2">
+      <div className="flex flex-row items-center gap-4">
+        {/* Trend Vis Selection */}
+        <div className="flex bg-black/40 border border-white/5 p-1 rounded-xl items-center gap-1">
+          <span className="text-[8px] font-black text-slate-500 uppercase tracking-widest px-2">Trend</span>
+          <div className="flex gap-0.5 max-w-[300px] overflow-x-auto no-scrollbar">
             {[
-              { id: "none", label: t("periodic_table.trend_none") },
-              {
-                id: "electronegativity",
-                label: t("periodic_table.trend_electronegativity"),
-              },
-              {
-                id: "atomicRadius",
-                label: t("periodic_table.trend_atomic_radius"),
-              },
-              {
-                id: "meltingPoint",
-                label: t("periodic_table.trend_melting_point"),
-              },
-              {
-                id: "boilingPoint",
-                label: t("periodic_table.trend_boiling_point"),
-              },
-              { id: "density", label: t("periodic_table.trend_density") },
+              { id: "none", label: "Geen" },
+              { id: "electronegativity", label: "EN" },
+              { id: "atomicRadius", label: "Radius" },
+              { id: "meltingPoint", label: "Smelt" },
+              { id: "density", label: "Dicht" },
             ].map((m) => (
               <button
                 key={m.id}
                 onClick={() => setHeatmapMode(m.id as any)}
-                className={`btn-elite-glass !w-full !p-2 !rounded-lg !text-[10px] !justify-start !border-transparent ${heatmapMode === m.id ? "btn-elite-cyan active" : "text-slate-500 hover:text-slate-300"}`}
+                className={`px-2 py-1 rounded-lg text-[9px] font-black uppercase transition-all ${heatmapMode === m.id ? 'bg-cyan-500/20 text-cyan-400' : 'text-slate-600 hover:text-slate-400'}`}
               >
                 {m.label}
               </button>
             ))}
           </div>
-          {heatmapMode !== "none" && (
-            <div className="mt-4 animate-in fade-in slide-in-from-top-2">
-              <div className="h-2 w-full rounded-full bg-gradient-to-r from-[hsl(240,80%,50%)] via-[hsl(120,80%,50%)] to-[hsl(0,80%,50%)] mb-1" />
-              <div className="flex justify-between text-[9px] text-slate-500 font-mono">
-                <span>{t("periodic_table.low")}</span>
-                <span>{t("periodic_table.high")}</span>
-              </div>
-            </div>
-          )}
         </div>
 
+        {/* Bonding Calculator info if active */}
         {bondInfo && (
-          <div className="bg-gradient-to-br from-purple-500/10 to-transparent p-4 rounded-xl border border-purple-500/30 animate-in zoom-in-95">
-            <div className="text-[10px] text-purple-400 font-bold uppercase tracking-widest mb-3">
-              {t("periodic_table.bonding_calculator")}
-            </div>
-            <div className="flex items-center justify-between mb-4">
-              <span className="text-xl font-bold text-white">
-                {selected!.symbol}
-              </span>
-              <div className="h-px flex-1 mx-4 bg-gradient-to-r from-cyan-400 to-purple-400 opacity-30" />
-              <span className="text-xl font-bold text-purple-400">
-                {secondarySelected!.symbol}
-              </span>
-            </div>
-            <div className="space-y-3">
-              <div className="flex justify-between text-xs">
-                <span className="text-slate-500">
-                  {t("periodic_table.diff_en")}
-                </span>
-                <span className="font-mono text-white">
-                  {Math.abs(
-                    selected!.electronegativity! -
-                    secondarySelected!.electronegativity!,
-                  ).toFixed(2)}
-                </span>
-              </div>
-              <div
-                className={`p-2 rounded-lg bg-white/5 border border-white/10 text-center text-xs font-bold text-${bondInfo.color}`}
-              >
-                {bondInfo.type}
-              </div>
-            </div>
+          <div className="flex items-center gap-2 bg-indigo-500/5 border border-indigo-500/20 px-3 py-1 rounded-xl">
+            <span className="text-[10px] font-bold text-white">{selected!.symbol}</span>
+            <div className="w-4 h-px bg-white/20" />
+            <span className="text-[10px] font-bold text-indigo-400">{secondarySelected!.symbol}</span>
+            <div className="w-px h-4 bg-white/10 mx-1" />
+            <span className={`text-[9px] font-black uppercase text-${bondInfo.color}`}>{bondInfo.type}</span>
           </div>
         )}
 
-        {selected ? (
-          <div className="bg-slate-900/40 p-4 rounded-xl border border-white/10 shadow-xl animate-in fade-in slide-in-from-right-4">
-            <div className="flex justify-between items-start mb-2">
-              <h2 className="text-2xl font-bold text-white tracking-tight">
-                {selected.name}
-              </h2>
-              <span
-                className={`text-3xl font-mono font-bold text-${getCategoryColor(selected.category)} opacity-80`}
-              >
-                {selected.symbol}
-              </span>
+        {/* Current Selection mini-info */}
+        {selected && (
+          <div className="flex items-center gap-3 bg-white/5 border border-white/5 px-3 py-1 rounded-xl ml-auto">
+            <div className="flex flex-col">
+              <span className="text-[8px] font-black text-slate-500 uppercase leading-none">Massa</span>
+              <span className="text-[10px] font-bold text-white leading-tight">{selected.molarMass || selected.mass}</span>
             </div>
-            <div
-              className={`text-[10px] font-bold text-${getCategoryColor(selected.category)} mb-4 uppercase tracking-[0.2em] opacity-60 border-b border-white/5 pb-2`}
-            >
-              {selected.category}
+            <div className="w-px h-6 bg-white/10" />
+            <div className="flex flex-col">
+              <span className="text-[8px] font-black text-slate-500 uppercase leading-none">Config</span>
+              <span className="text-[10px] font-bold text-cyan-400 leading-tight">{selected.config}</span>
             </div>
-
-            <div className="space-y-2 text-[13px] text-slate-300">
-              {[
-                {
-                  label: t("periodic_table.properties.number"),
-                  value: selected.number,
-                },
-                {
-                  label: t("periodic_table.properties.molar_mass"),
-                  value: selected.molarMass
-                    ? `${selected.molarMass} g/mol`
-                    : `${selected.mass} u`,
-                },
-                {
-                  label: t("periodic_table.properties.oxidation"),
-                  value: selected.oxidationStates?.join(", ") || "-",
-                },
-                {
-                  label: t("periodic_table.properties.electronegativity"),
-                  value: selected.electronegativity || "-",
-                },
-                {
-                  label: t("periodic_table.properties.radius"),
-                  value: selected.atomicRadius
-                    ? `${selected.atomicRadius} pm`
-                    : "-",
-                },
-                {
-                  label: t("periodic_table.properties.density"),
-                  value: selected.density ? `${selected.density} g/cm³` : "-",
-                },
-                {
-                  label: t("periodic_table.properties.melting_point"),
-                  value: selected.meltingPoint
-                    ? `${selected.meltingPoint} K`
-                    : "-",
-                },
-                {
-                  label: t("periodic_table.properties.boiling_point"),
-                  value: selected.boilingPoint
-                    ? `${selected.boilingPoint} K`
-                    : "-",
-                },
-                {
-                  label: t("periodic_table.properties.ionization"),
-                  value: selected.ionizationEnergy
-                    ? `${selected.ionizationEnergy} kJ/mol`
-                    : "-",
-                },
-                {
-                  label: t("periodic_table.properties.config"),
-                  value: selected.config,
-                },
-              ].map((row) => (
-                <div
-                  key={row.label}
-                  className="flex justify-between border-b border-white/5 pb-1"
-                >
-                  <span className="text-slate-500">{row.label}</span>
-                  <span className="font-mono text-white">{row.value}</span>
-                </div>
-              ))}
-            </div>
-
-            <p className="mt-4 text-[11px] text-slate-500 italic leading-relaxed">
-              {selected.summary}
-            </p>
-
-            <div className="mt-6 pt-6 border-t border-white/10">
-              <div className="flex bg-slate-800/50 rounded-lg p-1 mb-4 border border-white/5">
-                {["bohr", "lattice", "orbitals"].map((v) => (
-                  <button
-                    key={v}
-                    onClick={() => setState({ ...state, viewMode: v as any })}
-                    className={`btn-elite-glass !flex-1 !py-1.5 !rounded-lg !text-[8px] !border-transparent ${viewMode === v ? "btn-elite-cyan active" : "text-slate-500 hover:text-slate-300"}`}
-                  >
-                    {v === "bohr"
-                      ? t("periodic_table.view_bohr")
-                      : v === "lattice"
-                        ? t("periodic_table.view_lattice")
-                        : t("periodic_table.view_orbitals")}
-                  </button>
-                ))}
-              </div>
-
-              <div className="relative min-h-[180px] flex items-center justify-center">
-                {viewMode === "bohr" ? (
-                  <BohrModel
-                    symbol={selected.symbol}
-                    shells={selected.shells}
-                    color={getCategoryHex(selected.category)}
-                    size={160}
-                  />
-                ) : viewMode === "lattice" ? (
-                  <CrystalLattice
-                    type={selected.lattice || "BCC"}
-                    color={getCategoryHex(selected.category)}
-                    size={180}
-                  />
-                ) : (
-                  <OrbitalVisualizer
-                    {...(() => {
-                      // Parse config to get last electron (e.g. 2p4 -> n=2, l=1)
-                      const parts = selected.config.split(" ");
-                      const last = parts[parts.length - 1] || "1s1";
-                      const match = last.match(/(\d+)([spdf])(\d+)?/);
-                      if (match) {
-                        const n = parseInt(match[1]!);
-                        const lStr = match[2];
-                        const l =
-                          lStr === "s"
-                            ? 0
-                            : lStr === "p"
-                              ? 1
-                              : lStr === "d"
-                                ? 2
-                                : 3;
-                        return { n, l, m: 0 };
-                      }
-                      return { n: 1, l: 0, m: 0 };
-                    })()}
-                  />
-                )}
-              </div>
-            </div>
-
-            {selected.isotopes && <IsotopeSelector element={selected} />}
-
-            {selected.spectrum && (
-              <div className="mt-4">
-                <EmissionSpectrum
-                  symbol={selected.symbol}
-                  lines={selected.spectrum}
-                />
-              </div>
-            )}
-          </div>
-        ) : (
-          <div className="h-64 flex flex-col items-center justify-center text-center p-8 grayscale opacity-20 border-2 border-dashed border-white/5 rounded-2xl">
-            <Search size={40} className="mb-4" />
-            <div className="text-xs uppercase font-bold tracking-widest text-slate-400">
-              {t("periodic_table.scan_element")}
-            </div>
-            <p className="text-[10px] mt-2 leading-relaxed">
-              {t("periodic_table.scan_instruction")}
-            </p>
           </div>
         )}
+      </div>
+    );
+  }
+
+  if (mode === "stage") {
+    return (
+      <div className="w-full h-full p-6 flex flex-col gap-6 overflow-hidden">
+        {/* Search & Legend Bar */}
+        <div className="flex items-center gap-6">
+          <div className="relative w-64 group/search">
+            <Search className="absolute left-3 top-2.5 text-slate-600 group-focus-within/search:text-cyan-500 transition-colors" size={14} />
+            <input
+              value={filter}
+              onChange={(e) => setFilter(e.target.value)}
+              placeholder="Zoek element..."
+              className="w-full bg-white/[0.03] border border-white/10 rounded-xl pl-9 pr-3 py-1.5 text-xs text-white outline-none focus:border-cyan-500/50 transition-all"
+            />
+          </div>
+
+          <div className="flex-1 flex gap-2 overflow-x-auto no-scrollbar scroll-smooth">
+            {["alkali", "alkaline-earth", "transition", "basic-metal", "metalloid", "nonmetal", "halogen", "noble-gas"].map(cat => (
+              <button
+                key={cat}
+                onClick={() => toggleCategory(cat)}
+                className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg border text-[9px] font-bold uppercase tracking-wider transition-all whitespace-nowrap ${activeCategories?.includes(cat) ? 'bg-cyan-500/10 border-cyan-500/40 text-cyan-400' : 'bg-black/20 border-white/5 text-slate-600 hover:text-slate-400'}`}
+              >
+                <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: getCategoryHex(cat) }} />
+                {t(`categories.${cat}`)}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Periodic Grid */}
+        <div className="flex-1 min-h-0 flex items-center justify-center">
+          <div
+            className="grid gap-1 relative max-w-full"
+            style={{
+              gridTemplateColumns: "repeat(18, minmax(0, 1fr))",
+              gridTemplateRows: "repeat(7, minmax(0, 48px))",
+              width: '1000px'
+            }}
+          >
+            {PERIODIC_DATA.filter(el => el.period <= 7).map((el) => (
+              <ElementTile key={el.number} el={el} />
+            ))}
+          </div>
+        </div>
       </div>
     );
   }

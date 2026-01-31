@@ -10,16 +10,41 @@ import {
 } from "./indexedDBService";
 
 // Database proxy for IPC communications
-type Database = {
+export type Database = {
   run: (sql: string, params?: any[]) => Promise<void>;
   exec: (sql: string, params?: any[]) => Promise<any[]>;
 };
 
 let db: Database | null = null;
 
+/**
+ * Wait for the vwoApi bridge to be available (Electron ContextBridge)
+ * Polls for availability to survive fast-boot race conditions.
+ */
+const waitForVwoApi = async (timeoutMs = 5000): Promise<void> => {
+  if (typeof window === "undefined") return;
+  if ((window as any).vwoApi) return;
+
+  return new Promise((resolve, reject) => {
+    const startTime = Date.now();
+    const interval = setInterval(() => {
+      if ((window as any).vwoApi) {
+        clearInterval(interval);
+        resolve();
+      } else if (Date.now() - startTime > timeoutMs) {
+        clearInterval(interval);
+        reject(new Error("Timeout waiting for vwoApi bridge"));
+      }
+    }, 50);
+  });
+};
+
 // Initialize Database Bridge
 export const initDatabase = async (): Promise<Database> => {
   if (db) return db;
+
+  // Ensure Electron bridge is ready
+  await waitForVwoApi();
 
   // In Electron, we act as a proxy to the Main Process
   if (typeof window !== "undefined" && (window as any).vwoApi) {
@@ -910,12 +935,53 @@ export const saveCoachingSession = async (
   transcript: string,
   duration: number,
   summary?: string,
+  analytics?: any,
 ): Promise<void> => {
   const id = crypto.randomUUID();
-  await sqliteRun(
-    `INSERT INTO coaching_sessions(id, subject, transcript, summary, duration, date) VALUES(?, ?, ?, ?, ?, datetime('now'))`,
-    [id, subject, transcript, summary || null, duration],
-  );
+  const data: any = {
+    id,
+    subject,
+    transcript,
+    summary: summary || null,
+    duration,
+    date: new Date().toISOString().split('T')[0] + ' ' + new Date().toTimeString().split(' ')[0], // SQL friendly timestamp
+  };
+
+  if (analytics) {
+    data.language = analytics.language;
+    data.fragments = analytics.fragments;
+    data.terminology = analytics.terminology;
+    data.takeaways = analytics.takeaways;
+    data.mastery_score = analytics.masteryScore;
+    data.learning_gaps = analytics.learningGaps;
+    data.correction_log = analytics.correctionLog;
+    data.flashcards = analytics.flashcards;
+    data.test_questions = analytics.testQuestions;
+    data.study_advice = analytics.studyAdvice;
+    data.confidence_score = analytics.confidenceScore;
+    data.interaction_ratio = analytics.interactionRatio;
+    data.sentiment = analytics.sentiment;
+
+    // VWO-Elite Expansion
+    data.pitfalls = analytics.pitfalls;
+    data.syllabus_links = analytics.syllabusLinks;
+    data.exam_vocab = analytics.examVocab;
+    data.structure_score = analytics.structureScore;
+    data.argumentation_quality = analytics.argumentationQuality;
+    data.critical_thinking = analytics.criticalThinking;
+    data.scientific_nuance = analytics.scientificNuance;
+    data.source_usage = analytics.sourceUsage;
+    data.bloom_level = analytics.bloomLevel;
+    data.est_study_time = analytics.estStudyTime;
+    data.exam_priority = analytics.examPriority;
+    data.cross_links = analytics.crossLinks;
+    data.anxiety_level = analytics.anxietyLevel;
+    data.cognitive_load = analytics.cognitiveLoad;
+    data.growth_mindset = analytics.growthMindset;
+    data.learning_state_vector = analytics.learningStateVector;
+  }
+
+  await sqliteInsert("coaching_sessions", data);
 };
 
 export const getCoachingSessions = async (): Promise<any[]> => {

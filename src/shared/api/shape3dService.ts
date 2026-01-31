@@ -5,6 +5,7 @@
 
 export interface Generate3DConfig {
     replicateApiKey: string;
+    modelId?: string; // Replicate version ID
     prompt: string;
     format?: 'glb' | 'ply';
 }
@@ -27,8 +28,8 @@ export async function generate3DModel(config: Generate3DConfig): Promise<Generat
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            // openai/shap-e version
-            version: 'a8a8b6d5f6b3c1e2f3a4b5c6d7e8f9a0b1c2d3e4',
+            // Use selected model version or default to Shap-E
+            version: config.modelId || 'a8a8b6d5f6b3c1e2f3a4b5c6d7e8f9a0b1c2d3e4',
             input: {
                 prompt: config.prompt,
                 save_mesh: true,

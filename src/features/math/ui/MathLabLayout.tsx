@@ -9,11 +9,10 @@ import {
   Database,
   LineChart,
   Sigma,
-  Sparkles,
 } from "lucide-react";
-import React, { useState } from "react";
+import React from "react";
 
-import { TutorOverlay } from "./modules/tutor/TutorOverlay";
+
 
 interface MathLabLayoutProps {
   children: React.ReactNode;
@@ -42,7 +41,7 @@ export const MathLabLayout: React.FC<MathLabLayoutProps> = ({
   onConsoleHeightChange,
 }) => {
   const { t } = useTranslations();
-  const [isTutorOpen, setIsTutorOpen] = useState(false);
+
 
   // If activeModule is 'gym' or 'tutor', we want a cleaner interface
   const isImmersive = ["gym", "tutor", "concepts"].includes(activeModule);
@@ -100,7 +99,7 @@ export const MathLabLayout: React.FC<MathLabLayoutProps> = ({
 
   return (
     <div
-      className="h-full w-full bg-black font-outfit transition-all duration-300 z-0"
+      className="h-full w-full bg-black font-outfit transition-all duration-300 z-0 relative"
     >
       {/* Brute-force CSS for XR Button - SAFE VERSION */}
       <style
@@ -127,6 +126,16 @@ export const MathLabLayout: React.FC<MathLabLayoutProps> = ({
         id="mathlab-stage"
         className="absolute inset-0 z-0 bg-gradient-to-b from-obsidian-950 to-black transition-all duration-500"
       >
+        <div
+          className="absolute inset-0 opacity-[0.05] pointer-events-none"
+          style={{
+            backgroundImage:
+              "linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)",
+            backgroundSize: "40px 40px",
+          }}
+        />
+        {/* Radial glow */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(59,130,246,0.1),transparent_50%)] pointer-events-none" />
         {children}
       </div>
 
@@ -272,25 +281,6 @@ export const MathLabLayout: React.FC<MathLabLayoutProps> = ({
         </div>
       )}
 
-      {/* --- FINAL PIECE: AI TUTOR FAB --- */}
-      <button
-        onClick={() => setIsTutorOpen(true)}
-        className="fixed bottom-6 right-6 z-50 w-16 h-16 bg-violet-600 hover:bg-violet-500 text-white rounded-full shadow-[0_0_30px_rgba(124,58,237,0.5)] flex items-center justify-center transition-all hover:scale-110 active:scale-95 group animate-in slide-in-from-bottom-10 duration-700"
-        title="Ask Newton"
-      >
-        <Sparkles
-          size={28}
-          className="group-hover:rotate-12 transition-transform"
-        />
-
-        {/* Notification Badge (Optioneel voor later) */}
-        <span className="absolute top-0 right-0 w-4 h-4 bg-rose-500 rounded-full border-2 border-obsidian-950" />
-      </button>
-
-      <TutorOverlay
-        isOpen={isTutorOpen}
-        onClose={() => setIsTutorOpen(false)}
-      />
     </div>
   );
 };

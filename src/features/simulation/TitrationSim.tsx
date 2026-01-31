@@ -24,6 +24,7 @@ import {
 const LineChartAny = LineChart as any;
 
 interface TitrationSimProps {
+  mode?: "stage" | "controls" | "full";
   titrationType: "strong_acid_strong_base" | "weak_acid_strong_base";
   concentrationAcid?: number;
   volumeAcidInitial?: number;
@@ -49,6 +50,7 @@ const INDICATORS = {
 } as const;
 
 export const TitrationSim: React.FC<TitrationSimProps> = ({
+  mode = "full",
   titrationType,
   concentrationAcid = 0.1,
   volumeAcidInitial = 25,
@@ -146,6 +148,103 @@ export const TitrationSim: React.FC<TitrationSimProps> = ({
     });
   };
 
+  // --- RENDERING MODES ---
+
+  if (mode === "controls") {
+    return (
+      <div className="flex flex-row items-center gap-3">
+        <div className="flex bg-black/40 border border-white/5 p-1 rounded-2xl items-center gap-1">
+          <button
+            onClick={() => setIsRunning(!isRunning)}
+            className={`px-4 py-2 rounded-xl text-xs font-black uppercase tracking-widest transition-all flex items-center gap-2 ${isRunning ? 'bg-red-500 text-white shadow-lg shadow-red-500/20' : 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/20 active:scale-95'}`}
+          >
+            {isRunning ? <Pause size={14} fill="currentColor" /> : <Play size={14} fill="currentColor" />}
+            {isRunning ? "Stop" : "Start"}
+          </button>
+          <button
+            onClick={reset}
+            className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-all"
+            title="Reset"
+          >
+            <RotateCcw size={16} />
+          </button>
+        </div>
+
+        <div className="flex bg-black/40 border border-white/5 p-1 rounded-2xl items-center gap-1">
+          <button
+            onClick={() => setIsVoiceActive(!isVoiceActive)}
+            className={`p-2.5 rounded-xl transition-all ${isVoiceActive ? 'bg-indigo-500 text-white shadow-lg shadow-indigo-500/20' : 'bg-white/5 text-slate-500 hover:text-slate-300'}`}
+            title="Spraak Coach"
+          >
+            <Mic size={16} className={isVoiceActive ? "animate-pulse" : ""} />
+          </button>
+          <button
+            onClick={saveToJournal}
+            className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-all"
+            title="Opslaan in Log"
+          >
+            <Save size={16} />
+          </button>
+        </div>
+
+        <div className="flex items-center gap-3 px-4 py-2 bg-white/5 border border-white/5 rounded-2xl">
+          <div className="flex flex-col items-center">
+            <span className="text-[8px] font-black text-slate-500 uppercase leading-none mb-1">pH</span>
+            <span className="text-sm font-black text-white font-mono leading-none">{currentPh.toFixed(2)}</span>
+          </div>
+          <div className="w-px h-6 bg-white/10" />
+          <div className="flex flex-col items-center">
+            <span className="text-[8px] font-black text-slate-500 uppercase leading-none mb-1">Vol</span>
+            <span className="text-sm font-black text-cyan-400 font-mono leading-none">{volumeBase.toFixed(1)} <span className="text-[8px] opacity-60">mL</span></span>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (mode === "stage") {
+    return (
+      <div className="w-full h-full flex items-center justify-center p-8 gap-8">
+        {/* Lab Apparatus visualization */}
+        <div className="relative flex flex-col items-center gap-4 bg-zinc-950/20 p-8 rounded-3xl border border-white/5">
+          <div className="w-10 h-48 bg-white/5 border-2 border-white/10 rounded-full relative overflow-hidden backdrop-blur-sm">
+            <div
+              className="absolute bottom-0 left-0 right-0 bg-cyan-500/30 transition-all duration-300"
+              style={{ height: `${Math.max(0, 100 - volumeBase * 2)}%` }}
+            />
+            {Array.from({ length: 10 }).map((_, i) => (
+              <div key={i} className="absolute w-full h-px bg-white/10" style={{ top: `${i * 10}%` }} />
+            ))}
+          </div>
+          <div className="relative mt-4">
+            <div className={`w-20 h-20 rounded-full border-4 border-white/20 relative overflow-hidden transition-colors duration-500 ${INDICATORS[indicator].color(currentPh)}`}>
+              <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-white/10" />
+            </div>
+          </div>
+        </div>
+
+        {/* Tracking Chart */}
+        <div className="flex-1 max-w-lg aspect-video bg-zinc-950/30 rounded-3xl border border-white/5 p-6 flex flex-col relative overflow-hidden">
+          <div className="absolute top-4 left-6 flex items-center gap-2">
+            <div className="w-1.5 h-1.5 rounded-full bg-cyan-500 animate-pulse" />
+            <span className="text-[8px] text-slate-500 uppercase font-black tracking-widest">pH/Volume Analysis</span>
+          </div>
+          <div className="flex-1 mt-6 min-h-[200px]">
+            <ResponsiveContainer width="100%" height="100%" minHeight={200}>
+              <LineChartAny data={history}>
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.02)" vertical={false} />
+                <XAxis dataKey="v" type="number" domain={[0, 50]} hide />
+                <YAxis domain={[0, 14]} hide />
+                <Line type="monotone" dataKey="ph" stroke="#06b6d4" strokeWidth={3} dot={false} isAnimationActive={false} />
+              </LineChartAny>
+            </ResponsiveContainer>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // DEFAULT / FULL MODE (Legacy/Fallback)
   return (
     <div className={`h-full flex flex-col p-6 bg-obsidian-950 overflow-hidden`}>
       <div className="flex items-center justify-between mb-8">
@@ -235,8 +334,8 @@ export const TitrationSim: React.FC<TitrationSimProps> = ({
             <span className="text-[10px] text-slate-500 uppercase font-black tracking-widest">pH/Volume Analysis</span>
           </div>
 
-          <div className="flex-1 mt-6">
-            <ResponsiveContainer width="100%" height="100%">
+          <div className="flex-1 mt-6 min-h-[300px]">
+            <ResponsiveContainer width="100%" height="100%" minHeight={300}>
               <LineChartAny data={history}>
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.02)" vertical={false} />
                 <XAxis

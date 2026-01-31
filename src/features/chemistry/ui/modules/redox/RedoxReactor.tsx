@@ -27,51 +27,48 @@ export const RedoxControls: React.FC = () => {
     redId: REDOX_COUPLES[18]!.id, // Fe2+
   });
 
-  const renderSelection = (label: string, field: "oxId" | "redId") => (
-    <div className="space-y-3">
-      <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest px-2">
-        {label} (T48)
-      </label>
-      <div className="space-y-1 max-h-[40vh] overflow-y-auto custom-scrollbar pr-1">
-        {REDOX_COUPLES.map((couple) => {
-          const displayOx = couple.oxidator.split("+")[0]!.trim();
-          const displayRed = couple.reductor.split("+")[0]!.trim();
-
-          return (
-            <button
-              key={couple.id}
-              onClick={() => setState({ ...state, [field]: couple.id })}
-              className={`w-full text-left px-3 py-2 rounded-xl text-[11px] transition-all duration-300 border flex flex-col gap-0.5 ${state[field] === couple.id
-                ? "bg-cyan-500/10 text-cyan-400 border-cyan-500/20 shadow-lg"
-                : "text-slate-400 hover:bg-white/5 border-transparent"
-                }`}
-            >
-              <div className="flex justify-between items-center">
-                <span className="font-bold">
-                  <ChemicalFormatter
-                    formula={field === "oxId" ? displayOx : displayRed}
-                  />
-                </span>
-                <span className="text-[9px] font-mono opacity-60">
-                  {couple.potential > 0 ? "+" : ""}
-                  {couple.potential.toFixed(2)}V
-                </span>
-              </div>
-              <span className="text-[9px] opacity-50 truncate font-mono">
-                {field === "oxId" ? couple.oxidator : couple.reductor}
-              </span>
-            </button>
-          );
-        })}
-      </div>
-    </div>
-  );
-
   return (
-    <div className="space-y-8 animate-in fade-in slide-in-from-left-4 duration-500">
-      {renderSelection("Sterkste Oxidator", "oxId")}
-      <div className="h-px bg-gradient-to-r from-transparent via-white/5 to-transparent" />
-      {renderSelection("Sterkste Reductor", "redId")}
+    <div className="flex flex-row items-center gap-4">
+      {/* Oxidator Selection */}
+      <div className="flex items-center gap-2 bg-black/40 border border-white/5 p-1 rounded-xl">
+        <span className="text-[8px] font-black text-cyan-500 uppercase tracking-widest px-2">Oxidator</span>
+        <select
+          value={state.oxId}
+          onChange={(e) => setState({ ...state, oxId: e.target.value })}
+          className="bg-transparent text-[10px] text-white outline-none font-bold py-1 pr-4 max-w-[120px]"
+        >
+          {REDOX_COUPLES.map((c) => (
+            <option key={c.id} value={c.id} className="bg-obsidian-950">
+              {c.oxidator.split("+")[0]!.trim()} ({c.potential > 0 ? "+" : ""}{c.potential.toFixed(2)}V)
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <div className="w-px h-6 bg-white/10 mx-1" />
+
+      {/* Reductor Selection */}
+      <div className="flex items-center gap-2 bg-black/40 border border-white/5 p-1 rounded-xl">
+        <span className="text-[8px] font-black text-purple-500 uppercase tracking-widest px-2">Reductor</span>
+        <select
+          value={state.redId}
+          onChange={(e) => setState({ ...state, redId: e.target.value })}
+          className="bg-transparent text-[10px] text-white outline-none font-bold py-1 pr-4 max-w-[120px]"
+        >
+          {REDOX_COUPLES.map((c) => (
+            <option key={c.id} value={c.id} className="bg-obsidian-950">
+              {c.reductor.split("+")[0]!.trim()} ({c.potential > 0 ? "+" : ""}{c.potential.toFixed(2)}V)
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <div className="ml-auto flex items-center gap-3 bg-white/5 border border-white/5 px-3 py-1.5 rounded-xl">
+        <div className="flex flex-col items-end">
+          <span className="text-[8px] font-black text-slate-500 uppercase leading-none">Analyse</span>
+          <span className="text-[10px] font-black text-cyan-400 uppercase leading-tight">BINAS T48</span>
+        </div>
+      </div>
     </div>
   );
 };

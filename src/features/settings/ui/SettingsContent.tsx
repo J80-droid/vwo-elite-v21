@@ -90,7 +90,7 @@ export const useSettingsContent = () => {
       case "appearance":
         return { ...baseProps, themes: THEMES };
       case "api":
-        return { ...baseProps, showApiKey, setShowApiKey };
+        return { ...baseProps, showApiKey, setShowApiKey, exportBackup, importBackup };
       case "data":
         return { ...baseProps, exportBackup, importBackup, factoryReset };
       case "storage":

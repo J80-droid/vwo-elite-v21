@@ -31,6 +31,7 @@ const NAMESPACES = [
   "chemistry",
   "philosophy",
   "blurting",
+  "api",
 ];
 
 /**

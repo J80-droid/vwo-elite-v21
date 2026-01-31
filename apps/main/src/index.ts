@@ -11,6 +11,9 @@ import { safeLog } from "./utils/safe-logger";
 
 performance.mark("app-start");
 
+// 🛡️ ELITE PERFORMANCE: Resolve software WebGL fallback warning
+app.commandLine.appendSwitch('enable-unsafe-swiftshader');
+
 // 🛡️ ELITE SECURITY: Global CSP Enforcement
 function setupSecurity(): void {
   session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
@@ -25,13 +28,33 @@ function setupSecurity(): void {
     // We add blob: to script-src to allow blob workers when worker-src is not fully supported or falls back.
     const scriptSrc = isDev
       ? "'self' 'unsafe-inline' 'unsafe-eval' blob:"
-      : "'self' 'unsafe-inline'";
+      : "'self' 'unsafe-inline' blob:";
+
+    const connectSrc = [
+      "'self'",
+      "https:",
+      "wss:",
+      "http://localhost:3001",
+      "http://localhost:11434",
+      "http://localhost:1234",
+      "http://localhost:1337",
+      "http://127.0.0.1:3001",
+      "http://127.0.0.1:11434",
+      "http://127.0.0.1:1234",
+      "http://127.0.0.1:1337",
+      "ws://localhost:11434",
+      "ws://localhost:1234",
+      "ws://localhost:1337",
+      "ws://127.0.0.1:11434",
+      "ws://127.0.0.1:1234",
+      "ws://127.0.0.1:1337",
+    ].join(" ");
 
     callback({
       responseHeaders: {
         ...headers,
         "Content-Security-Policy": [
-          `default-src 'self'; script-src ${scriptSrc}; worker-src 'self' blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; connect-src 'self' https: http://localhost:3001 http://localhost:11434; media-src 'self' data: blob:; frame-src 'self' https://embed.windy.com; object-src 'none';`
+          `default-src 'self'; script-src ${scriptSrc}; worker-src 'self' blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; connect-src ${connectSrc}; media-src 'self' data: blob:; frame-src 'self' https://embed.windy.com; object-src 'none';`
         ]
       }
     });

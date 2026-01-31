@@ -1,3 +1,5 @@
+import { warmupVoiceCache } from "@shared/api/gemini/voiceCache";
+import voiceAssets from "@shared/assets/data/voiceAssets.json";
 import { markFirstRunComplete } from "@shared/lib/firstRunDetection";
 import { motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
@@ -7,11 +9,12 @@ const BOOT_SEQUENCE = [
     { text: "Loading Neural Interface...", delay: 800 },
     { text: "Verifying Identity Matrix...", delay: 1800 },
     { text: "Mounting Knowledge Base (RAG)...", delay: 2800 },
-    { text: "Connecting to Gemini 1.5 Pro...", delay: 3800 },
-    { text: "Synchronizing Quantum States...", delay: 4800 },
-    { text: "Optimizing 3D Render Engine...", delay: 5800 },
-    { text: "Establishing Secure Uplink...", delay: 6800 },
-    { text: "SYSTEM READY", delay: 7800 },
+    { text: "Synchronizing Neural Voices...", delay: 3300 },
+    { text: "Connecting to Gemini 1.5 Pro...", delay: 4200 },
+    { text: "Synchronizing Quantum States...", delay: 5200 },
+    { text: "Optimizing 3D Render Engine...", delay: 6200 },
+    { text: "Establishing Secure Uplink...", delay: 7200 },
+    { text: "SYSTEM READY", delay: 8200 },
 ];
 
 interface FirstRunBootProps {
@@ -62,6 +65,11 @@ export const FirstRunBoot: React.FC<FirstRunBootProps> = ({ onComplete }) => {
             currentIndex++;
             timeouts.push(setTimeout(runSequence, nextDelay));
         };
+
+        // ELITE: Warmup the voice cache silently in the background during boot
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const assets = voiceAssets as any;
+        warmupVoiceCache(assets.voices || []).catch(err => console.warn("[Boot] Voice warmup failed", err));
 
         timeouts.push(setTimeout(runSequence, 300));
 

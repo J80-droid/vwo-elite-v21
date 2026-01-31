@@ -1,4 +1,4 @@
-import { Difficulty, GymProblem } from "@shared/types/gym";
+import { Difficulty, GymEngine, GymProblem } from "@shared/types/gym";
 
 // Helper: Tel significante cijfers van een string (user input)
 export const countSigFigs = (str: string): number => {
@@ -25,7 +25,10 @@ export const toSigFig = (num: number, sigFigs: number): string => {
   return num.toPrecision(sigFigs).replace("+", ""); // verwijdert + in exponent
 };
 
-export const SigFigEngine = {
+export const SigFigEngine: GymEngine = {
+  id: "sigfig",
+  name: "Significantie",
+  description: "Rekenen met significante cijfers en afronden.",
   generate: (level: Difficulty): GymProblem => {
     let question = "";
     let answerStr = "";
@@ -78,8 +81,8 @@ export const SigFigEngine = {
         answerStr = `${coeff} \\cdot 10^{${expInt}}`;
         context = "Wetenschappelijke Notatie";
         steps = [
-          `Verschuif de komma tot er 1 cijfer voor staat: ${coeff}`,
-          `Je hebt ${Math.abs(expInt)} plekken verschoven naar rechts, dus macht is ${expInt}.`,
+          `Verschuif de komma tot er 1 cijfer voor staat: $${coeff}$`,
+          `Je hebt ${Math.abs(expInt)} plekken verschoven naar rechts, dus macht is $${expInt}$.`,
         ];
       }
     }
@@ -119,8 +122,8 @@ export const SigFigEngine = {
         `${n1} heeft ${sf1} sig. cijfers.`,
         `${n2} heeft ${sf2} sig. cijfers.`,
         `De regel is: antwoord krijgt het *kleinste* aantal (${minSf}).`,
-        `Ruw antwoord: ${res}`,
-        `Afronden op ${minSf} cijfers: ${answerStr}`,
+        `Ruw antwoord: $${res}$`,
+        `Afronden op ${minSf} cijfers: $${answerStr}$`,
       ];
     }
 
@@ -146,8 +149,8 @@ export const SigFigEngine = {
         `${n1} heeft ${dec1} decimalen.`,
         `${n2} heeft ${dec2} decimalen.`,
         `De regel is: antwoord krijgt het *kleinste* aantal decimalen (${minDec}).`,
-        `Ruw antwoord: ${res}`,
-        `Afronden op ${minDec} decimalen: ${answerStr}`,
+        `Ruw antwoord: $${res}$`,
+        `Afronden op ${minDec} decimalen: $${answerStr}$`,
       ];
     }
 
@@ -156,7 +159,7 @@ export const SigFigEngine = {
       question: `${question}\n\n*(Let op significantie!)*`,
       context,
       answer: answerStr,
-      displayAnswer: answerStr,
+      displayAnswer: `$${answerStr}$`,
       solutionSteps: steps.map((s) =>
         s.includes("\\") || s.includes("^")
           ? s.startsWith("$")

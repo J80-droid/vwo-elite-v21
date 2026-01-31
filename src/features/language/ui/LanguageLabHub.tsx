@@ -1,13 +1,14 @@
+import React from "react";
 import { motion } from "framer-motion";
 import {
   ArrowRight,
   BookOpen,
+  Dumbbell,
   Languages,
   MessageSquare,
   Mic,
   UserCheck,
 } from "lucide-react";
-import React from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useLanguageLabContext } from "../hooks/LanguageLabContext";
@@ -63,6 +64,17 @@ export const LanguageLabHub: React.FC = () => {
       border: "border-cyan-500/20",
       hover: "group-hover:border-cyan-500/50",
       delay: 0.4,
+    },
+    {
+      id: "gym",
+      title: "Language Gym",
+      description: "Train je taalvaardigheid met razendsnelle interactieve oefeningen.",
+      icon: Dumbbell,
+      color: "text-emerald-400",
+      bg: "bg-emerald-500/10",
+      border: "border-emerald-500/20",
+      hover: "group-hover:border-emerald-500/50",
+      delay: 0.5,
     },
   ];
 

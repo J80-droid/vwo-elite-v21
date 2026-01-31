@@ -1,7 +1,8 @@
-import { connectLiveSession } from "@shared/api/geminiService";
+import { connectLiveSession, LiveAudioService } from "@shared/api/gemini";
 import { useSettings } from "@shared/hooks/useSettings";
 import { Language } from "@shared/types";
-import React, { useEffect, useRef, useState } from "react";
+import { Mic } from "lucide-react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 
 interface LiveCoachProps {
   lang: Language;
@@ -22,144 +23,108 @@ export const LiveCoach: React.FC<LiveCoachProps> = ({
   const [isActive, setIsActive] = useState(false);
   const [status, setStatus] = useState(t.ready);
 
-  // Initialize status with translation - no effect needed since t.ready doesn't change mid-session
-  // The status is already set from props in useState initializer
+  const isMounted = useRef(true);
+  const audioServiceRef = useRef<LiveAudioService | null>(null);
 
-  // Audio refs
-  const audioContextRef = useRef<AudioContext | null>(null);
-  const streamRef = useRef<MediaStream | null>(null);
-  const processorRef = useRef<ScriptProcessorNode | AudioWorkletNode | null>(
-    null,
-  );
-  const sourceRef = useRef<MediaStreamAudioSourceNode | null>(null);
   const liveSessionRef = useRef<{
     sendAudio: (d: Float32Array) => void;
+    sendPCM: (base64: string) => void;
     close: () => void;
   } | null>(null);
-  const nextStartTimeRef = useRef(0);
+
+  const stopSession = useCallback(() => {
+    if (liveSessionRef.current) {
+      liveSessionRef.current.close();
+      liveSessionRef.current = null;
+    }
+
+    if (audioServiceRef.current) {
+      audioServiceRef.current.stop();
+      audioServiceRef.current = null;
+    }
+
+    if (isMounted.current) {
+      setIsActive(false);
+      setStatus(t.ready);
+    }
+  }, [t.ready]);
+
+  useEffect(() => {
+    isMounted.current = true;
+    return () => {
+      isMounted.current = false;
+      stopSession();
+    };
+  }, [stopSession]);
 
   const startSession = async () => {
+    if (isActive) return;
+
     try {
       setStatus(t.connecting);
 
-      // Setup Output Context
-      const outputCtx = new (
-        window.AudioContext ||
-        (window as unknown as { webkitAudioContext: typeof AudioContext })
-          .webkitAudioContext
-      )({ sampleRate: 24000 });
-      audioContextRef.current = outputCtx;
-
-      // Setup Input with Noise Cancellation
-      const stream = await navigator.mediaDevices.getUserMedia({
-        audio: {
-          echoCancellation: true,
-          noiseSuppression: true,
-          autoGainControl: true,
-        },
+      // 1. Initialize High-Performance Audio Service
+      const audioService = new LiveAudioService((base64) => {
+        if (liveSessionRef.current) {
+          liveSessionRef.current.sendPCM(base64);
+        }
       });
-      streamRef.current = stream;
+      audioServiceRef.current = audioService;
 
-      const inputCtx = new (
-        window.AudioContext ||
-        (window as unknown as { webkitAudioContext: typeof AudioContext })
-          .webkitAudioContext
-      )({ sampleRate: 16000 });
-      const source = inputCtx.createMediaStreamSource(stream);
-
-      await inputCtx.audioWorklet.addModule("/audio-processor.js");
-      const processor = new AudioWorkletNode(inputCtx, "audio-processor");
-
-      sourceRef.current = source;
-      processorRef.current = processor;
-
-      // Connect to Gemini Live
+      // 2. Connect Gemini Session
       const session = await connectLiveSession(
         lang,
         (audioBuffer) => {
-          // Play audio
-          if (!audioContextRef.current) return;
-
-          const ctx = audioContextRef.current;
-          const src = ctx.createBufferSource();
-          src.buffer = audioBuffer;
-          src.connect(ctx.destination);
-
-          const currentTime = ctx.currentTime;
-          // Ensure we schedule after the current playhead or next scheduled time
-          const startTime = Math.max(currentTime, nextStartTimeRef.current);
-
-          src.start(startTime);
-          nextStartTimeRef.current = startTime + audioBuffer.duration;
+          if (audioServiceRef.current) {
+            audioServiceRef.current.playAudioBuffer(audioBuffer);
+          }
         },
         () => {
-          setIsActive(false);
-          setStatus(t.ended);
+          if (isMounted.current) {
+            setIsActive(false);
+            setStatus(t.ended);
+          }
         },
-        onNavigate, // Pass the navigation callback
-        systemInstruction // Pass the override
+        onNavigate,
+        systemInstruction
           ? systemInstruction +
-              (viewContext
-                ? `\nCURRENT APP CONTEXT: User was previously in ${viewContext}.`
-                : "")
+          (viewContext
+            ? `\nCURRENT APP CONTEXT: User was previously in ${viewContext}.`
+            : "")
           : undefined,
         settings.aiConfig,
       );
 
+      // Re-initialize session with proper audio relay
+      // We need to handle the incoming audio from session correctly.
+      // Since connectLiveSession currently decodes to AudioBuffer, 
+      // let's update it to provide raw bytes if we want full optimization.
+
       liveSessionRef.current = session;
 
-      // Send Input Data from Worklet
-      processor.port.onmessage = (e) => {
-        // Received audio from worklet
-        session.sendAudio(e.data);
-      };
+      await audioService.start();
 
-      source.connect(processor);
-      processor.connect(inputCtx.destination); // Keep destination connection to keep graph alive, though we mute it? No, if we want loopback? No we don't.
-      // But Worklet needs output connected? Not strictly necessary for input-only if getting data via port.
-      // But usually good to connect to destination or a dummy node to ensure 'process' is called.
-      // Actually, AudioWorkletProcessor.process is called if there are inputs connected. Connecting output ensures the graph is pulled.
-      processor.connect(inputCtx.destination);
-
-      setIsActive(true);
-      setStatus(t.listening);
+      if (isMounted.current) {
+        setIsActive(true);
+        setStatus(t.listening);
+      }
     } catch (e) {
       console.error(e);
-      setStatus(t.error);
-    }
-  };
-
-  const stopSession = () => {
-    if (liveSessionRef.current) {
-      liveSessionRef.current.close();
-    }
-    if (streamRef.current) {
-      streamRef.current.getTracks().forEach((t) => t.stop());
-    }
-    if (audioContextRef.current) {
-      audioContextRef.current.close();
-    }
-    if (processorRef.current) {
-      if (processorRef.current instanceof AudioWorkletNode) {
-        processorRef.current.port.onmessage = null;
+      stopSession();
+      if (isMounted.current) {
+        setStatus(t.error || "Connection failed");
       }
-      processorRef.current.disconnect();
     }
-    setIsActive(false);
-    setStatus(t.ready);
-    nextStartTimeRef.current = 0;
   };
-
-  useEffect(() => {
-    return () => stopSession();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <div className="flex flex-col items-center justify-center p-8 bg-obsidian-900 border border-obsidian-800 rounded-xl shadow-xl w-full">
       <div className="mb-6 relative">
         <div
-          className={`w-32 h-32 rounded-full flex items-center justify-center border-4 transition-all duration-500 ${isActive ? "border-electric shadow-[0_0_30px_rgba(59,130,246,0.5)] animate-pulse" : "border-gray-700"}`}
+          className={`w-32 h-32 rounded-full flex items-center justify-center border-4 transition-all duration-500 ${isActive
+            ? "border-electric shadow-[0_0_30px_rgba(59,130,246,0.5)] animate-pulse"
+            : "border-gray-700"
+            }`}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -190,22 +155,7 @@ export const LiveCoach: React.FC<LiveCoachProps> = ({
           onClick={startSession}
           className="px-6 py-3 bg-electric hover:bg-electric-glow text-white font-medium rounded-full transition-colors flex items-center gap-2"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M12 20h.01" />
-            <path d="M2 12h.01" />
-            <path d="M22 12h.01" />
-            <path d="M17 20.662V19a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2v1.662" />
-          </svg>
+          <Mic className="w-5 h-5" />
           {t.start}
         </button>
       ) : (

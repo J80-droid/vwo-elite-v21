@@ -26,16 +26,24 @@ export const useModelAvailability = (apiKey?: string) => {
       const cached = localStorage.getItem(CACHE_KEY);
       let useCache = false;
       if (cached) {
-        const { timestamp, models } = JSON.parse(cached);
-        if (Date.now() - timestamp < CACHE_DURATION && models.length > 0) {
-          geminiModels = models;
-          useCache = true;
+        try {
+          const parsed = JSON.parse(cached);
+          const rawModels = parsed.models || [];
+          // 🚀 ELITE MIGRATION: Handle legacy object format in cache
+          geminiModels = rawModels.map((m: any) => typeof m === 'string' ? m : m.id);
+
+          if (Date.now() - parsed.timestamp < CACHE_DURATION && geminiModels.length > 0) {
+            useCache = true;
+          }
+        } catch (e) {
+          console.warn("Legacy cache corruption detected", e);
         }
       }
 
       if (!useCache) {
         try {
-          geminiModels = await fetchGeminiModels(apiKey);
+          const fetched = await fetchGeminiModels(apiKey);
+          geminiModels = fetched.map(m => m.id);
           if (geminiModels.length > 0) {
             localStorage.setItem(
               CACHE_KEY,

@@ -3,6 +3,12 @@ import { Language } from "./common";
 import { DidacticConfig } from "./lesson.schema";
 import { SubjectPersona } from "./persona";
 
+// --- COMMON AI TYPES ---
+export interface ModelInfo {
+  id: string;
+  methods: string[];
+}
+
 // --- CONFIG TYPES ---
 export enum AppView {
   DASHBOARD = "dashboard",
@@ -89,9 +95,11 @@ export interface CustomAIProvider {
   enabled: boolean;
   models: {
     chat: string;
+    reasoning?: string;
+    vision?: string;
+    live?: string;
     embedding?: string;
     image?: string;
-    vision?: string;
   };
 }
 
@@ -131,6 +139,8 @@ export interface AIPromptConfig {
   negativePrompt: string;
   enableChainOfThought: boolean;
   historyContextLength: number; // 0 to max
+  coachSpeaksFirst?: boolean;
+  coachGreeting?: string;
 }
 
 export interface AIInferenceParams {
@@ -264,15 +274,26 @@ export interface AIConfig {
 
   // API Keys (Centralized) - Deprecated in favor of apiVault if needed
   geminiApiKey?: string;
+  kimiApiKey?: string;
   groqApiKey?: string;
   hfToken?: string;
   elevenLabsApiKey?: string;
   googleCloudApiKey?: string;
-  openaiApiKey?: string; // For Whisper STT
-  cohereApiKey?: string; // For Reranking (precision search)
-  replicateApiKey?: string; // For 3D Generation (Shap-E)
-  humeApiKey?: string; // For Emotional AI
+  openaiApiKey?: string;
+  cohereApiKey?: string;
+  replicateApiKey?: string;
+  anthropicApiKey?: string;
+  openRouterApiKey?: string;
+  deepSeekApiKey?: string;
+  mistralApiKey?: string;
+  tavilyApiKey?: string;
+  braveSearchApiKey?: string;
+  perplexityApiKey?: string;
+  deepgramApiKey?: string;
+  humeApiKey?: string;
+  humeSecretKey?: string;
   customProviders?: CustomAIProvider[];
+  geminiVoice?: string;
 
   // NEW: Granular Config for the 14 Intelligences
   intelligencesConfig?: Record<string, IntelligenceEngineConfig>;

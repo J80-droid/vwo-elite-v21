@@ -1,44 +1,92 @@
 import { ModuleStageProps } from "@features/math/types";
+import { GymRepository } from "@shared/api/repositories/GymRepository";
 import { useGymProgress } from "@shared/hooks/useGymProgress";
 import {
-  ArrowRightLeft,
-  ArrowUpRight,
-  Circle,
-  Dices,
-  GitCommit,
-  Layers,
-  RotateCcw,
-  Shapes,
-  ShieldCheck,
-  Sigma,
-  Zap,
+  Atom,
+  BookA,
+  Calculator,
+  Dna,
+  FlaskConical,
+  Gavel,
+  Globe,
+  History,
+  LineChart,
+  Scroll,
+  Trophy,
 } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 
+import { GYM_CATALOG } from "./config/gymCatalog";
 import { GymEngineCard } from "./GymEngineCard";
 import { GymSession } from "./GymSession";
+import { getEngine } from "./registry";
 import { SessionConfigModal } from "./SessionConfigModal";
+import { GymUtils } from "./utils/GymUtils";
 
-// Main Component
 export const GymStage: React.FC<ModuleStageProps> = () => {
   const { stats, loading } = useGymProgress();
   const { submodule: activeSession } = useParams();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
+  const [activeTab, setActiveTab] = useState<string>("all");
   const [selectedEngine, setSelectedEngine] = useState<{
     id: string;
     title: string;
   } | null>(null);
 
+  // Added local state for fast mastery lookup
+  const [masteryLevels, setMasteryLevels] = useState<Record<string, number>>(
+    {},
+  );
+
+  useEffect(() => {
+    let isMounted = true;
+    const fetchMastery = async () => {
+      try {
+        const levels = await GymRepository.getSyllabusLevels();
+        if (isMounted && levels) {
+          const map: Record<string, number> = {};
+          levels.forEach((l) => {
+            map[l.engine_id] = GymUtils.calculateMastery(l.box_level);
+          });
+          setMasteryLevels(map);
+        }
+      } catch (e) {
+        console.error("Failed to load lightweight mastery stats", e);
+      }
+    };
+    fetchMastery();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   const questionCount = parseInt(searchParams.get("n") || "10");
 
-  // If session is active, render GymSession
   if (activeSession) {
+    const engine = getEngine(activeSession);
+    if (!engine) {
+      return (
+        <div className="flex flex-col items-center justify-center h-full text-slate-400">
+          <h2 className="text-xl font-bold text-white mb-2">
+            Module niet gevonden
+          </h2>
+          <p>De engine '{activeSession}' is nog niet geregistreerd.</p>
+          <button
+            onClick={() => navigate("/math-modern/gym")}
+            className="mt-4 px-4 py-2 bg-slate-800 rounded-lg"
+          >
+            Terug
+          </button>
+        </div>
+      );
+    }
     return (
       <GymSession
         engineId={activeSession}
+        engine={engine}
         onExit={() => navigate("/math-modern/gym")}
         questionCount={questionCount}
       />
@@ -52,194 +100,106 @@ export const GymStage: React.FC<ModuleStageProps> = () => {
     }
   };
 
-  return (
-    <div className="h-full w-full overflow-y-auto p-4 md:p-8 relative selection:bg-emerald-500/30">
-      {/* Background Ambient Glow */}
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-emerald-500/5 blur-[120px] pointer-events-none" />
+  const getDifficulty = (engineId: string) => {
+    return GymUtils.getDifficulty(stats.levels, engineId);
+  };
 
-      <div className="max-w-6xl mx-auto pb-32 relative z-10">
-        <div className="flex flex-col md:flex-row items-start md:items-end justify-between mb-16 gap-8 border-b border-white/5 pb-10">
+  const getMastery = (engineId: string) => {
+    if (engineId.startsWith("mix-")) return 0; // Configurable?
+    return masteryLevels[engineId] || 0;
+  };
+
+  const filteredCatalog = GYM_CATALOG.filter((item) => {
+    if (activeTab === "all") return true;
+    return item.category === activeTab;
+  });
+
+  return (
+    <div className="h-full w-full overflow-y-auto p-4 md:p-8 relative selection:bg-emerald-500/30 custom-scrollbar">
+      <div className="max-w-7xl mx-auto pb-32 relative z-10">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4">
           <div>
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-12 h-1 bg-emerald-500/50 rounded-full" />
-              <span className="text-[10px] font-black text-emerald-500 uppercase tracking-widest">
-                Training Module
+            <h1 className="text-4xl md:text-5xl font-black text-white tracking-tighter mb-2">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">
+                Gymnasium
               </span>
-            </div>
-            <h2 className="text-4xl md:text-5xl font-black text-white uppercase tracking-tighter mb-4 flex items-center gap-4">
-              The Gym{" "}
-              <span className="px-3 py-1 bg-white/5 border border-white/10 text-emerald-400 text-xs rounded-full font-bold tracking-normal uppercase">
-                Layer 1
-              </span>
-            </h2>
-            <p className="text-slate-400 max-w-lg text-lg font-medium leading-relaxed">
-              Train je basisvaardigheden. Geen inzicht, puur automatisme. Bouw
-              je <span className="text-white">muscle memory</span> voor algebra
-              en rekenen.
+            </h1>
+            <p className="text-slate-400 font-medium max-w-lg">
+              Train je cognitieve vaardigheden met adaptieve algoritmes.
             </p>
           </div>
-          {/* Stats Panel - Neon Refined */}
-          <div className="flex gap-6">
-            <div className="px-6 py-4 bg-white/5 border border-emerald-500/20 rounded-2xl text-right shadow-[0_0_20px_rgba(16,185,129,0.05)] backdrop-blur-md">
-              <div className="text-[10px] text-emerald-500/70 uppercase tracking-widest font-black mb-1">
-                Total XP
-              </div>
-              <div className="text-3xl font-black text-white">
-                {loading ? "..." : stats.xp.toLocaleString()}
+
+          {/* Stats Summary */}
+          <div className="flex gap-4">
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-4 flex flex-col items-center min-w-[100px]">
+              <span className="text-[10px] uppercase font-black text-slate-500 tracking-widest">
+                Streak
+              </span>
+              <div className="flex items-center gap-1 text-amber-400">
+                <History size={16} />
+                <span className="text-xl font-black">2</span>
               </div>
             </div>
-            <div className="px-6 py-4 bg-white/5 border border-amber-500/20 rounded-2xl text-right shadow-[0_0_20px_rgba(245,158,11,0.05)] backdrop-blur-md">
-              <div className="text-[10px] text-amber-500/70 uppercase tracking-widest font-black mb-1">
-                Due for Review
-              </div>
-              <div className="text-3xl font-black text-white">
-                {loading ? "..." : stats.dueCount}
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-4 flex flex-col items-center min-w-[100px]">
+              <span className="text-[10px] uppercase font-black text-slate-500 tracking-widest">
+                XP
+              </span>
+              <div className="flex items-center gap-1 text-emerald-400">
+                <Trophy size={16} />
+                <span className="text-xl font-black">
+                  {loading ? "..." : (stats.xp / 1000).toFixed(1)}k
+                </span>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {/* SPECIAL: THE MATH MILKSHAKE */}
-          <GymEngineCard
-            id="mix-math"
-            title="Math Milkshake"
-            description="De ultieme mix van algebra, gonio en calculus. Laat zien dat je alles beheerst."
-            icon={<Dices size={32} className="text-amber-500" />}
-            difficulty={Math.max(
-              1,
-              Math.round(
-                Object.values(stats.levels || {}).reduce((a, b) => a + b, 0) /
-                  (Object.keys(stats.levels || {}).length || 1),
-              ),
-            )}
-            onClick={() =>
-              setSelectedEngine({ id: "mix-math", title: "Math Milkshake" })
-            }
-          />
+        {/* Filters */}
+        <div className="flex flex-wrap gap-2 mb-12">
+          {[
+            { id: "all", label: "Alles", icon: Globe },
+            { id: "math", label: "Wiskunde", icon: Calculator },
+            { id: "physics", label: "Natuurkunde", icon: Atom },
+            { id: "biology", label: "Biologie", icon: Dna },
+            { id: "chemistry", label: "Scheikunde", icon: FlaskConical },
+            { id: "economics", label: "Economie", icon: LineChart },
+            { id: "history", label: "Geschiedenis", icon: Scroll },
+            { id: "english", label: "Engels", icon: BookA },
+            { id: "french", label: "Frans", icon: BookA },
+            { id: "dutch", label: "Nederlands", icon: Gavel },
+          ].map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`px-4 py-2 rounded-xl flex items-center gap-2 text-sm font-bold transition-all border ${activeTab === tab.id ? "bg-white text-black border-white" : "bg-white/5 text-slate-400 border-white/10 hover:bg-white/10"}`}
+            >
+              <tab.icon size={16} />
+              {tab.label}
+            </button>
+          ))}
+        </div>
 
-          {/* Engine Card: Fractions */}
-          <GymEngineCard
-            id="fractions"
-            title="Breuken Meesterschap"
-            description="Optellen, vermenigvuldigen en vereenvoudigen van complexe breuken."
-            icon={<RotateCcw size={32} />}
-            difficulty={stats.levels?.["fractions"] || 1}
-            onClick={() =>
-              setSelectedEngine({
-                id: "fractions",
-                title: "Breuken Meesterschap",
-              })
-            }
-          />
-
-          {/* Engine Card: Machten */}
-          <GymEngineCard
-            id="exponents"
-            title="Machten Tetris"
-            description="Vloeiend worden met exponenten, wortels en de kracht van logaritmen."
-            icon={<Zap size={32} />}
-            difficulty={stats.levels?.["exponents"] || 1}
-            onClick={() =>
-              setSelectedEngine({ id: "exponents", title: "Machten Tetris" })
-            }
-          />
-
-          {/* Engine Card: Goniometrie */}
-          <GymEngineCard
-            id="trig"
-            title="Gonio Sprint"
-            description="Exacte waarden van de eenheidscirkel en radialen omrekenen op topsnelheid."
-            icon={<Circle size={32} />}
-            difficulty={stats.levels?.["trig"] || 1}
-            onClick={() =>
-              setSelectedEngine({ id: "trig", title: "Goniometrie Sprint" })
-            }
-          />
-
-          {/* Engine Card: Afgeleiden */}
-          <GymEngineCard
-            id="derivs"
-            title="Afgeleide Dash"
-            description="Basisregels voor differentiëren automatiseren tot het tweede natuur is."
-            icon={<GitCommit size={32} />}
-            difficulty={stats.levels?.["derivs"] || 1}
-            onClick={() =>
-              setSelectedEngine({ id: "derivs", title: "Afgeleide Dash" })
-            }
-          />
-
-          {/* Engine Card: Formules */}
-          <GymEngineCard
-            id="formulas"
-            title="Formule Fabriek"
-            description="Herken goniometrische identiteiten en factorisatieregels in een oogopslag."
-            icon={<Layers size={32} />}
-            difficulty={stats.levels?.["formulas"] || 1}
-            onClick={() =>
-              setSelectedEngine({ id: "formulas", title: "Formule Fabriek" })
-            }
-          />
-
-          {/* Engine Card: Vectoren */}
-          <GymEngineCard
-            id="vectors"
-            title="Vector Versnelling"
-            description="Inproducten, magnitudes en orthogonaliteit berekenen zonder na te denken."
-            icon={<ArrowUpRight size={32} />}
-            difficulty={stats.levels?.["vectors"] || 1}
-            onClick={() =>
-              setSelectedEngine({ id: "vectors", title: "Vector Versnelling" })
-            }
-          />
-
-          {/* Phase 2: Integraal Sprint */}
-          <GymEngineCard
-            id="integraal"
-            title="Integraal Sprint"
-            description="Omgekeerd differentiëren. Herken primitieven en rekenregels razendsnel."
-            icon={<Sigma size={32} />}
-            difficulty={stats.levels?.["integraal"] || 1}
-            onClick={() =>
-              setSelectedEngine({ id: "integraal", title: "Integraal Sprint" })
-            }
-          />
-
-          {/* Phase 2: Limieten Launch */}
-          <GymEngineCard
-            id="limits"
-            title="Limieten Launch"
-            description="Jaag op asymptoten, gaten en het gedrag in het oneindige."
-            icon={<ArrowRightLeft size={32} />}
-            difficulty={stats.levels?.["limits"] || 1}
-            onClick={() =>
-              setSelectedEngine({ id: "limits", title: "Limieten Launch" })
-            }
-          />
-
-          {/* Phase 2: Domain Defender */}
-          <GymEngineCard
-            id="domain"
-            title="Domain Defender"
-            description="Wortels, logaritmen en breuken. Bewaak de grenzen van what mag."
-            icon={<ShieldCheck size={32} />}
-            difficulty={stats.levels?.["domain"] || 1}
-            onClick={() =>
-              setSelectedEngine({ id: "domain", title: "Domain Defender" })
-            }
-          />
-
-          {/* Engine Card: Geometry Recall */}
-          <GymEngineCard
-            id="geometry"
-            title="Geometry Recall"
-            description="Stamp parate kennis voor meetkunde: stellingen, eigenschappen en definities."
-            icon={<Shapes size={32} />}
-            difficulty={stats.levels?.["geometry"] || 1}
-            onClick={() =>
-              setSelectedEngine({ id: "geometry", title: "Geometry Recall" })
-            }
-          />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
+          {filteredCatalog.map((engine) => (
+            <GymEngineCard
+              key={engine.id}
+              id={engine.id}
+              title={engine.title}
+              description={engine.description}
+              themeColor={engine.themeColor}
+              icon={
+                <engine.icon
+                  size={32}
+                  className={engine.isSpecial ? "text-amber-500" : ""}
+                />
+              }
+              difficulty={getDifficulty(engine.id)}
+              mastery={getMastery(engine.id)}
+              onClick={() =>
+                setSelectedEngine({ id: engine.id, title: engine.title })
+              }
+            />
+          ))}
         </div>
       </div>
 

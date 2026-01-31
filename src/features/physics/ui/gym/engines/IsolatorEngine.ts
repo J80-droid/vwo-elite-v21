@@ -1,6 +1,7 @@
 import "nerdamer/Algebra"; // Importeer algebra module voor symbolic solving
+import "nerdamer/Solve";
 
-import { Difficulty, GymProblem } from "@shared/types/gym";
+import { Difficulty, GymEngine, GymProblem } from "@shared/types/gym";
 import nerdamer from "nerdamer";
 
 // Helper: Kies random item
@@ -148,7 +149,10 @@ const FORMULAS: Record<number, FormulaTemplate[]> = {
   ],
 };
 
-export const IsolatorEngine = {
+export const IsolatorEngine: GymEngine = {
+  id: "isolator",
+  name: "Isolator",
+  description: "Formules ombouwen en variabelen isoleren.",
   generate: (level: Difficulty): GymProblem => {
     // Fallback naar level 1 als level leeg is (safety)
     const templates = FORMULAS[level as number] || FORMULAS[1]!;
@@ -158,33 +162,38 @@ export const IsolatorEngine = {
     const targetVar = pick(tmpl.variables);
 
     // Symbolisch oplossen voor het antwoord (Ground Truth)
-    // Nerdamer: solve('F=m*a', 'm') -> 'F/a'
     let correctAnswer = "";
+    let texAnswer = "";
     try {
-      // nerdamer.solve equations returns an array of solutions
       const sol = nerdamer.solve(tmpl.equation, targetVar);
-      correctAnswer = sol.toString(); // Geeft bijv. '[F/a]' of 'sqrt(E/m)'
+      const solStr = sol.toString();
 
       // Clean up array brackets if present
-      if (correctAnswer.startsWith("[") && correctAnswer.endsWith("]")) {
-        correctAnswer = correctAnswer.slice(1, -1).split(",")[0] || ""; // Pak eerste oplossing
+      let firstSol = solStr;
+      if (solStr.startsWith("[") && solStr.endsWith("]")) {
+        firstSol = solStr.slice(1, -1).split(",")[0].trim();
       }
+
+      correctAnswer = firstSol;
+      // Convert to TeX for beautiful display
+      texAnswer = firstSol ? nerdamer(firstSol).toTeX() : "";
     } catch (error) {
-      console.error(error); // Log error for debug if needed, or ignore
+      console.error(error);
       correctAnswer = "error";
+      texAnswer = "error";
     }
 
     return {
       id: `iso-${tmpl.id}-${targetVar}`,
       question: `Isoleer **${targetVar}** uit de formule:\n\n$$${tmpl.latex}$$`,
       context: `${tmpl.context} (Level ${level})`,
-      answer: correctAnswer, // De nerdamer string (bijv 'F/a')
-      displayAnswer: `${targetVar} = ${correctAnswer}`, // Voor de UI
+      answer: correctAnswer,
+      displayAnswer: `${targetVar} = ${texAnswer}`,
       solutionSteps: [
         `Startformule: $$${tmpl.latex}$$`,
         `Doel: Zorg dat $$${targetVar}$$ alleen staat.`,
         `Wiskundige operatie: Los op voor ${targetVar}.`,
-        `Antwoord: $$${targetVar} = ${correctAnswer}$$`,
+        `Antwoord: $$${targetVar} = ${texAnswer}$$`,
       ],
     };
   },

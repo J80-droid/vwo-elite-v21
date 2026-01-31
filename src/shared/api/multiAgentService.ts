@@ -51,6 +51,13 @@ const DEFAULT_PERSONAS: Record<string, AgentPersona> = {
 const truncateForContext = (text: string, maxLength = 1000) =>
     text.length > maxLength ? text.substring(0, maxLength) + "...[truncated]" : text;
 
+// --- Jitter Stabilization Utility ---
+const getJitter = (base = 100, range = 200) => {
+    // ELITE FIX: Check for test mode to ensure predictable CI/CD runs
+    if (typeof process !== "undefined" && process.env.NODE_ENV === "test") return 0;
+    return base + Math.random() * range;
+};
+
 async function processInBatches<T, R>(
     items: T[],
     batchSize: number,
@@ -61,8 +68,7 @@ async function processInBatches<T, R>(
         const batch = items.slice(i, i + batchSize);
         // Elite Optimization: Add jitter to spread the load and avoid 429 errors
         if (i > 0) {
-            const jitter = 100 + Math.random() * 200;
-            await new Promise(resolve => setTimeout(resolve, jitter));
+            await new Promise(resolve => setTimeout(resolve, getJitter()));
         }
         const batchResults = await Promise.all(batch.map(fn));
         results.push(...batchResults);

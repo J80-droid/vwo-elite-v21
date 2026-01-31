@@ -1,5 +1,5 @@
-import { removeToolFromVectorIndex,syncToolToVectorIndex } from "@shared/api/ai-brain/vectorService";
-import { sqliteDelete, sqliteInsert,sqliteSelect, sqliteUpdate } from "@shared/api/sqliteService";
+import { removeToolFromVectorIndex, syncToolToVectorIndex } from "@shared/api/ai-brain/vectorService";
+import { sqliteDelete, sqliteInsert, sqliteSelect, sqliteUpdate } from "@shared/api/sqliteService";
 import { createStore } from "@shared/lib/storeFactory";
 import { toast } from "sonner";
 
@@ -13,6 +13,7 @@ export interface MCPToolState {
   enabled: boolean;
   requiresApproval: boolean;
   usageCount: number;
+  isBuiltIn?: boolean;
 }
 
 interface MCPToolStore {
@@ -48,7 +49,7 @@ export const useMcpToolStore = createStore<MCPToolStore>(
           "mcp_tool_usage_logs",
         );
 
-        const tools = rows.map((row) => {
+        const dbTools = rows.map((row) => {
           const usage = usageRows.filter((l) => l.tool_name === row.name).length;
           return {
             id: row.id,
@@ -63,7 +64,27 @@ export const useMcpToolStore = createStore<MCPToolStore>(
           };
         });
 
-        set({ tools, isLoading: false });
+        // 🚀 ELITE MERGE: Built-in tools
+        let builtInTools: MCPToolState[] = [];
+        try {
+          const { getToolRegistry } = await import("@shared/api/ai-brain/ToolRegistry");
+          const registry = getToolRegistry();
+          builtInTools = registry.getAllTools().map(tool => ({
+            id: `built_in_${tool.name}`,
+            name: tool.name,
+            description: tool.description,
+            parameters_schema: tool.parametersSchema ? JSON.stringify(tool.parametersSchema) : "{}",
+            category: tool.category,
+            enabled: true,
+            requiresApproval: false,
+            usageCount: 0,
+            isBuiltIn: true
+          }));
+        } catch (e) {
+          console.warn("[Store] Registry merge failed", e);
+        }
+
+        set({ tools: [...builtInTools, ...dbTools], isLoading: false });
       } catch (error: unknown) {
         console.error("Failed to fetch MCP tools:", error);
         set({ isLoading: false });

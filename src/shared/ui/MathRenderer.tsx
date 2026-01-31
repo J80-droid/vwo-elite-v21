@@ -11,28 +11,34 @@ export const MathRenderer = ({ text }: { text: string }) => {
   useEffect(() => {
     if (!containerRef.current || !text) return;
 
-    // We bouwen de HTML string op door tekst en LaTeX te splitsen
-    const parts = text.split(/(\$[^\$]+\$)/g);
+    // We bouwen de HTML string op door tekst, LaTeX en bold te splitsen
+    const parts = text.split(/(\$[^\$]+\$|\*\*[^\*]+\*\*)/g);
 
     // Clear previous content
     containerRef.current.innerHTML = "";
 
     parts.forEach((part) => {
-      const span = document.createElement("span");
       if (part.startsWith("$") && part.endsWith("$")) {
+        const span = document.createElement("span");
         try {
-          // Render LaTeX in de span
           katex.render(part.slice(1, -1), span, {
             throwOnError: false,
-            displayMode: false, // Inline math
+            displayMode: false,
           });
         } catch (e) {
-          span.innerText = part; // Fallback
+          span.innerText = part;
         }
+        containerRef.current?.appendChild(span);
+      } else if (part.startsWith("**") && part.endsWith("**")) {
+        const strong = document.createElement("strong");
+        strong.className = "font-black text-amber-500";
+        strong.innerText = part.slice(2, -2);
+        containerRef.current?.appendChild(strong);
       } else {
+        const span = document.createElement("span");
         span.innerText = part;
+        containerRef.current?.appendChild(span);
       }
-      containerRef.current?.appendChild(span);
     });
   }, [text]);
 

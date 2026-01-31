@@ -1,274 +1,229 @@
+import { z } from "zod";
+
 import { aiGenerate } from "../../aiCascadeService";
 import { extractYouTubeContent } from "../../youtubeService";
+import { getToolRegistry, type IToolHandler } from "../ToolRegistry";
 
-/**
- * Handle Media & Visualization tool execution
- */
-export async function handleMediaTool(
-  name: string,
-  params: Record<string, unknown>,
-): Promise<unknown> {
-  switch (name) {
-    case "extract_youtube_transcript":
-      return await extractYouTube(String(params.url));
-    case "generate_diagram":
-      return await generateDiagram(
-        String(params.description),
-        String(params.type || "mermaid"),
-      );
-    case "generate_image":
-      return await generateImage(String(params.prompt));
-    case "analyze_image":
-      return await analyzeImage(
-        String(params.image_url),
-        String(params.query || "Wat staat er op deze afbeelding?"),
-      );
-    case "render_3d_model":
-      return await render3DModel(String(params.model_name));
-    case "generate_3d_model":
-      return await generate3DModelTool(String(params.prompt));
-    case "analyze_video":
-      return await analyzeVideo(
-        String(params.video_url || params.video_id),
-        String(params.query || "Vat de video samen."),
-      );
-    case "audio_to_notes": {
-      const res = await audioToNotes(String(params.audio_url || params.audio_data));
-      return { success: true, ...res };
-    }
-    default:
-      throw new Error(`Media tool ${name} not implemented.`);
+// --- Tool Implementations ---
+
+const ExtractYouTubeTranscriptTool: IToolHandler = {
+  name: "extract_youtube_transcript",
+  category: "Media",
+  description: "Extraheert transcriptie en metadata van een YouTube video",
+  schema: z.object({
+    url: z.string().url(),
+  }),
+  async execute(params) {
+    return await extractYouTube(String(params.url));
   }
-}
+};
+
+const GenerateDiagramTool: IToolHandler = {
+  name: "generate_diagram",
+  category: "Media",
+  description: "Genereert Mermaid diagram code voor visualisaties",
+  schema: z.object({
+    description: z.string().min(1),
+    type: z.string().optional().default("mermaid"),
+  }),
+  async execute(params) {
+    return await generateDiagram(
+      String(params.description),
+      String(params.type || "mermaid"),
+    );
+  }
+};
+
+const GenerateImageTool: IToolHandler = {
+  name: "generate_image",
+  category: "Media",
+  description: "Genereert een afbeelding op basis van een tekstuele prompt",
+  schema: z.object({
+    prompt: z.string().min(1),
+  }),
+  async execute(params) {
+    return await generateImage(String(params.prompt));
+  }
+};
+
+const AnalyzeImageTool: IToolHandler = {
+  name: "analyze_image",
+  category: "Media",
+  description: "Analyseert een afbeelding en beantwoordt vragen erover",
+  schema: z.object({
+    image_url: z.string().min(1),
+    query: z.string().optional().default("Wat staat er op deze afbeelding?"),
+  }),
+  async execute(params) {
+    return await analyzeImage(
+      String(params.image_url),
+      String(params.query || "Wat staat er op deze afbeelding?"),
+    );
+  }
+};
+
+const Render3DModelTool: IToolHandler = {
+  name: "render_3d_model",
+  category: "Media",
+  description: "Configureert en rendert een 3D model in de Protein Explorer",
+  schema: z.object({
+    model_name: z.string().min(1),
+  }),
+  async execute(params) {
+    return await render3DModel(String(params.model_name));
+  }
+};
+
+const Generate3DModelTool: IToolHandler = {
+  name: "generate_3d_model",
+  category: "Media",
+  description: "Genereert een 3D mesh (GLB) via Replicate API",
+  schema: z.object({
+    prompt: z.string().min(1),
+  }),
+  async execute(params) {
+    return await generate3DModelTool(String(params.prompt));
+  }
+};
+
+const AnalyzeVideoTool: IToolHandler = {
+  name: "analyze_video",
+  category: "Media",
+  description: "Analyseert video content via AI proxy",
+  schema: z.object({
+    video_url: z.string().optional(),
+    video_id: z.string().optional(),
+    query: z.string().optional().default("Vat de video samen."),
+  }),
+  async execute(params) {
+    return await analyzeVideo(
+      String(params.video_url || params.video_id || ""),
+      String(params.query || "Vat de video samen."),
+    );
+  }
+};
+
+const AudioToNotesTool: IToolHandler = {
+  name: "audio_to_notes",
+  category: "Media",
+  description: "Zet audio input om naar gestructureerde samenvattingen",
+  schema: z.object({
+    audio_url: z.string().optional(),
+    audio_data: z.string().optional(),
+  }),
+  async execute(params) {
+    const res = await audioToNotes(String(params.audio_url || params.audio_data || ""));
+    return { success: true, ...res };
+  }
+};
+
+// --- Helper Functions ---
 
 async function extractYouTube(url: string) {
   try {
     const result = await extractYouTubeContent(url);
-    if (!result)
-      return { url, error: "Failed to extract content from YouTube." };
-
-    return {
-      title: result.metadata.title,
-      channel: result.metadata.channelTitle,
-      transcript: result.transcript.substring(0, 1000) + "...",
-      full_transcript_length: result.transcript.length,
-      videoId: result.videoId,
-    };
-  } catch (error: unknown) {
-    return { error: error instanceof Error ? error.message : String(error) };
-  }
+    if (!result) return { error: "Extraction failed." };
+    return { title: result.metadata.title, transcript: result.transcript.substring(0, 500) + "..." };
+  } catch (e: any) { return { error: e.message }; }
 }
 
 async function generateDiagram(description: string, type = "mermaid") {
-  const prompt = `Genereer een ${type} diagram code voor de volgende beschrijving: "${description}". 
-  Zorg dat de code direct bruikbaar is in een Mermaid renderer.`;
-
-  const code = await aiGenerate(prompt, {
-    systemPrompt:
-      "Je bent een expert in visualisatie en Mermaid.js diagrammen.",
-  });
-
-  return {
-    description,
-    type,
-    code,
-  };
+  const code = await aiGenerate(`Diagram: "${description}" (${type}).`, { systemPrompt: "Expert visualisatie." });
+  return { description, type, code };
 }
-async function generateImage(prompt: string) {
-  // Get API keys from localStorage (settings backup)
-  let hfToken: string | undefined;
-  let geminiApiKey: string | undefined;
 
+async function generateImage(prompt: string) {
+  // Check for API keys in localStorage
+  let hfToken: string | undefined;
   try {
     const backup = localStorage.getItem("vwo_elite_settings_backup");
     if (backup) {
       const settings = JSON.parse(backup);
       hfToken = settings?.aiConfig?.hfToken;
-      geminiApiKey = settings?.aiConfig?.geminiApiKey;
     }
-  } catch {
-    // Settings not available
-  }
+  } catch { /* ignore */ }
 
-  // Try HuggingFace FLUX first (best quality)
   if (hfToken) {
     try {
-      console.log("[ImageGen] Using HuggingFace FLUX...");
       const { generateImageHF } = await import("../../huggingFaceService");
-
-      const imageUrl = await generateImageHF(
-        prompt,
-        "black-forest-labs/FLUX.1-schnell",
-        "nl", // Dutch language for labels
-        hfToken,
-      );
-
-      if (imageUrl) {
-        return {
-          prompt,
-          status: "generated_bitmap",
-          format: "png",
-          url: imageUrl,
-          provider: "HuggingFace FLUX",
-          message: "Afbeelding succesvol gegenereerd via FLUX.",
-        };
-      }
-    } catch (error) {
-      console.warn("[ImageGen] FLUX failed:", error);
-    }
+      const url = await generateImageHF(prompt, "black-forest-labs/FLUX.1-schnell", "nl", hfToken);
+      if (url) return { prompt, url, provider: "HuggingFace FLUX" };
+    } catch { /* fallback */ }
   }
 
-  // Try Gemini Imagen as second option
-  if (geminiApiKey) {
-    try {
-      console.log("[ImageGen] Using Gemini Imagen...");
-      const { generateEducationalImage } = await import("../../gemini/vision");
-
-      // generateEducationalImage only uses geminiApiKey from the config
-      const base64 = await generateEducationalImage(prompt, {
-        geminiApiKey,
-      } as Parameters<typeof generateEducationalImage>[1]);
-
-      if (base64) {
-        return {
-          prompt,
-          status: "generated_bitmap",
-          format: "png",
-          content: `data:image/png;base64,${base64}`,
-          provider: "Gemini Imagen",
-          message: "Afbeelding gegenereerd via Gemini Imagen.",
-        };
-      }
-    } catch (error) {
-      console.warn("[ImageGen] Gemini Imagen failed:", error);
-    }
-  }
-
-  // Final fallback: SVG generation via AI
-  console.log("[ImageGen] Using SVG fallback (no API keys configured)");
-  const svgPrompt = `Genereer een SVG-afbeelding voor de volgende beschrijving: "${prompt}". 
-    Geef ALLEEN de valide <svg> code terug zonder markdown blocks. Zorg voor een modern, flat design.`;
-
-  const svgCode = await aiGenerate(svgPrompt, {
-    systemPrompt:
-      "Je bent een expert in SVG-vector graphics en generatieve kunst.",
-  });
-
-  return {
-    prompt,
-    status: "generated_svg",
-    format: "svg",
-    content: svgCode,
-    provider: "AI SVG Generator",
-    message:
-      "SVG afbeelding gegenereerd. Voeg een HuggingFace of Gemini key toe voor bitmap afbeeldingen.",
-  };
+  const svgCode = await aiGenerate(`Modern flat SVG for: "${prompt}".`, { systemPrompt: "Expert SVG." });
+  return { prompt, content: svgCode, format: "svg", provider: "AI SVG Generator" };
 }
 
 async function analyzeImage(imageUrl: string, query: string) {
-  const prompt = `Analyseer deze afbeelding en beantwoord de vraag: "${query}".`;
-  const systemPrompt =
-    "Je bent een expert in computer vision en het analyseren van visuele content.";
-
-  // Convert data URL if needed
   const base64Data = imageUrl.includes(",") ? imageUrl.split(",")[1] : imageUrl;
   const mimeType = imageUrl.includes("image/png") ? "image/png" : "image/jpeg";
-
-  const analysis = await aiGenerate(prompt, {
-    systemPrompt,
-    inlineImages: [
-      { mimeType: mimeType as string, data: base64Data as string },
-    ],
-  });
-  return { imageUrl, query, analysis, source: "Elite Vision Engine" };
+  const analysis = await aiGenerate(query, { systemPrompt: "Expert computer vision.", inlineImages: [{ mimeType: mimeType!, data: base64Data! }] });
+  return { analysis };
 }
 
 async function render3DModel(modelName: string) {
-  // In a real scenario, this would load a GLB or configure a scene.
-  return {
-    modelName,
-    status: "rendering",
-    engine: "React-Three-Fiber",
-  };
+  return { modelName, status: "rendering", engine: "React-Three-Fiber" };
 }
 
 async function generate3DModelTool(prompt: string) {
   let replicateApiKey: string | undefined;
-
   try {
     const backup = localStorage.getItem("vwo_elite_settings_backup");
     if (backup) {
       const settings = JSON.parse(backup);
       replicateApiKey = settings?.aiConfig?.replicateApiKey;
     }
-  } catch {
-    // Settings not available
-  }
+  } catch { /* ignore */ }
 
-  if (!replicateApiKey) {
-    return {
-      error: "Replicate API Key is vereist voor 3D generatie. Voeg deze toe in Instellingen.",
-    };
-  }
+  if (!replicateApiKey) return { error: "Replicate API Key vereist." };
 
   try {
-    console.log("[3DGen] Generating with Shap-E...");
     const { generate3DModel } = await import("../../shape3dService");
-
-    const result = await generate3DModel({
-      replicateApiKey,
-      prompt,
-    });
-
-    return {
-      prompt,
-      status: "generated_3d",
-      meshUrl: result.meshUrl,
-      format: result.format,
-      provider: "Replicate Shap-E",
-      message: "3D model succesvol gegenereerd.",
-    };
-  } catch (error: unknown) {
-    console.error("[3DGen] Generation failed:", error);
-    return {
-      error: error instanceof Error ? error.message : String(error),
-    };
-  }
+    const result = await generate3DModel({ replicateApiKey, prompt });
+    return { prompt, meshUrl: result.meshUrl, provider: "Replicate" };
+  } catch (e: any) { return { error: e.message }; }
 }
 
-async function analyzeVideo(videoSource: string, query: string) {
-  const prompt = `Analyseer de video op bron "${videoSource}" en beantwoord: "${query}". 
-  Vat de belangrijkste visuele en auditieve elementen samen.`;
-  const systemPrompt =
-    "Je bent een expert in video-analyse en multimedia content editing.";
-
-  const analysis = await aiGenerate(prompt, { systemPrompt });
-  return { videoSource, query, analysis, status: "analyzed_via_ai_proxy" };
+async function analyzeVideo(url: string, query: string) {
+  const analysis = await aiGenerate(`Analyze video: ${url}. Query: ${query}`, { systemPrompt: "Expert video-analyse." });
+  return { analysis };
 }
 
-async function audioToNotes(audioString: string) {
-  // Handle Data URL or raw Base64
-  const base64Data = audioString.includes(",")
-    ? audioString.split(",")[1]
-    : audioString;
-  const mimeType = audioString.includes("audio/")
-    ? audioString.substring(
-      audioString.indexOf(":") + 1,
-      audioString.indexOf(";"),
-    )
-    : "audio/mp3";
+async function audioToNotes(audio: string) {
+  const base64Data = audio.includes(",") ? audio.split(",")[1] : audio;
+  const mimeType = audio.includes("audio/") ? audio.substring(audio.indexOf(":") + 1, audio.indexOf(";")) : "audio/mp3";
+  const content = await aiGenerate("Vat audio samen.", { systemPrompt: "Expert transcriptie.", inlineMedia: [{ mimeType: mimeType!, data: base64Data! }] });
+  return { notes: content };
+}
 
-  const prompt = `Transcribeer de audio en vat de belangrijkste punten samen als gestructureerde notities.`;
-  const systemPrompt =
-    "Je bent een expert in transcriptie en het maken van samenvattingen van colleges.";
+// --- Registration ---
 
-  const content = await aiGenerate(prompt, {
-    systemPrompt,
-    inlineMedia: [{ mimeType: mimeType!, data: base64Data! }],
-  });
-  return {
-    audio_received: true,
-    notes: content,
-    status: "audio_processed_via_ai",
-  };
+export function registerMediaTools(): void {
+  const registry = getToolRegistry();
+  registry.registerAll([
+    ExtractYouTubeTranscriptTool,
+    GenerateDiagramTool,
+    GenerateImageTool,
+    AnalyzeImageTool,
+    Render3DModelTool,
+    Generate3DModelTool,
+    AnalyzeVideoTool,
+    AudioToNotesTool,
+  ]);
+  console.log("[MediaTools] Registered 8 tools.");
+}
+
+/**
+ * Legacy handler
+ * @deprecated Use ToolRegistry instead
+ */
+export async function handleMediaTool(
+  name: string,
+  params: Record<string, unknown>,
+): Promise<unknown> {
+  const registry = getToolRegistry();
+  const handler = registry.get(name);
+  if (handler) return handler.execute(params);
+  throw new Error(`Media tool ${name} not implemented.`);
 }

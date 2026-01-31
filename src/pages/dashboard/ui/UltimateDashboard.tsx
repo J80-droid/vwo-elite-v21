@@ -64,6 +64,7 @@ const SubjectRadar = React.lazy(() =>
 const SUBJECTS = [
   "wiskunde",
   "natuurkunde",
+  "biologie",
   "scheikunde",
   "frans",
   "engels",
@@ -326,6 +327,7 @@ const UltimateDashboard: React.FC = () => {
     () => [
       "Wiskunde B",
       t.subjects.physics,
+      t.subjects.biology,
       t.subjects.chemistry,
       t.subjects.french,
       t.subjects.english,
@@ -614,6 +616,15 @@ const UltimateDashboard: React.FC = () => {
                 <BookOpen size={20} />
               </span>
               {t.subjects.physics}
+            </div>
+            <div
+              className="ud-link-item emerald"
+              onClick={() => navigate("/library?subject=Biologie")}
+            >
+              <span>
+                <Heart size={20} />
+              </span>
+              {t.subjects.biology}
             </div>
             <div
               className="ud-link-item yellow"

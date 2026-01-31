@@ -1,4 +1,4 @@
-import { Difficulty, GymProblem } from "@shared/types/gym";
+import { Difficulty, GymEngine, GymProblem } from "@shared/types/gym";
 
 // Kleine database van isotopen voor realistische oefeningen
 const ISOTOPES = [
@@ -14,7 +14,10 @@ const ISOTOPES = [
   { el: "Sr", a: 90, z: 38 },
 ];
 
-export const DecayEngine = {
+export const DecayEngine: GymEngine = {
+  id: "decay",
+  name: "Verval",
+  description: "Alpha, Beta en Gamma vervalreacties.",
   generate: (level: Difficulty): GymProblem => {
     // Kies willekeurige moederkern
     const parent =
@@ -38,8 +41,8 @@ export const DecayEngine = {
       part = "\\alpha";
       steps = [
         "Alfistraling is een Heliumkern ($^4_2\\text{He}$).",
-        `Massagetal A: ${parent.a} - 4 = ${d_a}`,
-        `Atoomnummer Z: ${parent.z} - 2 = ${d_z}`,
+        `Massagetal A: $${parent.a} - 4 = ${d_a}$`,
+        `Atoomnummer Z: $${parent.z} - 2 = ${d_z}$`,
       ];
     } else if (type === "beta-") {
       // Beta-: Elektron (0, -1). Dus Z gaat +1 om lading te behouden!
@@ -50,7 +53,7 @@ export const DecayEngine = {
         "Bèta-min is een elektron ($^{\\hphantom{-}0}_{-1}\\text{e}$).",
         "Massagetal A verandert niet.",
         "Lading blijft behouden: Z moet +1 worden (want $Z_{nieuw} + (-1) = Z_{oud}$).",
-        `Atoomnummer Z: ${parent.z} + 1 = ${d_z}`,
+        `Atoomnummer Z: $${parent.z} + 1 = ${d_z}$`,
       ];
     } else if (type === "gamma") {
       // Gamma: Foton (0,0). Niets verandert.
@@ -67,7 +70,7 @@ export const DecayEngine = {
         "Bèta-plus is een positron ($^{\\hphantom{+}0}_{+1}\\text{e}$).",
         "Massagetal A verandert niet.",
         "Lading blijft behouden: Z moet -1 worden (want $Z_{nieuw} + 1 = Z_{oud}$).",
-        `Atoomnummer Z: ${parent.z} - 1 = ${d_z}`,
+        `Atoomnummer Z: $${parent.z} - 1 = ${d_z}$`,
       ];
     }
 

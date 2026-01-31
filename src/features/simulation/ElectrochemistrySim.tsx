@@ -1,4 +1,4 @@
-import { Activity, Battery, Zap } from "lucide-react";
+import { Zap } from "lucide-react";
 import React, { useState } from "react";
 
 import {
@@ -67,9 +67,9 @@ const Beaker: React.FC<BeakerProps> = ({ cell, side, onChange, isRunning }) => (
   </div>
 );
 
-export const ElectrochemistrySim: React.FC<{ mode?: "sidebar" | "main" }> = ({
-  mode,
-}) => {
+export const ElectrochemistrySim: React.FC<{
+  mode?: "sidebar" | "main" | "stage" | "controls";
+}> = ({ mode }) => {
   // State
   const [leftCell, setLeftCell] = useState<HalfCeil>(
     HALF_CELLS.find((c) => c.id === "zn")!,
@@ -95,155 +95,148 @@ export const ElectrochemistrySim: React.FC<{ mode?: "sidebar" | "main" }> = ({
   // If voltage < 0: Electron flow Right -> Left.
   const flowDirection = voltage > 0 ? "right" : "left";
 
-  if (mode === "sidebar") {
-    const measuredV = isRunning ? Math.abs(voltage).toFixed(2) : "---";
+  if (mode === "controls") {
     return (
-      <div className="space-y-4 pt-4">
-        <div className="bg-obsidian-900 p-4 rounded-xl border border-white/10 text-center">
-          <div className="text-xs text-slate-500 mb-1 uppercase tracking-widest">
-            Voltmeter
-          </div>
-          <div className="text-4xl font-mono font-bold text-yellow-400 flex items-center justify-center gap-2">
-            {measuredV} <span className="text-sm text-slate-500">V</span>
-          </div>
-        </div>
-        <div className="flex gap-2">
-          <button
-            onClick={() => setIsRunning(!isRunning)}
-            className={`btn-elite-glass flex-1 !py-3 !rounded-xl ${isRunning ? "btn-elite-rose active" : "btn-elite-emerald active"}`}
+      <div className="flex flex-row items-center gap-4">
+        {/* Electrode 1 Selection */}
+        <div className="flex items-center gap-2 bg-black/40 border border-white/5 p-1 rounded-xl">
+          <span className="text-[8px] font-black text-slate-500 uppercase tracking-widest px-2">Elektrode 1</span>
+          <select
+            value={leftCell.id}
+            onChange={(e) => setLeftCell(HALF_CELLS.find((c) => c.id === e.target.value)!)}
+            className="bg-transparent text-[10px] text-white outline-none font-bold py-1 pr-4"
           >
-            {isRunning ? "Stop Meting" : "Start Meting"}
-          </button>
+            {HALF_CELLS.map((c) => (
+              <option key={c.id} value={c.id} className="bg-obsidian-950">
+                {c.couple} ({c.E0 > 0 ? "+" : ""}{c.E0.toFixed(2)}V)
+              </option>
+            ))}
+          </select>
         </div>
+
+        <div className="w-px h-6 bg-white/10 mx-1" />
+
+        {/* Electrode 2 Selection */}
+        <div className="flex items-center gap-2 bg-black/40 border border-white/5 p-1 rounded-xl">
+          <span className="text-[8px] font-black text-slate-500 uppercase tracking-widest px-2">Elektrode 2</span>
+          <select
+            value={rightCell.id}
+            onChange={(e) => setRightCell(HALF_CELLS.find((c) => c.id === e.target.value)!)}
+            className="bg-transparent text-[10px] text-white outline-none font-bold py-1 pr-4"
+          >
+            {HALF_CELLS.map((c) => (
+              <option key={c.id} value={c.id} className="bg-obsidian-950">
+                {c.couple} ({c.E0 > 0 ? "+" : ""}{c.E0.toFixed(2)}V)
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <button
+          onClick={() => setIsRunning(!isRunning)}
+          className={`px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2 ${isRunning ? 'bg-rose-500/20 text-rose-400 border border-rose-500/20 shadow-lg shadow-rose-500/10' : 'bg-yellow-500 text-black shadow-lg shadow-yellow-500/20'}`}
+        >
+          <Zap size={14} className={isRunning ? "animate-pulse" : ""} />
+          {isRunning ? "Meting Stoppen" : "Meting Starten"}
+        </button>
+
+        {/* Voltage Display Mini */}
+        {isRunning && (
+          <div className="ml-auto flex items-center gap-3 bg-white/5 border border-white/5 px-3 py-1.5 rounded-xl">
+            <div className="flex flex-col">
+              <span className="text-[8px] font-black text-slate-500 uppercase leading-none">Measured</span>
+              <span className="text-[12px] font-black text-yellow-400 leading-tight">{Math.abs(voltage).toFixed(2)}V</span>
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  if (mode === "stage") {
+    return (
+      <div className="h-full w-full flex flex-col items-center justify-center p-8 relative overflow-hidden bg-black">
+        {/* Watermark */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-[0.02] pointer-events-none select-none z-0">
+          <h1 className="text-[12rem] font-black tracking-tighter text-white">
+            VWO ELITE
+          </h1>
+        </div>
+
+        <div className="relative flex items-end gap-32 z-10">
+          {/* Salt Bridge */}
+          <div className="absolute bottom-32 left-1/2 -translate-x-1/2 w-64 h-24 border-t-8 border-x-8 border-white/10 rounded-t-3xl pointer-events-none z-0 opacity-50">
+            <div className="w-full h-full bg-blue-500/5 rounded-t-2xl" />
+            <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 text-[10px] text-slate-600 uppercase font-black bg-black px-3 tracking-widest">
+              Zoutbrug (KNO₃)
+            </div>
+          </div>
+
+          {/* Wire & Voltmeter */}
+          <div className="absolute top-[-40px] left-1/2 -translate-x-1/2 w-[400px] h-32 border-t-4 border-x-4 border-yellow-500/50 rounded-t-full pointer-events-none flex justify-center">
+            <div className={`bg-obsidian-900 border-4 ${isRunning ? 'border-yellow-500 shadow-[0_0_30px_rgba(234,179,8,0.3)]' : 'border-white/10'} rounded-full w-24 h-24 -mt-12 flex items-center justify-center transition-all duration-500`}>
+              <div className={`text-2xl font-mono font-black ${isRunning ? 'text-yellow-400' : 'text-slate-700'}`}>
+                {isRunning ? Math.abs(voltage).toFixed(2) : "OFF"}
+                {isRunning && <span className="text-xs ml-0.5">V</span>}
+              </div>
+            </div>
+
+            {/* Electrons Animation */}
+            {isRunning && (
+              <div
+                className={`absolute top-[-10px] w-4 h-4 rounded-full bg-yellow-400 shadow-[0_0_15px_yellow]`}
+                style={{
+                  offsetPath: 'path("M 0 100 Q 200 -50 400 100")',
+                  animation: `electron-${flowDirection} 2s infinite linear`,
+                }}
+              />
+            )}
+          </div>
+
+          <Beaker
+            cell={leftCell}
+            side="left"
+            onChange={setLeftCell}
+            isRunning={isRunning}
+          />
+          <Beaker
+            cell={rightCell}
+            side="right"
+            onChange={setRightCell}
+            isRunning={isRunning}
+          />
+        </div>
+
+        {/* Reaction Info Overlay */}
+        {isRunning && (
+          <div className="absolute bottom-12 right-12 max-w-sm w-full bg-black/60 backdrop-blur-xl border border-white/10 p-6 rounded-3xl shadow-2xl animate-in fade-in slide-in-from-bottom-4 duration-700">
+            <div className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-4">Reactie Analyse</div>
+            <div className="space-y-3 font-mono text-[10px]">
+              <div className="flex items-center justify-between text-rose-400">
+                <span className="font-black uppercase">Anode (-)</span>
+                <span>{leftCell.metal} → {leftCell.ion} + e⁻</span>
+              </div>
+              <div className="flex items-center justify-between text-cyan-400">
+                <span className="font-black uppercase">Kathode (+)</span>
+                <span>{rightCell.ion} + e⁻ → {rightCell.metal}</span>
+              </div>
+            </div>
+            <div className="mt-4 pt-4 border-t border-white/5 flex items-center justify-between">
+              <span className="text-[9px] font-bold text-slate-400 uppercase">Bronspanning</span>
+              <span className="text-sm font-black text-yellow-500">{Math.abs(voltage).toFixed(2)}V</span>
+            </div>
+          </div>
+        )}
       </div>
     );
   }
 
   return (
-    <div className="h-full bg-obsidian-950 p-8 flex flex-col items-center">
-      <h1 className="text-3xl font-bold text-white mb-2 flex items-center gap-3">
-        <Battery className="text-yellow-400" /> Elektrochemische Cel
-      </h1>
-      <p className="text-slate-400 mb-12">
-        Bouw een galvanische cel en meet de bronspanning.
-      </p>
-
-      <div className="relative flex items-end gap-32">
-        {/* Salt Bridge */}
-        <div className="absolute bottom-32 left-1/2 -translate-x-1/2 w-64 h-24 border-t-8 border-x-8 border-white/10 rounded-t-3xl pointer-events-none z-0 opacity-50">
-          <div className="w-full h-full bg-blue-500/5 rounded-t-2xl" />
-          <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 text-xs text-slate-600 uppercase font-bold bg-obsidian-950 px-2">
-            Zoutbrug (KNO3)
-          </div>
-        </div>
-
-        {/* Wire & Voltmeter */}
-        <div className="absolute top-[-40px] left-1/2 -translate-x-1/2 w-[400px] h-32 border-t-4 border-x-4 border-yellow-500/50 rounded-t-full pointer-events-none flex justify-center">
-          <div className="bg-obsidian-900 border-4 border-yellow-500 rounded-full w-24 h-24 -mt-12 flex items-center justify-center shadow-[0_0_20px_rgba(234,179,8,0.3)]">
-            <div className="text-2xl font-mono font-bold text-yellow-400">
-              {isRunning ? Math.abs(voltage).toFixed(2) : "OFF"}{" "}
-              <span className="text-xs">V</span>
-            </div>
-          </div>
-
-          {/* Electrons Animation */}
-          {isRunning && (
-            <div
-              className={`absolute top-[-10px] w-4 h-4 rounded-full bg-yellow-400 shadow-[0_0_10px_yellow] animate-electron-flow`}
-              style={{
-                offsetPath: 'path("M 0 100 Q 200 -50 400 100")',
-                animation: `electron-${flowDirection} 2s infinite linear`,
-              }}
-            />
-          )}
-        </div>
-
-        <Beaker
-          cell={leftCell}
-          side="left"
-          onChange={setLeftCell}
-          isRunning={isRunning}
-        />
-        <Beaker
-          cell={rightCell}
-          side="right"
-          onChange={setRightCell}
-          isRunning={isRunning}
-        />
+    <div className="h-full bg-obsidian-950 flex items-center justify-center p-6 grayscale opacity-20 border-2 border-dashed border-white/5 rounded-3xl m-4">
+      <div className="text-center">
+        <div className="text-sm font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Full mode rendering is deactivated</div>
+        <div className="text-[10px] text-slate-600 italic">Please use mode="stage" and mode="controls"</div>
       </div>
-
-      {/* Reaction Summary */}
-      <div className="mt-16 bg-obsidian-900/80 p-6 rounded-2xl border border-white/5 max-w-3xl w-full">
-        <div className="flex justify-between items-center mb-6">
-          <h3 className="font-bold text-white flex items-center gap-2">
-            <Activity size={16} className="text-cyan-400" /> Cel Notatie
-          </h3>
-          <div className="text-sm font-mono text-slate-400">
-            {isRunning
-              ? voltage > 0
-                ? "Spontane Reactie"
-                : "Niet Spontaan (Electrolyse nodig)"
-              : "Systeem in rust"}
-          </div>
-        </div>
-
-        <div className="flex flex-col gap-2 font-mono text-lg">
-          {/* Oxidation Half */}
-          <div className="flex justify-between p-3 bg-red-500/10 rounded border-l-4 border-red-500">
-            <span className="text-red-400 font-bold w-24">Anode (-)</span>
-            <span className="text-slate-200">
-              {voltage > 0
-                ? `${leftCell.metal} → ${leftCell.ion} + ${leftCell.id === "al" ? 3 : 2}e⁻`
-                : "..."}
-            </span>
-            <span className="text-slate-500 w-20 text-right">
-              E⁰ = {leftCell.E0}V
-            </span>
-          </div>
-
-          {/* Reduction Half */}
-          <div className="flex justify-between p-3 bg-blue-500/10 rounded border-l-4 border-blue-500">
-            <span className="text-blue-400 font-bold w-24">Kathode (+)</span>
-            <span className="text-slate-200">
-              {voltage > 0
-                ? `${rightCell.ion} + ...e⁻ → ${rightCell.metal}`
-                : "..."}
-            </span>
-            <span className="text-slate-500 w-20 text-right">
-              E⁰ = {rightCell.E0}V
-            </span>
-          </div>
-
-          <div className="mt-2 text-right text-xs text-slate-500">
-            ΔE = E(kathode) - E(anode) = {Math.abs(voltage).toFixed(2)}V
-          </div>
-        </div>
-
-        <div className="mt-6 flex justify-center">
-          <button
-            onClick={() => setIsRunning(!isRunning)}
-            className={`btn-elite-glass !px-8 !py-3 !rounded-xl ${isRunning ? "btn-elite-rose active" : "btn-elite-purple active"}`}
-          >
-            <Zap size={20} className={isRunning ? "animate-pulse" : ""} />
-            {isRunning ? "Verbreek Kring" : "Sluit Kring"}
-          </button>
-        </div>
-      </div>
-
-      <style>{`
-                @keyframes electron-right {
-                    0% { transform: translateX(0) translateY(0); opacity: 0; }
-                    10% { opacity: 1; }
-                    90% { opacity: 1; }
-                    100% { transform: translateX(400px) translateY(0); opacity: 0; }
-                }
-                @keyframes electron-left {
-                    0% { transform: translateX(400px) translateY(0); opacity: 0; }
-                    10% { opacity: 1; }
-                    90% { opacity: 1; }
-                    100% { transform: translateX(0) translateY(0); opacity: 0; }
-                }
-            `}</style>
     </div>
   );
 };

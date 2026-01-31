@@ -1,6 +1,7 @@
 import { AIConfig } from "@shared/types/index";
 
 import { logger } from "../../lib/logger";
+import { resolveModel } from "../../lib/modelDefaults";
 import { aiGenerate } from "../aiCascadeService";
 import { knowledgeCache } from "./KnowledgeCache";
 
@@ -32,8 +33,18 @@ export class KnowledgeProcessor {
     // ELITE CLUSTER LIMITS: 
     // We use a safe threshold to prevent TPM (Tokens Per Minute) 429s on Gemini Free Tier.
     // 100k chars ≈ 25k tokens. 15 RPM * 25k = 375k TPM (Safe below 1M TPM limit).
-    private readonly CHUNK_LIMIT_CHARS = 100000;
+    private readonly DEFAULT_CHUNK_LIMIT = 100000;
     private readonly MAX_REDUCTION_WORDS = 1500;
+
+    private getDynamicChunkLimit(aiConfig?: AIConfig): number {
+        const model = resolveModel("gemini", "reasoning", aiConfig);
+        // Gemini 1.5 Pro has a massive context window (1M-2M tokens).
+        // We can safely use 1M chars (~250k tokens) per batch.
+        if (model.includes("pro")) {
+            return 1000000;
+        }
+        return this.DEFAULT_CHUNK_LIMIT;
+    }
 
     /**
      * Main Function: Digest materials into a refined context for the lesson.
@@ -55,7 +66,7 @@ export class KnowledgeProcessor {
             return cachedResult;
         }
 
-        options.onProgress?.("Analyseren van bronmateriaal...", 10);
+        const chunkLimit = this.getDynamicChunkLimit(options.aiConfig);
 
         // 1. Calculate total size
         const totalChars = materials.reduce((acc, m) => acc + m.content.length, 0);
@@ -63,14 +74,14 @@ export class KnowledgeProcessor {
         let result = "";
 
         // 2. Direct Path: If small enough, return everything immediately.
-        if (totalChars < this.CHUNK_LIMIT_CHARS) {
+        if (totalChars < chunkLimit) {
             logger.info(`[Knowledge] Direct path used (${totalChars} chars).`);
             result = this.formatDirectContext(materials);
         }
         // 3. Map-Reduce Path
         else {
-            logger.info(`[Knowledge] Map-Reduce triggered. Content size: ${totalChars} chars.`);
-            result = await this.executeMapReduce(materials, options);
+            logger.info(`[Knowledge] Map-Reduce triggered. Content size: ${totalChars} chars. Chunk Limit: ${chunkLimit}`);
+            result = await this.executeMapReduce(materials, options, chunkLimit);
         }
 
         // 4. SAVE TO CACHE
@@ -84,11 +95,12 @@ export class KnowledgeProcessor {
      */
     private async executeMapReduce(
         materials: Material[],
-        options: MapReduceOptions
+        options: MapReduceOptions,
+        chunkLimit: number
     ): Promise<string> {
 
         // A. Create Batches (Greedy Packing)
-        const batches = this.createBatches(materials);
+        const batches = this.createBatches(materials, chunkLimit);
         logger.info(`[Knowledge] Created ${batches.length} batches.`);
 
         // ELITE UX: Immediate feedback on total clusters
@@ -160,7 +172,7 @@ export class KnowledgeProcessor {
 
         // ELITE FIX: Recursive Reduction if the aggregate result is still "Heavy"
         // This ensures the final lesson prompt never exceeds provider limits.
-        if (combinedKnowledge.length > this.CHUNK_LIMIT_CHARS) {
+        if (combinedKnowledge.length > chunkLimit) {
             logger.info(`[Knowledge] Recursive reduction triggered. Aggregated size: ${combinedKnowledge.length} chars.`);
             options.onProgress?.("Kennis verfijnen (extra pass)...", 80);
 
@@ -175,7 +187,7 @@ export class KnowledgeProcessor {
                 intent: `The following are summaries of different parts of the material. 
                          YOUR TASK: Synthesize them into a single, cohesive, academic master-summary. 
                          Focus on connections and overarching themes.`
-            });
+            }, chunkLimit);
         }
 
         return `
@@ -191,14 +203,14 @@ export class KnowledgeProcessor {
      * ELITE FIX: Originally this only packed small materials. 
      * Now it splits massive materials into manageable clusters.
      */
-    private createBatches(materials: Material[]): Material[][] {
+    private createBatches(materials: Material[], chunkLimit: number): Material[][] {
         const batches: Material[][] = [];
         let currentBatch: Material[] = [];
         let currentSize = 0;
 
         for (const mat of materials) {
             // Case 1: Material itself is a behemoth (e.g. 7M chars)
-            if (mat.content.length > this.CHUNK_LIMIT_CHARS) {
+            if (mat.content.length > chunkLimit) {
                 // A. Flush current batch if not empty
                 if (currentBatch.length > 0) {
                     batches.push(currentBatch);
@@ -210,19 +222,19 @@ export class KnowledgeProcessor {
                 logger.info(`[Knowledge] Hard-splitting massive material: ${mat.name} (${mat.content.length} chars)`);
                 let start = 0;
                 while (start < mat.content.length) {
-                    const chunkContent = mat.content.substring(start, start + this.CHUNK_LIMIT_CHARS);
+                    const chunkContent = mat.content.substring(start, start + chunkLimit);
                     batches.push([{
                         id: `${mat.id}-part-${start}`,
-                        name: `${mat.name} (Part ${Math.floor(start / this.CHUNK_LIMIT_CHARS) + 1})`,
+                        name: `${mat.name} (Part ${Math.floor(start / chunkLimit) + 1})`,
                         content: chunkContent
                     }]);
-                    start += this.CHUNK_LIMIT_CHARS;
+                    start += chunkLimit;
                 }
                 continue;
             }
 
             // Case 2: Standard packing
-            if (currentSize + mat.content.length > this.CHUNK_LIMIT_CHARS && currentBatch.length > 0) {
+            if (currentSize + mat.content.length > chunkLimit && currentBatch.length > 0) {
                 batches.push(currentBatch);
                 currentBatch = [];
                 currentSize = 0;

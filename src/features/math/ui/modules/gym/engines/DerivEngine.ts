@@ -1,3 +1,4 @@
+import { StepSolver } from "@features/math/api/StepSolver";
 import { checkEquivalence } from "@shared/lib/MathValidator";
 
 import { Difficulty, GymEngine, GymProblem } from "../types";
@@ -10,7 +11,7 @@ export const DerivEngine: GymEngine = {
   name: "The Derivative Dash",
   description: "Automatiseer standaard afgeleiden.",
 
-  generate: (level: Difficulty): GymProblem => {
+  generate: async (level: Difficulty): Promise<GymProblem> => {
     const timestamp = Date.now();
     const a = rand(2, 9);
     const b = rand(2, 5);
@@ -20,17 +21,27 @@ export const DerivEngine: GymEngine = {
         // Polynomials
         // f(x) = ax^n - bx
         const n = rand(2, 5);
+        const expression = `${a}x^${n} - ${b}x`;
+        const solverResult = await StepSolver.solve(
+          expression,
+          "derivative",
+          "x",
+          (k) => k // Simple fallback for translations inside engine for now, or assume system default
+        );
+
         return {
           id: `deriv-1-${timestamp}`,
-          question: `f(x) = ${a}x^{${n}} - ${b}x`,
+          question: `$$f(x) = ${a}x^{${n}} - ${b}x$$`,
           answer: `${a * n}x^{${n - 1}} - ${b}`,
-          displayAnswer: `${a * n}x^{${n - 1}} - ${b}`,
+          displayAnswer: solverResult.finalAnswer || `${a * n}x^{${n - 1}} - ${b}`,
           context: "Bepaal de afgeleide f'(x)",
+          stepSolverResult: solverResult, // Pass the full rich result
           solutionSteps: [
-            `Machtsregel: (x^n)' = nx^{n-1}.`,
-            `Term 1: ${a} \\cdot ${n}x^{${n - 1}} = ${a * n}x^{${n - 1}}`,
-            `Term 2: -${b}x \\to -${b}`,
-            `Antwoord: ${a * n}x^{${n - 1}} - ${b}`,
+            // Fallback steps if StepSolver fails or for legacy
+            `Machtsregel: $$(x^n)' = nx^{n-1}$$.`,
+            `Term 1: $${a} \\cdot ${n}x^{${n - 1}} = ${a * n}x^{${n - 1}}$`,
+            `Term 2: $-${b}x \\to -${b}$`,
+            `Antwoord: $${a * n}x^{${n - 1}} - ${b}$`,
           ],
         };
       }
@@ -40,26 +51,26 @@ export const DerivEngine: GymEngine = {
         if (Math.random() > 0.5) {
           return {
             id: `deriv-2-${timestamp}`,
-            question: `f(x) = \\cos(x)`,
+            question: `$$f(x) = \\cos(x)$$`,
             answer: `-sin(x)`,
             displayAnswer: `-\\sin(x)`,
             context: "Bepaal de afgeleide f'(x)",
             solutionSteps: [
               `Standaard afgeleide: de afgeleide van cosinus is negatieve sinus.`,
-              `Antwoord: -\\sin(x)`,
+              `Antwoord: $$-\\sin(x)$$`,
             ],
           };
         } else {
           return {
             id: `deriv-2b-${timestamp}`,
-            question: `f(x) = ${a}\\sin(x)`,
+            question: `$$f(x) = ${a}\\sin(x)$$`,
             answer: `${a}*cos(x)`,
             displayAnswer: `${a}\\cos(x)`,
             context: "Bepaal de afgeleide f'(x)",
             solutionSteps: [
               `Standaard afgeleide: de afgeleide van sinus is cosinus.`,
-              `De constante factor ${a} blijft staan.`,
-              `Antwoord: ${a}\\cos(x)`,
+              `De constante factor $${a}$ blijft staan.`,
+              `Antwoord: $${a}\\cos(x)$`,
             ],
           };
         }
@@ -70,19 +81,19 @@ export const DerivEngine: GymEngine = {
         if (Math.random() > 0.5) {
           return {
             id: `deriv-3-${timestamp}`,
-            question: `f(x) = e^{${a}x}`,
+            question: `$$f(x) = e^{${a}x}$$`,
             answer: `${a}*e^{${a}x}`,
             displayAnswer: `${a}e^{${a}x}`,
             context: "Bepaal de afgeleide f'(x)",
             solutionSteps: [
-              `Kettingregel: de afgeleide van e^{ax} is a \\cdot e^{ax}.`,
-              `Antwoord: ${a}e^{${a}x}`,
+              `Kettingregel: de afgeleide van $e^{ax}$ is $a \\cdot e^{ax}$.`,
+              `Antwoord: $${a}e^{${a}x}$`,
             ],
           };
         } else {
           return {
             id: `deriv-3b-${timestamp}`,
-            question: `f(x) = \\ln(x^{${b}})`,
+            question: `$$f(x) = \\ln(x^{${b}})$$`,
             answer: `${b}/x`,
             displayAnswer: `\\frac{${b}}{x}`,
             context: "Bepaal de afgeleide f'(x)",

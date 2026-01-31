@@ -41,6 +41,7 @@ export enum IpcChannels {
   // System & Config
   SYS_PING = "sys:ping",
   SYS_OPEN_PATH = "sys:open-path",
+  SYS_FETCH_URL = "sys:fetch-url",
   SYSTEM_STATUS = "system:status",
   CONFIG_UPDATE = "config:update",
 
@@ -81,6 +82,7 @@ export interface VwoApi {
     openPath: (path: z.infer<typeof import("./ipc-schemas").SysOpenPathSchema>) => Promise<boolean>;
     status: () => Promise<unknown>;
     getResourcesPath: () => Promise<string>;
+    fetchUrl: (url: string, options?: Record<string, unknown>) => Promise<{ ok: boolean; status?: number; data?: unknown; error?: string; statusText?: string }>;
   };
   ai: {
     generate: (args: AiGenerateArgs) => Promise<unknown>;

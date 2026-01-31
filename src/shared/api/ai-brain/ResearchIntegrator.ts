@@ -1,10 +1,7 @@
-/**
- * ResearchIntegrator (The Librarian)
- * Fetches real-world data and academic references to ground AI experts.
- * Part of Phase 16: Research Integration
- */
+import { resolveApiKey } from "../../lib/keyResolver";
 import { extractFromWikipedia } from "../contextExtractors";
 import { searchMemory } from "../memory/memoryStore";
+import { searchBrave, searchPerplexity, searchTavily } from "../webSearchService";
 import { Airlock } from "./Airlock";
 import { aiGenerate } from "./orchestrator";
 
@@ -76,7 +73,47 @@ export class ResearchIntegrator {
             }
         }
 
-        // 4. Fallback / General Web Search
+        // 4. Live Web Research (New Elite Integration)
+        try {
+            const tavilyKey = await resolveApiKey("tavily");
+            if (tavilyKey) {
+                const tavilyResults = await searchTavily(query, tavilyKey);
+                tavilyResults.forEach(r => results.push({
+                    title: `[Tavily] ${r.title}`,
+                    url: r.url,
+                    snippet: r.snippet,
+                    sourceType: 'web',
+                    score: r.score
+                }));
+            }
+
+            const braveKey = await resolveApiKey("brave");
+            if (braveKey) {
+                const braveResults = await searchBrave(query, braveKey);
+                braveResults.forEach(r => results.push({
+                    title: `[Brave] ${r.title}`,
+                    url: r.url,
+                    snippet: r.snippet,
+                    sourceType: 'web'
+                }));
+            }
+
+            const perplexityKey = await resolveApiKey("perplexity");
+            if (perplexityKey) {
+                const perplexityResults = await searchPerplexity(query, perplexityKey);
+                perplexityResults.forEach(r => results.push({
+                    title: `[Perplexity] ${r.title}`,
+                    url: r.url,
+                    snippet: r.snippet,
+                    sourceType: 'journal',
+                    score: 1.0
+                }));
+            }
+        } catch (e) {
+            console.warn("[Research] Live web search failed:", e);
+        }
+
+        // 5. Fallback / General Web Search
         if (results.length < 3) {
             results.push({
                 title: `Academic Research on ${query}`,

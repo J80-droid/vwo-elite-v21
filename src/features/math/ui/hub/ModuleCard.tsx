@@ -8,7 +8,7 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { getModuleTheme } from "@features/math/lib/themes";
 import type { MathModuleConfig } from "@features/math/types";
-import { List, Sigma as SigmaIcon } from "lucide-react";
+import { Sigma as SigmaIcon } from "lucide-react";
 import React from "react";
 
 interface ModuleCardProps {
@@ -129,7 +129,7 @@ export const ModuleCard: React.FC<ModuleCardProps> = ({
         {/* Footer */}
         <div className="mt-auto pt-4 border-t border-white/5 flex items-center justify-between relative z-10">
           <div className="flex items-center gap-2">
-            <List
+            <SigmaIcon
               size={14}
               className="text-slate-500 group-hover:text-cyan-400 transition-colors"
             />

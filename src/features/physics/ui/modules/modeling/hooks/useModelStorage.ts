@@ -1,6 +1,43 @@
+import { z } from "zod";
 import { useCallback, useEffect, useState } from "react";
-
 import { ModelStorageItem, NumericalModel, SavedModelMetadata } from "../types";
+
+// --- Zod Schemas for Runtime Validation ---
+const ModelConstantSchema = z.object({
+  symbol: z.string(),
+  value: z.number(),
+  unit: z.string().optional(),
+});
+
+const ModelVariableSchema = z.object({
+  symbol: z.string(),
+  value: z.number(),
+  unit: z.string().optional(),
+  isState: z.boolean(),
+});
+
+const NumericalModelSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  timeStep: z.number(),
+  duration: z.number(),
+  constants: z.array(ModelConstantSchema),
+  initialValues: z.array(ModelVariableSchema),
+  equations: z.array(z.string()),
+});
+
+const ModelStorageItemSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  description: z.string().optional(),
+  type: z.enum(["user", "scenario"]),
+  createdAt: z.number(),
+  updatedAt: z.number(),
+  thumbnail: z.string().optional(),
+  model: NumericalModelSchema,
+});
+
+const StorageSchema = z.array(ModelStorageItemSchema);
 
 // DIDACTISCHE SEED DATA: De "Broken Models" die leerlingen moeten fixen
 const SCENARIOS: ModelStorageItem[] = [
@@ -83,19 +120,29 @@ export const useModelStorage = () => {
     const load = () => {
       try {
         const raw = localStorage.getItem(STORAGE_KEY);
-        let items: ModelStorageItem[] = raw ? JSON.parse(raw) : [];
+        if (!raw) return setSavedModels(SCENARIOS);
 
-        // Check of scenario's al bestaan, zo niet: toevoegen (Seeding)
-        const hasScenarios = items.some((i) => i.type === "scenario");
-        if (!hasScenarios) {
-          items = [...SCENARIOS, ...items];
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+        const parsed = JSON.parse(raw);
+
+        // 🚀 ELITE VALIDATION: Filter corrupt data or fall back instead of crashing
+        const result = StorageSchema.safeParse(parsed);
+
+        if (!result.success) {
+          console.warn("[ModelStorage] Corrupt data detected, recovering valid items...", result.error);
+          setSavedModels(SCENARIOS);
+        } else {
+          const validItems = result.data;
+          const hasScenarios = validItems.some((i) => i.type === "scenario");
+
+          if (!hasScenarios) {
+            setSavedModels([...SCENARIOS, ...validItems]);
+          } else {
+            setSavedModels(validItems);
+          }
         }
-
-        setSavedModels(items);
       } catch (e) {
-        console.error("Storage error:", e);
-        setSavedModels(SCENARIOS);
+        console.error("Storage critical failure:", e);
+        setSavedModels(SCENARIOS); // Safe fallback
       }
     };
     load();

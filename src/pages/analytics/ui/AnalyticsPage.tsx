@@ -8,9 +8,9 @@ import {
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { EliteGymAnalytics } from "@features/analytics/ui/EliteGymAnalytics";
 import { BlurtingAnalytics } from "./components/BlurtingAnalytics";
 import { ExamAnalytics } from "./components/ExamAnalytics";
-import { GymsAnalytics } from "./components/GymsAnalytics";
 import { LiveSessionInterface } from "./components/LiveSessionInterface";
 import { WeakPointsDashboard } from "./components/WeakPointsDashboard";
 
@@ -48,33 +48,30 @@ const AnalyticsPage: React.FC = () => {
       <div className="flex flex-wrap gap-2 mb-8 bg-white/5 p-1 rounded-xl w-fit border border-white/10">
         <button
           onClick={() => setActiveTab("exams")}
-          className={`flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-bold transition-all border ${
-            activeTab === "exams"
-              ? "bg-blue-500/10 text-blue-400 border-blue-500/50 shadow-[0_0_20px_rgba(59,130,246,0.2)]"
-              : "text-slate-400 border-transparent hover:text-white hover:bg-white/5"
-          }`}
+          className={`flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-bold transition-all border ${activeTab === "exams"
+            ? "bg-blue-500/10 text-blue-400 border-blue-500/50 shadow-[0_0_20px_rgba(59,130,246,0.2)]"
+            : "text-slate-400 border-transparent hover:text-white hover:bg-white/5"
+            }`}
         >
           <GraduationCap size={16} />
           Exams
         </button>
         <button
           onClick={() => setActiveTab("gyms")}
-          className={`flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-bold transition-all border ${
-            activeTab === "gyms"
-              ? "bg-rose-500/10 text-rose-400 border-rose-500/50 shadow-[0_0_20px_rgba(244,63,94,0.2)]"
-              : "text-slate-400 border-transparent hover:text-white hover:bg-white/5"
-          }`}
+          className={`flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-bold transition-all border ${activeTab === "gyms"
+            ? "bg-rose-500/10 text-rose-400 border-rose-500/50 shadow-[0_0_20px_rgba(244,63,94,0.2)]"
+            : "text-slate-400 border-transparent hover:text-white hover:bg-white/5"
+            }`}
         >
           <Dumbbell size={16} />
           Gyms
         </button>
         <button
           onClick={() => setActiveTab("weakpoints")}
-          className={`flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-bold transition-all border ${
-            activeTab === "weakpoints"
-              ? "bg-indigo-500/10 text-indigo-400 border-indigo-500/50 shadow-[0_0_20px_rgba(99,102,241,0.2)]"
-              : "text-slate-400 border-transparent hover:text-white hover:bg-white/5"
-          }`}
+          className={`flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-bold transition-all border ${activeTab === "weakpoints"
+            ? "bg-indigo-500/10 text-indigo-400 border-indigo-500/50 shadow-[0_0_20px_rgba(99,102,241,0.2)]"
+            : "text-slate-400 border-transparent hover:text-white hover:bg-white/5"
+            }`}
         >
           <AlertTriangle size={16} />
           Weak Points
@@ -82,22 +79,20 @@ const AnalyticsPage: React.FC = () => {
 
         <button
           onClick={() => setActiveTab("blurting")}
-          className={`flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-bold transition-all border ${
-            activeTab === "blurting"
-              ? "bg-cyan-500/10 text-cyan-400 border-cyan-500/50 shadow-[0_0_20px_rgba(6,182,212,0.2)]"
-              : "text-slate-400 border-transparent hover:text-white hover:bg-white/5"
-          }`}
+          className={`flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-bold transition-all border ${activeTab === "blurting"
+            ? "bg-cyan-500/10 text-cyan-400 border-cyan-500/50 shadow-[0_0_20px_rgba(6,182,212,0.2)]"
+            : "text-slate-400 border-transparent hover:text-white hover:bg-white/5"
+            }`}
         >
           <Mic size={16} />
           Active Recall
         </button>
         <button
           onClick={() => setActiveTab("live")}
-          className={`flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-bold transition-all border ${
-            activeTab === "live"
-              ? "bg-purple-500/10 text-purple-400 border-purple-500/50 shadow-[0_0_20px_rgba(168,85,247,0.2)]"
-              : "text-slate-400 border-transparent hover:text-white hover:bg-white/5"
-          }`}
+          className={`flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-bold transition-all border ${activeTab === "live"
+            ? "bg-purple-500/10 text-purple-400 border-purple-500/50 shadow-[0_0_20px_rgba(168,85,247,0.2)]"
+            : "text-slate-400 border-transparent hover:text-white hover:bg-white/5"
+            }`}
         >
           <Mic size={16} />
           Live Coach
@@ -108,7 +103,7 @@ const AnalyticsPage: React.FC = () => {
       <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
         {activeTab === "exams" && <ExamAnalytics />}
 
-        {activeTab === "gyms" && <GymsAnalytics />}
+        {activeTab === "gyms" && <EliteGymAnalytics />}
 
         {activeTab === "weakpoints" && <WeakPointsDashboard />}
 

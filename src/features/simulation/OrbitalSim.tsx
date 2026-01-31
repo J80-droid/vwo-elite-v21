@@ -4,7 +4,6 @@ import { Stars } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { useVoiceCoachContext } from "@shared/lib/contexts/VoiceCoachContext";
 import React, { useMemo } from "react";
-import { useTranslation } from "react-i18next";
 import * as THREE from "three";
 import { create } from "zustand";
 
@@ -188,10 +187,9 @@ export const OrbitalVisualizer: React.FC<{
   );
 };
 
-export const OrbitalSim: React.FC<{ mode?: "sidebar" | "main" }> = ({
-  mode,
-}) => {
-  const { t } = useTranslation("chemistry");
+export const OrbitalSim: React.FC<{
+  mode?: "sidebar" | "main" | "stage" | "controls";
+}> = ({ mode }) => {
   const { n, l, m, setN, showPhase } = useOrbitalStore();
   const containerRef = React.useRef<HTMLDivElement>(null);
 
@@ -201,71 +199,102 @@ export const OrbitalSim: React.FC<{ mode?: "sidebar" | "main" }> = ({
     { activeModule: "orbitals", n, l, m },
   );
 
-  if (mode === "sidebar") {
-    // ... (keep sidebar logic implies we don't modify it here)
+  const { setL, setM } = useOrbitalStore();
 
+  if (mode === "controls") {
     return (
-      <div className="space-y-6 pt-4 animate-in fade-in slide-in-from-left-4 duration-500 overflow-y-auto custom-scrollbar h-full pb-20 px-1">
-        {/* ... */}
-        {/* We are only replacing the top part so we need to be careful with cutoff */}
-        <div className="bg-white/5 p-4 rounded-2xl border border-white/10">
-          <label className="text-[10px] text-slate-500 font-bold uppercase tracking-widest block mb-4">
-            {t("periodic_table.quantum_n")}
-          </label>
-          <div className="flex items-center gap-4">
-            <input
-              type="range"
-              min="1"
-              max="5"
-              value={n}
-              onChange={(e) => setN(parseInt(e.target.value))}
-              className="flex-1 accent-cyan-500 h-1 bg-white/10 rounded-lg appearance-none cursor-pointer"
-            />
-            <span className="text-2xl font-mono text-cyan-400 font-bold w-8">
-              {n}
-            </span>
+      <div className="flex flex-row items-center gap-4">
+        {/* N Slider */}
+        <div className="flex items-center gap-3 bg-black/40 border border-white/5 p-1 rounded-xl px-3">
+          <span className="text-[8px] font-black text-slate-500 uppercase tracking-widest">n</span>
+          <input
+            type="range"
+            min="1"
+            max="5"
+            value={n}
+            onChange={(e) => setN(parseInt(e.target.value))}
+            className="w-24 accent-cyan-500 h-1 bg-white/10 rounded-lg appearance-none cursor-pointer"
+          />
+          <span className="text-[10px] font-bold text-cyan-400 w-4">{n}</span>
+        </div>
+
+        {/* L Slider */}
+        <div className="flex items-center gap-3 bg-black/40 border border-white/5 p-1 rounded-xl px-3">
+          <span className="text-[8px] font-black text-slate-500 uppercase tracking-widest">l</span>
+          <input
+            type="range"
+            min="0"
+            max={n - 1}
+            value={l}
+            onChange={(e) => setL(parseInt(e.target.value))}
+            className="w-24 accent-purple-500 h-1 bg-white/10 rounded-lg appearance-none cursor-pointer"
+          />
+          <span className="text-[10px] font-bold text-purple-400 w-4">{l}</span>
+        </div>
+
+        {/* M Slider */}
+        <div className="flex items-center gap-3 bg-black/40 border border-white/5 p-1 rounded-xl px-3">
+          <span className="text-[8px] font-black text-slate-500 uppercase tracking-widest">m</span>
+          <input
+            type="range"
+            min={-l}
+            max={l}
+            value={m}
+            onChange={(e) => setM(parseInt(e.target.value))}
+            className="w-24 accent-emerald-500 h-1 bg-white/10 rounded-lg appearance-none cursor-pointer"
+          />
+          <span className="text-[10px] font-bold text-emerald-400 w-4">{m}</span>
+        </div>
+
+        <button
+          onClick={useOrbitalStore.getState().togglePhase}
+          className={`px-3 py-1.5 rounded-lg text-[9px] font-black uppercase transition-all ${showPhase ? 'bg-fuchsia-500/20 text-fuchsia-400' : 'bg-white/5 text-slate-500'}`}
+        >
+          Phase
+        </button>
+      </div>
+    );
+  }
+
+  if (mode === "stage") {
+    return (
+      <div ref={containerRef} className="w-full h-full relative bg-black">
+        <Canvas
+          eventSource={
+            containerRef as React.RefObject<HTMLElement> as unknown as HTMLElement
+          }
+          camera={{ position: [5 + n * 2, 5 + n * 2, 5 + n * 2], fov: 45 }}
+        >
+          <color attach="background" args={["#000"]} />
+          <Stars
+            radius={100}
+            depth={50}
+            count={2000}
+            factor={4}
+            saturation={0}
+            fade
+            speed={1}
+          />
+          <ambientLight intensity={0.5} />
+          <pointLight position={[10, 10, 10]} intensity={2} />
+          <OrbitalCloud n={n} l={l} m={m} showPhase={showPhase} />
+          <SafeOrbitControls autoRotate autoRotateSpeed={0.5} makeDefault />
+        </Canvas>
+
+        <div className="absolute bottom-10 left-10 pointer-events-none group">
+          <div className="text-6xl font-black text-white/5 font-mono select-none group-hover:text-cyan-500/10 transition-colors duration-1000">
+            ψ({n},{l},{m})
           </div>
         </div>
-        {/* ... Rest of sidebar ... */}
       </div>
     );
   }
 
   return (
-    <div ref={containerRef} className="w-full h-full relative bg-black">
-      {/* Watermark */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-[0.02] pointer-events-none select-none z-0">
-        <h1 className="text-[12rem] font-black tracking-tighter text-white">
-          VWO ELITE
-        </h1>
-      </div>
-
-      <Canvas
-        eventSource={
-          containerRef as React.RefObject<HTMLElement> as unknown as HTMLElement
-        }
-        camera={{ position: [5 + n * 2, 5 + n * 2, 5 + n * 2], fov: 45 }}
-      >
-        <color attach="background" args={["#000"]} />
-        <Stars
-          radius={100}
-          depth={50}
-          count={2000}
-          factor={4}
-          saturation={0}
-          fade
-          speed={1}
-        />
-        <ambientLight intensity={0.5} />
-        <pointLight position={[10, 10, 10]} intensity={2} />
-        <OrbitalCloud n={n} l={l} m={m} showPhase={showPhase} />
-        <SafeOrbitControls autoRotate autoRotateSpeed={0.5} makeDefault />
-      </Canvas>
-
-      <div className="absolute bottom-10 left-10 pointer-events-none group">
-        <div className="text-6xl font-black text-white/5 font-mono select-none group-hover:text-cyan-500/10 transition-colors duration-1000">
-          ψ({n},{l},{m})
-        </div>
+    <div className="h-full bg-obsidian-950 flex items-center justify-center p-6 grayscale opacity-20 border-2 border-dashed border-white/5 rounded-3xl m-4">
+      <div className="text-center">
+        <div className="text-sm font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Full mode rendering is deactivated</div>
+        <div className="text-[10px] text-slate-600 italic">Please use mode="stage" and mode="controls"</div>
       </div>
     </div>
   );

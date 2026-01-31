@@ -29,6 +29,8 @@ import {
 } from "./sqliteService";
 
 let initialized = false;
+let criticalPromise: Promise<BootstrapResult> | null = null;
+let deferredPromise: Promise<void> | null = null;
 
 export interface BootstrapResult {
   success: boolean;
@@ -43,52 +45,60 @@ export interface BootstrapResult {
  */
 export async function bootstrapCritical(): Promise<BootstrapResult> {
   if (initialized) return { success: true, duration: 0 };
-  const startTime = performance.now();
+  if (criticalPromise) return criticalPromise;
 
-  try {
-    // 1. Initialize database (SQLite)
-    await initDatabase();
-    logger.info("Bootstrap: Database connection established");
+  criticalPromise = (async () => {
+    const startTime = performance.now();
+    try {
+      // 1. Initialize database (SQLite)
+      await initDatabase();
+      logger.info("Bootstrap: Database connection established");
 
-    // 2. Load settings
-    const settings = await getSettingsSQL();
-    logger.info("Bootstrap: Settings loaded from SQLite");
+      // 2. Load settings
+      const settings = await getSettingsSQL();
+      logger.info("Bootstrap: Settings loaded from SQLite");
 
-    // 3. Hydrate Core Stores (Stats & Achievements)
-    if (settings) {
-      useAchievementStore
-        .getState()
-        .setInitialState(
-          settings.xp || 0,
-          settings.level || 1,
-          settings.unlockedAchievements || [],
-        );
+      // 3. Hydrate Core Stores (Stats & Achievements)
+      if (settings) {
+        useAchievementStore
+          .getState()
+          .setInitialState(
+            settings.xp || 0,
+            settings.level || 1,
+            settings.unlockedAchievements || [],
+          );
 
-      useUserStatsStore.getState().setStats({
-        xp: {
-          current: settings.xp || 0,
-          total: settings.xp || 0,
-          level: settings.level || 1,
-          nextLevelThreshold: (settings.level || 1) * 1000,
-        },
-        streak: {
-          current: settings.streak || 0,
-          best: settings.streak || 0,
-          lastLoginDate: new Date().toISOString().split("T")[0] || "",
-        },
-      });
+        useUserStatsStore.getState().setStats({
+          xp: {
+            current: settings.xp || 0,
+            total: settings.xp || 0,
+            level: settings.level || 1,
+            nextLevelThreshold: (settings.level || 1) * 1000,
+          },
+          streak: {
+            current: settings.streak || 0,
+            best: settings.streak || 0,
+            lastLoginDate: new Date().toISOString().split("T")[0] || "",
+          },
+        });
+      }
+
+      const duration = performance.now() - startTime;
+      return { success: true, duration };
+    } catch (error) {
+      console.error("[Bootstrap] ✗ Critical init failed:", error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Critical init error",
+        duration: performance.now() - startTime,
+      };
+    } finally {
+      // Keep criticalPromise if it succeeded to prevent re-runs, 
+      // but we check 'initialized' anyway.
     }
+  })();
 
-    const duration = performance.now() - startTime;
-    return { success: true, duration };
-  } catch (error) {
-    console.error("[Bootstrap] ✗ Critical init failed:", error);
-    return {
-      success: false,
-      error: error instanceof Error ? error.message : "Critical init error",
-      duration: performance.now() - startTime,
-    };
-  }
+  return criticalPromise;
 }
 
 /**
@@ -98,43 +108,54 @@ export async function bootstrapCritical(): Promise<BootstrapResult> {
  */
 export async function bootstrapDeferred(): Promise<void> {
   if (initialized) return;
-  const startTime = performance.now();
+  if (deferredPromise) return deferredPromise;
 
-  try {
-    // 1. Migrations & Pruning (Background)
-    await runPersistenceMigration();
-    await runZustandMigration();
-    await pruneDatabase();
-    logger.info("Bootstrap: Background migrations and pruning complete");
+  deferredPromise = (async () => {
+    const startTime = performance.now();
+    try {
+      // 1. Migrations & Pruning (Background)
+      await runPersistenceMigration();
+      await runZustandMigration();
+      await pruneDatabase();
+      logger.info("Bootstrap: Background migrations and pruning complete");
 
-    // 2. Load History for Quiz Store (potentially large)
-    const quizHistory = await getAllQuizHistorySQL();
-    const savedQuestions = await getAllSavedQuestionsSQL();
-    useQuizProgressStore.getState().setInitialState({
-      history: quizHistory,
-      savedQuestions: savedQuestions,
-    });
+      // 2. Load History for Quiz Store (potentially large)
+      const quizHistory = await getAllQuizHistorySQL();
+      const savedQuestions = await getAllSavedQuestionsSQL();
+      useQuizProgressStore.getState().setInitialState({
+        history: quizHistory,
+        savedQuestions: savedQuestions,
+      });
 
-    // 3. Network Services (Async)
-    const settings = await getSettingsSQL();
+      // 3. Network Services (Async)
+      const settings = await getSettingsSQL();
 
-    // Fire-and-forget session refresh
-    somtodayService.initialize().catch(console.error);
+      // Fire-and-forget session refresh
+      somtodayService.initialize().catch(console.error);
 
-    // Initialize Planner (usually involves fetching latest tasks)
-    await usePlannerEliteStore.getState().initialize();
+      // Initialize Planner (usually involves fetching latest tasks)
+      await usePlannerEliteStore.getState().initialize();
 
-    // Initialize AI configuration if available
-    if (settings?.aiConfig) {
-      await useModelsStore.getState().initialize(settings);
-      logger.info("Bootstrap: AI Registry and Models initialized");
+      // Initialize AI configuration if available
+      if (settings?.aiConfig) {
+        // 🚀 ELITE BOOTSTRAP: Initialize Tool Registry
+        const { initializeAIBrain } = await import("./ai-brain/bootstrap");
+        await initializeAIBrain();
+
+        await useModelsStore.getState().initialize(settings);
+        logger.info("Bootstrap: AI Registry and Models initialized");
+      }
+
+      initialized = true;
+      logger.info("Bootstrap: Finalized successfully", { duration: performance.now() - startTime });
+    } catch (error) {
+      console.error("[Bootstrap] ✗ Deferred init failed:", error);
+    } finally {
+      // Keep deferredPromise to prevent re-runs
     }
+  })();
 
-    initialized = true;
-    logger.info("Bootstrap: Finalized successfully", { duration: performance.now() - startTime });
-  } catch (error) {
-    console.error("[Bootstrap] ✗ Deferred init failed:", error);
-  }
+  return deferredPromise;
 }
 
 /**

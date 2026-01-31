@@ -1,7 +1,7 @@
 /* eslint-disable unused-imports/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any -- dynamic stoichiometry and matrix logic */
 import { useVoiceCoachContext } from "@shared/lib/contexts/VoiceCoachContext";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, Beaker, Calculator, Scale } from "lucide-react";
 import * as math from "mathjs";
 import React, { useState } from "react";
@@ -33,9 +33,9 @@ const ATOMIC_WEIGHTS = PERIODIC_DATA.reduce(
   {} as Record<string, number>,
 );
 
-export const StoichiometrySim: React.FC<{ mode?: "sidebar" | "main" }> = ({
-  mode,
-}) => {
+export const StoichiometrySim: React.FC<{
+  mode?: "sidebar" | "main" | "stage" | "controls";
+}> = ({ mode }) => {
   const [reactants, setReactants] = useState("H2 + O2");
   const [products, setProducts] = useState("H2O");
   const [balancedEq, setBalancedEq] = useState<string | null>(null);
@@ -184,32 +184,109 @@ export const StoichiometrySim: React.FC<{ mode?: "sidebar" | "main" }> = ({
     else setError("Onbekende elementen.");
   };
 
-  if (mode === "sidebar") {
+  if (mode === "controls") {
     return (
-      <div className="space-y-6 pt-2 h-full overflow-y-auto custom-scrollbar">
-        <div className="bg-obsidian-900 p-4 rounded-xl border border-white/10">
-          <h3 className="text-sm font-bold text-slate-400 uppercase mb-3 flex items-center gap-2">
-            <Scale size={14} /> Molmassa
-          </h3>
-          <div className="flex gap-2 mb-2">
-            <input
-              value={molFormula}
-              onChange={(e) => setMolFormula(e.target.value)}
-              placeholder="Formule"
-              className="bg-black/40 border border-white/10 rounded-lg px-3 py-2 w-full text-white text-sm"
-            />
-            <button
-              onClick={calculateMolarMass}
-              className="btn-elite-glass btn-elite-cyan !px-3 !py-2"
-            >
-              =
-            </button>
-          </div>
+      <div className="flex flex-row items-center gap-4">
+        {/* Balance Controls */}
+        <div className="flex items-center gap-2 bg-black/40 border border-white/5 p-1 rounded-xl">
+          <input
+            value={reactants}
+            onChange={(e) => setReactants(e.target.value)}
+            placeholder="Reagentia (bijv. H2 + O2)"
+            className="w-40 bg-transparent px-3 py-1 text-[10px] text-white outline-none font-mono"
+          />
+          <ArrowRight size={12} className="text-slate-600" />
+          <input
+            value={products}
+            onChange={(e) => setProducts(e.target.value)}
+            placeholder="Producten (bijv. H2O)"
+            className="w-40 bg-transparent px-3 py-1 text-[10px] text-white outline-none font-mono"
+          />
+        </div>
+
+        <button
+          onClick={handleBalance}
+          className="px-4 py-2 rounded-xl bg-purple-600 text-white text-[10px] font-black uppercase tracking-widest hover:bg-purple-500 transition-all shadow-lg shadow-purple-500/20 flex items-center gap-2"
+        >
+          <Beaker size={14} /> Balanceer
+        </button>
+
+        <div className="w-px h-6 bg-white/10 mx-2" />
+
+        {/* Molar Mass Mini-Input */}
+        <div className="flex items-center gap-2 bg-white/5 border border-white/5 p-1 rounded-xl">
+          <input
+            value={molFormula}
+            onChange={(e) => setMolFormula(e.target.value)}
+            placeholder="Molecuul"
+            className="w-24 bg-transparent px-2 py-1 text-[10px] text-white outline-none font-mono"
+          />
+          <button
+            onClick={calculateMolarMass}
+            className="p-1.5 rounded-lg bg-white/5 text-slate-400 hover:text-white transition-colors"
+          >
+            <Scale size={12} />
+          </button>
           {molarMass && (
-            <div className="text-right font-mono text-cyan-400 font-bold">
-              {molarMass.toFixed(2)} g/mol
-            </div>
+            <span className="text-[10px] font-bold text-cyan-400 pr-2">
+              {molarMass.toFixed(2)}
+            </span>
           )}
+        </div>
+      </div>
+    );
+  }
+
+  if (mode === "stage") {
+    return (
+      <div className="h-full w-full flex flex-col items-center justify-center p-8 relative overflow-hidden">
+        {/* Large Result Display */}
+        <AnimatePresence mode="wait">
+          {balancedEq ? (
+            <motion.div
+              key="result"
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: -20 }}
+              className="bg-obsidian-900/60 p-12 rounded-[3rem] border border-purple-500/20 backdrop-blur-xl shadow-2xl relative overflow-hidden text-center max-w-2xl w-full"
+            >
+              <div className="absolute -top-24 -right-24 w-64 h-64 bg-purple-500/20 blur-[100px]" />
+              <div className="relative z-10">
+                <span className="px-4 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400 text-[10px] font-black uppercase tracking-widest mb-8 inline-block">
+                  Gebalanceerde Reactievergelijking
+                </span>
+                <div className="text-4xl md:text-6xl text-white font-mono font-black tracking-tighter">
+                  <ChemicalFormula formula={balancedEq} big />
+                </div>
+              </div>
+            </motion.div>
+          ) : error ? (
+            <motion.div
+              key="error"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="text-rose-500 font-bold bg-rose-500/10 px-6 py-3 rounded-2xl border border-rose-500/20"
+            >
+              {error}
+            </motion.div>
+          ) : (
+            <motion.div
+              key="empty"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="text-slate-500 flex flex-col items-center gap-4"
+            >
+              <Calculator size={64} className="opacity-20" />
+              <div className="text-sm uppercase font-black tracking-widest opacity-40">
+                Voer een reactie in om te balanceren
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Background Visual */}
+        <div className="absolute bottom-10 left-10 opacity-10 pointer-events-none select-none">
+          <Scale size={300} strokeWidth={0.5} />
         </div>
       </div>
     );
@@ -217,71 +294,8 @@ export const StoichiometrySim: React.FC<{ mode?: "sidebar" | "main" }> = ({
 
   return (
     <div className="h-full p-8 bg-black flex flex-col items-center justify-center relative overflow-hidden">
-      {/* Watermark */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-[0.02] pointer-events-none select-none z-0">
-        <h1 className="text-[12rem] font-black tracking-tighter text-white">
-          VWO ELITE
-        </h1>
-      </div>
-
-      <div className="max-w-3xl w-full space-y-8 relative z-10">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-white mb-4 flex items-center justify-center gap-3">
-            <Calculator className="text-purple-500" size={40} /> Stoichiometrie
-          </h1>
-          <p className="text-slate-400">
-            Vergelijkingen balanceren en molberekeningen.
-          </p>
-        </div>
-
-        <div className="bg-slate-900/40 backdrop-blur-md p-8 rounded-2xl border border-white/10">
-          <div className="flex flex-col md:flex-row gap-4 items-center justify-center mb-8">
-            <div className="flex-1 w-full text-center">
-              <label className="text-[10px] text-slate-500 font-bold uppercase mb-2 block tracking-widest">
-                Reagentia
-              </label>
-              <input
-                value={reactants}
-                onChange={(e) => setReactants(e.target.value)}
-                className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-purple-500 outline-none text-center font-mono text-lg"
-              />
-            </div>
-            <ArrowRight className="text-slate-600 rotate-90 md:rotate-0" />
-            <div className="flex-1 w-full text-center">
-              <label className="text-[10px] text-slate-500 font-bold uppercase mb-2 block tracking-widest">
-                Producten
-              </label>
-              <input
-                value={products}
-                onChange={(e) => setProducts(e.target.value)}
-                className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-purple-500 outline-none text-center font-mono text-lg"
-              />
-            </div>
-          </div>
-          <button
-            onClick={handleBalance}
-            className="btn-elite-glass btn-elite-purple w-full py-4 text-xs"
-          >
-            <Beaker size={20} /> Balanceer Reactievergelijking
-          </button>
-          <AnimatePresence>
-            {balancedEq && (
-              <div className="mt-8 p-6 bg-cyan-500/5 border border-cyan-500/20 rounded-xl text-center animate-in zoom-in-95">
-                <div className="text-[10px] text-cyan-400 font-bold uppercase mb-2 tracking-widest">
-                  Gebalanceerde Vergelijking
-                </div>
-                <div className="text-3xl text-white tracking-widest">
-                  <ChemicalFormula formula={balancedEq} big />
-                </div>
-              </div>
-            )}
-            {error && (
-              <div className="mt-8 p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-center text-red-400">
-                {error}
-              </div>
-            )}
-          </AnimatePresence>
-        </div>
+      <div className="flex-1 flex items-center justify-center text-slate-500 italic">
+        Full mode rendering is deactivated. Please use mode="stage" and mode="controls".
       </div>
     </div>
   );

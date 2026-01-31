@@ -20,14 +20,14 @@ export const DomainEngine: GymEngine = {
         // sqrt(f(x)) -> f(x) >= 0
         return {
           id: `dom-1-${timestamp}`,
-          question: `f(x) = \\sqrt{x - ${a}}`,
+          question: `$$f(x) = \\sqrt{x - ${a}}$$`,
           answer: `x >= ${a}`,
           displayAnswer: `x \\ge ${a}`,
           context: "Wat is de domein-eis?",
           solutionSteps: [
-            `De uitdrukking onder een wortel moet groter dan of gelijk aan 0 zijn.`,
-            `x - ${a} \\ge 0 \\implies x \\ge ${a}.`,
-            `Antwoord: x \\ge ${a}`,
+            `De uitdrukking onder een wortel moet groter dan of gelijk aan $0$ zijn.`,
+            `$x - ${a} \\ge 0 \\implies x \\ge ${a}$.`,
+            `Antwoord: $x \\ge ${a}$`,
           ],
         };
       }
@@ -36,14 +36,14 @@ export const DomainEngine: GymEngine = {
         // ln(f(x)) -> f(x) > 0
         return {
           id: `dom-2-${timestamp}`,
-          question: `f(x) = \\ln(${a} - x)`,
+          question: `$$f(x) = \\ln(${a} - x)$$`,
           answer: `x < ${a}`,
           displayAnswer: `x < ${a}`,
           context: "Wat is de domein-eis?",
           solutionSteps: [
-            `Het argument van een logaritme moet strikt groter dan 0 zijn.`,
+            `Het argument van een logaritme moet strikt groter dan $0$ zijn.`,
             `${a} - x > 0 \\implies x < ${a}.`,
-            `Antwoord: x < ${a}`,
+            `Antwoord: $x < ${a}$`,
           ],
         };
       }
@@ -53,14 +53,14 @@ export const DomainEngine: GymEngine = {
         const b2 = b * b;
         return {
           id: `dom-3-${timestamp}`,
-          question: `f(x) = \\frac{1}{x^2 - ${b2}}`,
+          question: `$$f(x) = \\frac{1}{x^2 - ${b2}}$$`,
           answer: `x != ${b} or x != -${b}`,
           displayAnswer: `x \\ne ${b} \\land x \\ne -${b}`,
           context: "Welke x-waarden zijn uitgesloten van het domein?",
           solutionSteps: [
-            `De noemer mag nooit gelijk aan 0 zijn.`,
-            `x^2 - ${b2} = 0 \\implies x^2 = ${b2} \\implies x = ${b} \\text{ of } x = -${b}.`,
-            `Antwoord: x \\ne ${b} \\land x \\ne -${b}`,
+            `De noemer mag nooit gelijk aan $0$ zijn.`,
+            `$x^2 - ${b2} = 0 \\implies x^2 = ${b2} \\implies x = ${b} \\text{ of } x = -${b}$.`,
+            `Antwoord: $x \\ne ${b} \\land x \\ne -${b}$`,
           ],
         };
       }
@@ -69,15 +69,15 @@ export const DomainEngine: GymEngine = {
         // Combined constraints
         return {
           id: `dom-4-${timestamp}`,
-          question: `f(x) = \\frac{\\ln(x)}{\\sqrt{${a} - x}}`,
+          question: `$$f(x) = \\frac{\\ln(x)}{\\sqrt{${a} - x}}$$`,
           answer: `x > 0 and x < ${a}`,
           displayAnswer: `0 < x < ${a}`,
           context: "Wat is het domein van deze functie?",
           solutionSteps: [
-            `Eis 1 (logaritme): x > 0.`,
-            `Eis 2 (wortel in noemer): ${a} - x > 0 \\implies x < ${a}.`,
-            `Combineer: 0 < x < ${a}.`,
-            `Antwoord: 0 < x < ${a}`,
+            `Eis 1 (logaritme): $x > 0$.`,
+            `Eis 2 (wortel in noemer): $${a} - x > 0 \\implies x < ${a}$.`,
+            `Combineer: $0 < x < ${a}$.`,
+            `Antwoord: $0 < x < ${a}$`,
           ],
         };
       }

@@ -96,7 +96,7 @@ export const GeometryEngine: GymEngine = {
         q: "Wat zegt de cosinusregel over a^2?",
         a: "2bccos",
         hint: "Pythagoras met correctie: a^2 = b^2 + c^2 - ...",
-        steps: ["a^2 = b^2 + c^2 - 2bc \\cdot \\cos(A)"],
+        steps: ["$$a^2 = b^2 + c^2 - 2bc \\cdot \\cos(A)$$"],
       },
     ];
 

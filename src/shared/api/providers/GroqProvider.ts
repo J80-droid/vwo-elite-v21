@@ -41,7 +41,8 @@ export class GroqProvider extends BaseProvider {
     ): Promise<ProviderResponse> {
         const startTime = performance.now();
         // ELITE FIX: Always use dynamic 'fast' resolution to pick the highest scoring available model
-        const model = resolveModel("groq", "fast", options.aiConfig);
+        // ELITE FIX: Prioritize explicit model selection from Expert Matrix
+        const model = options.modelId || resolveModel("groq", "fast", options.aiConfig);
 
         try {
             const messages = options.messages

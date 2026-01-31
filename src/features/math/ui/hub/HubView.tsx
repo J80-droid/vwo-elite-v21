@@ -90,7 +90,7 @@ export const HubView: React.FC<HubViewProps> = ({ onModuleSelect, t }) => {
     : null;
 
   return (
-    <div className="absolute inset-0 z-10 overflow-y-auto custom-scrollbar flex flex-col items-center justify-start p-8 pt-14 pb-16">
+    <div className="absolute inset-0 z-10 overflow-y-auto custom-scrollbar flex flex-col items-center justify-center p-8 pt-12 pb-16">
       <div className="max-w-6xl w-full">
         {/* Header */}
         <div className="text-center mb-16 animate-in fade-in slide-in-from-bottom-8 duration-700">
@@ -142,7 +142,7 @@ export const HubView: React.FC<HubViewProps> = ({ onModuleSelect, t }) => {
             {activeModuleCard ? (
               <ModuleCard
                 mod={activeModuleCard}
-                onSelect={() => {}}
+                onSelect={() => { }}
                 t={t}
                 isOverlay
               />

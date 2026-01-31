@@ -397,7 +397,7 @@ export const router = createHashRouter([
         ),
       },
       {
-        path: "language/:lang?/:module?",
+        path: "language/:lang?/:module?/:submodule?",
         element: (
           <SuspenseWrapper text="Taalcentrum openen...">
             <LanguageLabHub />

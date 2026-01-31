@@ -83,6 +83,12 @@ export const AiCheckEndpointSchema = z.string().url();
 // SYS:OPEN-PATH
 export const SysOpenPathSchema = z.string().min(1);
 
+// SYS:FETCH-URL
+export const SysFetchUrlSchema = z.object({
+    url: z.string().url(),
+    options: z.record(z.string(), z.unknown()).optional(),
+});
+
 /**
  * DERIVED TYPES FOR VWO-API
  */

@@ -17,6 +17,7 @@ import { type MathModule, SNAPSHOT_PRESETS } from "@features/math/types";
 import { HubView } from "@features/math/ui/hub";
 import { useMathLabSections } from "@features/math/ui/MathLabContent";
 import { MathLabLayout } from "@features/math/ui/MathLabLayout";
+import { TutorProvider } from "@features/physics";
 import { FormulaBrowser } from "@features/search/ui/FormulaBrowser";
 import { useFormulas } from "@shared/hooks/useFormulas";
 import { useSaveStudyMaterial } from "@shared/hooks/useLocalData";
@@ -298,7 +299,7 @@ const MathLabModernInner: React.FC = () => {
         inputSection={inputSection}
         parameterSection={paramsSection}
         resultSection={resultsSection}
-        onSettingsClick={() => {}}
+        onSettingsClick={() => { }}
         isConsoleOpen={isConsoleOpen}
         onConsoleToggle={setIsConsoleOpen}
         consoleHeight={consoleHeight}
@@ -329,18 +330,16 @@ const MathLabModernInner: React.FC = () => {
                       ? t("calculus.toolbar.mute")
                       : t("calculus.toolbar.unmute")
                   }
-                  className={`group relative w-10 h-10 flex items-center justify-center rounded-xl transition-all duration-300 ${
-                    isSonifying
-                      ? "text-amber-400"
-                      : "text-slate-500 hover:text-white"
-                  }`}
+                  className={`group relative w-10 h-10 flex items-center justify-center rounded-xl transition-all duration-300 ${isSonifying
+                    ? "text-amber-400"
+                    : "text-slate-500 hover:text-white"
+                    }`}
                 >
                   <div
-                    className={`absolute inset-0 rounded-xl border border-transparent transition-all duration-300 ${
-                      isSonifying
-                        ? "border-amber-500/50 shadow-[0_0_15px_rgba(245,158,11,0.3)] bg-amber-500/10"
-                        : "group-hover:border-white/20 group-hover:bg-white/5 group-hover:shadow-[0_0_10px_rgba(255,255,255,0.1)]"
-                    }`}
+                    className={`absolute inset-0 rounded-xl border border-transparent transition-all duration-300 ${isSonifying
+                      ? "border-amber-500/50 shadow-[0_0_15px_rgba(245,158,11,0.3)] bg-amber-500/10"
+                      : "group-hover:border-white/20 group-hover:bg-white/5 group-hover:shadow-[0_0_10px_rgba(255,255,255,0.1)]"
+                      }`}
                   />
                   {isSonifying ? (
                     <Volume2
@@ -356,18 +355,16 @@ const MathLabModernInner: React.FC = () => {
                 <button
                   onClick={() => setIsVoiceActive(!isVoiceActive)}
                   title={t("calculus.toolbar.voice")}
-                  className={`group relative w-10 h-10 flex items-center justify-center rounded-xl transition-all duration-300 ${
-                    isVoiceActive
-                      ? "text-blue-400"
-                      : "text-slate-500 hover:text-white"
-                  }`}
+                  className={`group relative w-10 h-10 flex items-center justify-center rounded-xl transition-all duration-300 ${isVoiceActive
+                    ? "text-blue-400"
+                    : "text-slate-500 hover:text-white"
+                    }`}
                 >
                   <div
-                    className={`absolute inset-0 rounded-xl border border-transparent transition-all duration-300 ${
-                      isVoiceActive
-                        ? "border-blue-500/50 shadow-[0_0_15px_rgba(59,130,246,0.3)] bg-blue-500/10"
-                        : "group-hover:border-white/20 group-hover:bg-white/5 group-hover:shadow-[0_0_10px_rgba(255,255,255,0.1)]"
-                    }`}
+                    className={`absolute inset-0 rounded-xl border border-transparent transition-all duration-300 ${isVoiceActive
+                      ? "border-blue-500/50 shadow-[0_0_15px_rgba(59,130,246,0.3)] bg-blue-500/10"
+                      : "group-hover:border-white/20 group-hover:bg-white/5 group-hover:shadow-[0_0_10px_rgba(255,255,255,0.1)]"
+                      }`}
                   />
                   {isVoiceActive ? (
                     <MicOff
@@ -453,11 +450,10 @@ const MathLabModernInner: React.FC = () => {
                       title={t("calculus.toolbar.ar")}
                     >
                       <div
-                        className={`absolute inset-0 rounded-xl border transition-all duration-300 ${
-                          ctx.isAR
-                            ? "border-emerald-500/50 bg-emerald-500/10 shadow-[0_0_15px_rgba(52,211,153,0.3)]"
-                            : "border-indigo-500/20 bg-indigo-500/5 group-hover:border-indigo-400/50 group-hover:bg-indigo-500/20 group-hover:shadow-[0_0_15px_rgba(129,140,248,0.3)]"
-                        }`}
+                        className={`absolute inset-0 rounded-xl border transition-all duration-300 ${ctx.isAR
+                          ? "border-emerald-500/50 bg-emerald-500/10 shadow-[0_0_15px_rgba(52,211,153,0.3)]"
+                          : "border-indigo-500/20 bg-indigo-500/5 group-hover:border-indigo-400/50 group-hover:bg-indigo-500/20 group-hover:shadow-[0_0_15px_rgba(129,140,248,0.3)]"
+                          }`}
                       />
                       <Zap
                         size={20}
@@ -510,85 +506,85 @@ const MathLabModernInner: React.FC = () => {
               {(snapshotOpts.showFunctions ||
                 snapshotOpts.showAnalysis ||
                 snapshotOpts.showParams) && (
-                <div className="bg-black/80 backdrop-blur-xl border border-white/20 p-6 rounded-2xl shadow-2xl space-y-4 max-w-xl self-start">
-                  {snapshotOpts.showFunctions &&
-                    processedFunctions.filter(Boolean).length > 0 && (
-                      <div className="space-y-2">
-                        <h4 className="text-[10px] text-slate-500 font-bold uppercase tracking-widest border-b border-white/10 pb-1">
-                          {t("calculus.snapshot.toggles.functions")}
-                        </h4>
-                        {processedFunctions
-                          .filter(Boolean)
-                          .slice(0, 3)
-                          .map((fn, i) => (
-                            <div
-                              key={i}
-                              className="flex items-center gap-3 text-sm font-mono text-white"
-                            >
-                              <div
-                                className="w-2.5 h-2.5 rounded-full shadow-[0_0_8px_rgba(255,255,255,0.3)]"
-                                style={{
-                                  backgroundColor: [
-                                    "#00FFFA",
-                                    "#FF00DA",
-                                    "#46FF00",
-                                  ][i % 3],
-                                }}
-                              />
-                              <span className="opacity-60 text-xs">
-                                f<sub>{i + 1}</sub>(x) =
-                              </span>{" "}
-                              {fn}
-                            </div>
-                          ))}
-                      </div>
-                    )}
-
-                  {snapshotOpts.showParams &&
-                    Object.keys(parameters).length > 0 && (
-                      <div className="pt-2 border-t border-white/5">
-                        <h4 className="text-[9px] text-slate-500 font-bold uppercase tracking-widest mb-2">
-                          {t("calculus.snapshot.toggles.params")}
-                        </h4>
-                        <div className="flex flex-wrap gap-x-6 gap-y-1">
-                          {Object.entries(parameters).map(([k, v]) => (
-                            <div
-                              key={k}
-                              className="text-xs font-mono text-slate-300"
-                            >
-                              <span className="text-amber-400">{k}</span> ={" "}
-                              {typeof v === "number" ? v.toFixed(3) : v}
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
-                  {snapshotOpts.showAnalysis && (
-                    <div className="flex gap-10 pt-3 border-t border-white/10 text-[10px] uppercase font-bold tracking-wider">
-                      <div>
-                        <h4 className="text-slate-500 mb-1.5">
-                          {t("calculus.snapshot.module_context")}
-                        </h4>
-                        <div className="text-white flex items-center gap-2">
-                          <Check size={10} className="text-emerald-400" />{" "}
-                          {activeModule} Mode
-                        </div>
-                      </div>
-                      {integralState.show && (
-                        <div>
-                          <h4 className="text-slate-500 mb-1.5">
-                            {t("calculus.snapshot.analysis_label")} (∫)
+                  <div className="bg-black/80 backdrop-blur-xl border border-white/20 p-6 rounded-2xl shadow-2xl space-y-4 max-w-xl self-start">
+                    {snapshotOpts.showFunctions &&
+                      processedFunctions.filter(Boolean).length > 0 && (
+                        <div className="space-y-2">
+                          <h4 className="text-[10px] text-slate-500 font-bold uppercase tracking-widest border-b border-white/10 pb-1">
+                            {t("calculus.snapshot.toggles.functions")}
                           </h4>
-                          <div className="text-emerald-400 font-mono">
-                            A = {integralState.result || "..."}
+                          {processedFunctions
+                            .filter(Boolean)
+                            .slice(0, 3)
+                            .map((fn, i) => (
+                              <div
+                                key={i}
+                                className="flex items-center gap-3 text-sm font-mono text-white"
+                              >
+                                <div
+                                  className="w-2.5 h-2.5 rounded-full shadow-[0_0_8px_rgba(255,255,255,0.3)]"
+                                  style={{
+                                    backgroundColor: [
+                                      "#00FFFA",
+                                      "#FF00DA",
+                                      "#46FF00",
+                                    ][i % 3],
+                                  }}
+                                />
+                                <span className="opacity-60 text-xs">
+                                  f<sub>{i + 1}</sub>(x) =
+                                </span>{" "}
+                                {fn}
+                              </div>
+                            ))}
+                        </div>
+                      )}
+
+                    {snapshotOpts.showParams &&
+                      Object.keys(parameters).length > 0 && (
+                        <div className="pt-2 border-t border-white/5">
+                          <h4 className="text-[9px] text-slate-500 font-bold uppercase tracking-widest mb-2">
+                            {t("calculus.snapshot.toggles.params")}
+                          </h4>
+                          <div className="flex flex-wrap gap-x-6 gap-y-1">
+                            {Object.entries(parameters).map(([k, v]) => (
+                              <div
+                                key={k}
+                                className="text-xs font-mono text-slate-300"
+                              >
+                                <span className="text-amber-400">{k}</span> ={" "}
+                                {typeof v === "number" ? v.toFixed(3) : v}
+                              </div>
+                            ))}
                           </div>
                         </div>
                       )}
-                    </div>
-                  )}
-                </div>
-              )}
+
+                    {snapshotOpts.showAnalysis && (
+                      <div className="flex gap-10 pt-3 border-t border-white/10 text-[10px] uppercase font-bold tracking-wider">
+                        <div>
+                          <h4 className="text-slate-500 mb-1.5">
+                            {t("calculus.snapshot.module_context")}
+                          </h4>
+                          <div className="text-white flex items-center gap-2">
+                            <Check size={10} className="text-emerald-400" />{" "}
+                            {activeModule} Mode
+                          </div>
+                        </div>
+                        {integralState.show && (
+                          <div>
+                            <h4 className="text-slate-500 mb-1.5">
+                              {t("calculus.snapshot.analysis_label")} (∫)
+                            </h4>
+                            <div className="text-emerald-400 font-mono">
+                              A = {integralState.result || "..."}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                )}
             </div>
           )}
         </div>
@@ -621,11 +617,10 @@ const MathLabModernInner: React.FC = () => {
                     const preset = SNAPSHOT_PRESETS[p];
                     if (preset) setSnapshotOpts(preset);
                   }}
-                  className={`flex-1 py-2.5 rounded-xl text-[10px] font-bold uppercase flex items-center justify-center gap-2 transition-all border ${
-                    snapshotOpts === SNAPSHOT_PRESETS[p]
-                      ? "bg-emerald-500/20 text-emerald-400 border-emerald-500/30"
-                      : "bg-white/5 text-slate-400 border-white/5 hover:bg-white/10"
-                  }`}
+                  className={`flex-1 py-2.5 rounded-xl text-[10px] font-bold uppercase flex items-center justify-center gap-2 transition-all border ${snapshotOpts === SNAPSHOT_PRESETS[p]
+                    ? "bg-emerald-500/20 text-emerald-400 border-emerald-500/30"
+                    : "bg-white/5 text-slate-400 border-white/5 hover:bg-white/10"
+                    }`}
                 >
                   {p === "pws" ? (
                     <FileText size={12} />
@@ -769,9 +764,11 @@ const MathLabModernInner: React.FC = () => {
 
 const MathLabModern: React.FC<MathLabModernProps> = ({ initialModule }) => {
   return (
-    <MathLabProvider {...(initialModule ? { initialModule } : {})}>
-      <MathLabModernInner />
-    </MathLabProvider>
+    <TutorProvider>
+      <MathLabProvider {...(initialModule ? { initialModule } : {})}>
+        <MathLabModernInner />
+      </MathLabProvider>
+    </TutorProvider>
   );
 };
 

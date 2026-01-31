@@ -1,6 +1,7 @@
 import { checkGeminiHealth } from "./geminiBase";
 import { checkGroqHealth } from "./groqService";
 import { checkHFHealth } from "./huggingFaceService";
+import { checkKimiHealth } from "./kimiService";
 
 /**
  * Validates OpenAI API Key by listing models
@@ -96,6 +97,7 @@ export const checkProviderHealth = async (providerId: string, key: string): Prom
     switch (providerId) {
         case "gemini": return checkGeminiHealth(key);
         case "groq": return checkGroqHealth(key);
+        case "kimi": return checkKimiHealth(key);
         case "huggingface": return checkHFHealth(key);
         case "openai": return checkOpenAIHealth(key);
         case "elevenlabs": return checkElevenLabsHealth(key);

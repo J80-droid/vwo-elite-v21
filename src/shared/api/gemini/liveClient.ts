@@ -4,6 +4,9 @@
  * Agnostic to audio implementation (expects Base64 PCM input/output).
  */
 
+const GEMINI_API_VERSION = "v1beta";
+const GEMINI_SERVICE_ENDPOINT = "GenerativeService.BidiGenerateContent";
+
 export interface LiveConfig {
   apiKey: string;
   model?: string;
@@ -11,13 +14,21 @@ export interface LiveConfig {
   systemInstruction?: string;
 }
 
+export type LiveErrorReason =
+  | "AUTH_FAILED"      // 403: Ongeldige API Key
+  | "MODEL_NOT_FOUND"  // 404: Modelnaam onjuist
+  | "UNSUPPORTED"     // 400: Model ondersteunt geen Bidi/Live
+  | "QUOTA_EXCEEDED"   // 429: Rate limit bereikt
+  | "NETWORK_ERROR"    // Verbindingsverlies
+  | "UNKNOWN";
+
 export type LiveEvent =
   | { type: "open" }
   | { type: "close" }
   | { type: "audio"; data: ArrayBuffer } // PCM 16/24kHz
   | { type: "text"; text: string }
   | { type: "interrupted" }
-  | { type: "error"; message: string };
+  | { type: "error"; reason: LiveErrorReason; message: string; fatal: boolean };
 
 interface BidiPart {
   text?: string;
@@ -41,47 +52,112 @@ export class LiveClient {
   private ws: WebSocket | null = null;
   private config: LiveConfig;
   private onEvent: (event: LiveEvent) => void;
+  private messageQueue: string[] = [];
+
+  private reconnectAttempts = 0;
+  private readonly maxReconnectDelay = 30000;
+  private isExplicitlyClosed = false;
 
   constructor(config: LiveConfig, onEvent: (event: LiveEvent) => void) {
     this.config = config;
     this.onEvent = onEvent;
   }
 
-  connect() {
-    try {
-      const url = `wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.v1alpha.GenerativeService.BidiGenerateContent?key=${this.config.apiKey}`;
+  private send(msg: object) {
+    const raw = JSON.stringify(msg);
+    if (this.ws && this.ws.readyState === WebSocket.OPEN) {
+      this.ws.send(raw);
+    } else {
+      this.messageQueue.push(raw);
+    }
+  }
 
+  private flushQueue() {
+    if (this.ws && this.ws.readyState === WebSocket.OPEN) {
+      while (this.messageQueue.length > 0) {
+        const msg = this.messageQueue.shift();
+        if (msg) this.ws.send(msg);
+      }
+    }
+  }
+
+  connect() {
+    this.isExplicitlyClosed = false;
+    try {
+      const maskedKey = this.config.apiKey ? (this.config.apiKey.substring(0, 4) + "..." + this.config.apiKey.substring(this.config.apiKey.length - 4)) : "MISSING";
+      // 🚀 ELITE: Parameterized API versioning for future-proofing (Gemini 2.0/2.5)
+      const url = `wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.${GEMINI_API_VERSION}.${GEMINI_SERVICE_ENDPOINT}?key=${this.config.apiKey}`;
+
+      console.log(`[LiveClient] Connecting to Gemini WSS (Key: ${maskedKey})...`);
       this.ws = new WebSocket(url);
 
       this.ws.onopen = () => {
+        console.log("[LiveClient] WebSocket Connected (onopen)");
+        this.reconnectAttempts = 0;
         this.onEvent({ type: "open" });
         this.sendSetupMessage();
+        this.flushQueue(); // Flush everything queued during connect
       };
 
       this.ws.onmessage = async (event) => {
+        // console.log("[LiveClient] Received raw message");
         await this.handleMessage(event.data);
       };
 
       this.ws.onerror = (e) => {
         console.error("[LiveClient] WebSocket Error:", e);
-        this.onEvent({ type: "error", message: "WebSocket connection failed" });
       };
 
-      this.ws.onclose = () => {
+      this.ws.onclose = (event) => {
+        console.log(`[LiveClient] WebSocket Closed. Code: ${event.code}, Reason: ${event.reason}`);
         this.onEvent({ type: "close" });
+        if (!this.isExplicitlyClosed) {
+          this.attemptReconnect(event);
+        }
       };
-    } catch (e: unknown) {
-      const msg = e instanceof Error ? e.message : "Unknown error";
-      this.onEvent({ type: "error", message: msg });
+    } catch {
+      this.attemptReconnect();
     }
   }
 
-  private sendSetupMessage() {
-    if (!this.ws) return;
+  private attemptReconnect(event?: CloseEvent) {
+    if (this.isExplicitlyClosed) return;
 
+    // Detect fatal errors based on WebSocket close codes or our heuristic mapping
+    const isFatal = event && (event.code === 4000 || event.code === 4003 || event.code === 4004);
+
+    if (isFatal || this.reconnectAttempts >= 5) {
+      const reason = this.mapCodeToReason(event?.code);
+      this.onEvent({
+        type: "error",
+        reason,
+        message: "Verbinding definitief mislukt. Controleer model-instellingen.",
+        fatal: true,
+      });
+      this.close();
+      return;
+    }
+
+    this.reconnectAttempts++;
+    const delay = Math.min(Math.pow(2, this.reconnectAttempts) * 1000, this.maxReconnectDelay);
+    console.warn(`[LiveClient] Reconnect attempt ${this.reconnectAttempts} in ${delay}ms...`);
+    setTimeout(() => {
+      if (!this.isExplicitlyClosed) this.connect();
+    }, delay);
+  }
+
+  private mapCodeToReason(code?: number): LiveErrorReason {
+    if (code === 4003) return "AUTH_FAILED";
+    if (code === 4004) return "MODEL_NOT_FOUND";
+    if (code === 4000) return "UNSUPPORTED";
+    return "NETWORK_ERROR";
+  }
+
+  private sendSetupMessage() {
     const setupMsg = {
       setup: {
-        model: this.config.model || "models/gemini-2.0-flash-exp",
+        // Ensure model has 'models/' prefix
+        model: this.config.model?.startsWith("models/") ? this.config.model : `models/${this.config.model || "gemini-2.0-flash-exp"}`,
         generation_config: {
           response_modalities: ["AUDIO"],
           speech_config: {
@@ -98,7 +174,7 @@ export class LiveClient {
       },
     };
 
-    this.ws.send(JSON.stringify(setupMsg));
+    this.send(setupMsg);
   }
 
   /**
@@ -106,8 +182,6 @@ export class LiveClient {
    * @param base64PCM Audio data in Base64 PCM format (16kHz Little Endian)
    */
   sendAudioChunk(base64PCM: string) {
-    if (!this.ws || this.ws.readyState !== WebSocket.OPEN) return;
-
     const msg = {
       realtime_input: {
         media_chunks: [
@@ -119,7 +193,7 @@ export class LiveClient {
       },
     };
 
-    this.ws.send(JSON.stringify(msg));
+    this.send(msg);
   }
 
   /**
@@ -135,17 +209,35 @@ export class LiveClient {
       }
     }
 
-    // Convert Int16Array to Base64 manually
-    // Use a more efficient approach if possible, but loop is reliable for standard array
-    let binary = "";
     const bytes = new Uint8Array(pcm16.buffer);
-    const len = bytes.byteLength;
-    for (let i = 0; i < len; i++) {
+    // 🛡️ SAFES: Loop conversion to prevent stack overflow on large buffers
+    let binary = "";
+    for (let i = 0; i < bytes.byteLength; i++) {
       const b = bytes[i];
-      if (b !== undefined) binary += String.fromCharCode(b);
+      if (b !== undefined) {
+        binary += String.fromCharCode(b);
+      }
     }
-
     this.sendAudioChunk(window.btoa(binary));
+  }
+
+  /**
+   * Send Text Input (for triggering specific responses or metadata)
+   */
+  sendText(text: string) {
+    const msg = {
+      client_content: {
+        turns: [
+          {
+            role: "user",
+            parts: [{ text }],
+          },
+        ],
+        turn_complete: true,
+      },
+    };
+
+    this.send(msg);
   }
 
   private async handleMessage(data: Blob | string) {
@@ -201,6 +293,7 @@ export class LiveClient {
   }
 
   close() {
+    this.isExplicitlyClosed = true;
     if (this.ws) {
       this.ws.close();
       this.ws = null;

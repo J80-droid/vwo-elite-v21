@@ -21,14 +21,14 @@ export const LimitEngine: GymEngine = {
         const n = rand(1, 3);
         return {
           id: `lim-1-${timestamp}`,
-          question: `\\lim_{x \\to \\infty} \\frac{${a}}{x^{${n}}}`,
+          question: `$$\\lim_{x \\to \\infty} \\frac{${a}}{x^{${n}}}$$`,
           answer: "0",
           displayAnswer: "0",
           context: "Bereken de limiet",
           solutionSteps: [
-            `Wanneer x naar oneindig gaat, wordt de noemer x^${n} extreem groot.`,
-            `Een constante gedeeld door een oneindig groot getal nadert naar 0.`,
-            `Antwoord: 0`,
+            `Wanneer $x$ naar oneindig gaat, wordt de noemer $x^{${n}}$ extreem groot.`,
+            `Een constante gedeeld door een oneindig groot getal nadert naar $0$.`,
+            `Antwoord: $0$`,
           ],
         };
       }
@@ -40,15 +40,15 @@ export const LimitEngine: GymEngine = {
         const b2 = rand(2, 5);
         return {
           id: `lim-2-${timestamp}`,
-          question: `\\lim_{x \\to \\infty} \\frac{${a2}x^{${n}} + ${a}}{${b2}x^{${n}} - ${b}}`,
+          question: `$$\\lim_{x \\to \\infty} \\frac{${a2}x^{${n}} + ${a}}{${b2}x^{${n}} - ${b}}$$`,
           answer: `${a2}/${b2}`,
           displayAnswer: `\\frac{${a2}}{${b2}}`,
           context: "Bereken de limiet",
           solutionSteps: [
             `Kijk naar de hoogste machten in de teller en noemer (dominante termen).`,
-            `Teller: ${a2}x^{${n}}, Noeder: ${b2}x^{${n}}.`,
-            `De limiet is de verhouding van de coëfficiënten: ${a2}/${b2}.`,
-            `Antwoord: \\frac{${a2}}{${b2}}`,
+            `Teller: $${a2}x^{${n}}$, Noemer: $${b2}x^{${n}}$.`,
+            `De limiet is de verhouding van de coëfficiënten: $${a2}/${b2}$.`,
+            `Antwoord: $$\\frac{${a2}}{${b2}}$$`,
           ],
         };
       }
@@ -58,14 +58,14 @@ export const LimitEngine: GymEngine = {
         const pole = rand(1, 5);
         return {
           id: `lim-3-${timestamp}`,
-          question: `f(x) = \\frac{1}{x - ${pole}}`,
+          question: `$$f(x) = \\frac{1}{x - ${pole}}$$`,
           answer: `${pole}`,
           displayAnswer: `x = ${pole}`,
           context: "Bij welke x-waarde bevindt zich de verticale asymptoot?",
           solutionSteps: [
-            `Een verticale asymptoot treedt op waar de noemer 0 is (en de teller niet).`,
-            `x - ${pole} = 0 \\implies x = ${pole}.`,
-            `Antwoord: ${pole}`,
+            `Een verticale asymptoot treedt op waar de noemer $0$ is (en de teller niet).`,
+            `$x - ${pole} = 0 \\implies x = ${pole}$.`,
+            `Antwoord: $${pole}$`,
           ],
         };
       }
@@ -77,14 +77,14 @@ export const LimitEngine: GymEngine = {
         const other = rand(1, 5);
         return {
           id: `lim-4-${timestamp}`,
-          question: `f(x) = \\frac{(x - ${hole})(x + ${other})}{x - ${hole}}`,
+          question: `$$f(x) = \\frac{(x - ${hole})(x + ${other})}{x - ${hole}}$$`,
           answer: `${hole}`,
           displayAnswer: `x = ${hole}`,
           context: "Bij welke x-waarde bevindt zich een perforatie (gat)?",
           solutionSteps: [
-            `Een perforatie treedt op als zowel de teller als de noemer 0 worden voor dezelfde x.`,
-            `De factor (x - ${hole}) komt in beiden voor.`,
-            `Antwoord: ${hole}`,
+            `Een perforatie treedt op als zowel de teller als de noemer $0$ worden voor dezelfde $x$.`,
+            `De factor $(x - ${hole})$ komt in beiden voor.`,
+            `Antwoord: $${hole}$`,
           ],
         };
       }

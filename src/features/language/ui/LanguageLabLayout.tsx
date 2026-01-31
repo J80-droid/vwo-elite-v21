@@ -61,6 +61,13 @@ const MODULE_COMPONENTS: Record<
       })),
     ),
   },
+  gym: {
+    Stage: React.lazy(() =>
+      import("./gym/LanguageGymStage").then((m) => ({
+        default: m.LanguageGymStage,
+      })),
+    ),
+  },
 };
 
 export const LanguageLabLayout: React.FC = () => {

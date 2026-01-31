@@ -78,7 +78,7 @@ export const ExamLayout: React.FC = () => {
   const showRightPanel = !!content.Results;
 
   return (
-    <div className="fixed inset-0 bg-slate-950 font-outfit text-white overflow-hidden flex flex-col pt-16">
+    <div className="relative w-full h-full bg-slate-950 font-outfit text-white overflow-hidden flex flex-col transition-all duration-300">
       {/* Background Atmosphere */}
       <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_50%_50%,rgba(17,24,39,1),#000)]" />
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)] opacity-20 pointer-events-none" />
@@ -97,10 +97,9 @@ export const ExamLayout: React.FC = () => {
                   navigate(`/examen-centrum/${m.id}`);
                 }}
                 className={`px-4 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all duration-300 flex items-center gap-2
-                  ${
-                    isActive
-                      ? `bg-${baseColor}-500/20 ${m.color} shadow-[0_0_15px_rgba(var(--${baseColor}-500),0.3)]`
-                      : "text-slate-500 hover:text-white hover:bg-white/5"
+                  ${isActive
+                    ? `bg-${baseColor}-500/20 ${m.color} shadow-[0_0_15px_rgba(var(--${baseColor}-500),0.3)]`
+                    : "text-slate-500 hover:text-white hover:bg-white/5"
                   }`}
               >
                 <m.icon size={14} />

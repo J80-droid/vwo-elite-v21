@@ -19,14 +19,13 @@ import {
   sortableKeyboardCoordinates,
   useSortable,
 } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
+import { CSS, Transform } from "@dnd-kit/utilities";
 import { useTranslations } from "@shared/hooks/useTranslations";
 import { useHubStore } from "@shared/model/hubStore";
 import { LabNavCategory, LabSidebar } from "@shared/ui/LabSidebar";
 import {
   Award,
   BookOpen,
-  Box,
   Dna,
   Layers,
   Settings,
@@ -51,6 +50,12 @@ import { MasteryDashboard } from "./common/MasteryDashboard";
 
 // Module Color Themes - Matches Library/Chemistry subtle neon style
 const NAV_CATEGORIES: LabNavCategory[] = [
+  {
+    id: "training",
+    label: (t: (key: string, defaultValue?: string) => string) =>
+      t("biology.categories.training", "Training"),
+    modules: ["gym"],
+  },
   {
     id: "cel_molecuul",
     label: (t: (key: string, defaultValue?: string) => string) =>
@@ -173,6 +178,9 @@ const MODULE_COMPONENTS: Record<
     Parameters: React.lazy(() => import("./modules/protein/ProteinParameters").then(m => ({ default: m.ProteinParameters }))),
     Analysis: React.lazy(() => import("./modules/protein/ProteinAnalysis").then(m => ({ default: m.ProteinAnalysis }))),
   },
+  gym: {
+    Stage: React.lazy(() => import("./gym/BiologyGymStage").then(m => ({ default: m.BiologyGymStage }))),
+  },
 };
 
 // Sortable Module Card Component
@@ -199,7 +207,7 @@ const SortableModuleCard = ({
   const theme = MODULE_THEMES[mod.id] || DEFAULT_THEME;
 
   const style = {
-    transform: CSS.Transform.toString(transform as any),
+    transform: CSS.Transform.toString(transform as Transform),
     transition,
     opacity: isDragging ? 0.3 : 1,
     zIndex: isDragging ? 0 : 1,
@@ -285,9 +293,9 @@ const SortableModuleCard = ({
             <Dna size={20} className={`opacity-50 ${theme.icon}`} />
           </div>
           <div className="flex flex-col">
-            <span className={`text-sm font-bold ${theme.text}`}>Active</span>
+            <span className={`text-sm font-bold ${theme.text}`}>Ready</span>
             <span className="text-xs text-slate-400 line-clamp-1">
-              Life Sciences
+              Biological Systems
             </span>
           </div>
         </div>
@@ -295,7 +303,7 @@ const SortableModuleCard = ({
         {/* Bottom Row: Context */}
         <div className="mt-auto pt-4 border-t border-white/5 flex items-center justify-between relative z-10">
           <div className="flex items-center gap-2">
-            <Box
+            <Dna
               size={14}
               className="text-slate-500 group-hover:text-cyan-400 transition-colors"
             />
@@ -509,6 +517,7 @@ const BiologyLabLayoutInner: React.FC = () => {
           themes={MODULE_THEMES}
           defaultTheme={DEFAULT_THEME}
           labTitle="Biology Lab"
+          onBack={() => navigate("/biology")}
         />
         {/* 1. LEFT SIDEBAR: INSTRUMENTATION */}
         <div className="w-80 h-full bg-obsidian-950/80 backdrop-blur-2xl border-r border-white/5 flex flex-col z-40 relative">

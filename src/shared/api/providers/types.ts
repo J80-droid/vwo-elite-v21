@@ -1,4 +1,5 @@
 import { AIConfig, CustomAIProvider } from "../../types/config";
+export type { AIConfig, CustomAIProvider };
 
 export type PROVIDER_ID = "gemini" | "groq" | "huggingface" | string;
 
@@ -44,8 +45,47 @@ export interface GenerationOptions {
     frequencyPenalty?: number;
     presencePenalty?: number;
     repetitionPenalty?: number;
+    repetitionPenaltyRange?: number;
     logitBias?: Record<string, number>;
     signal?: AbortSignal;
+
+    // Expert Sampling
+    minP?: number;
+    typicalP?: number;
+    tfsZ?: number;
+    topA?: number;
+    mirostat?: number;
+    mirostatTau?: number;
+    mirostatEta?: number;
+
+    // expert Structure & Search
+    grammarGBNF?: string;
+    jsonModeForced?: boolean;
+    beamSearch?: boolean;
+    numBeams?: number;
+    contrastiveSearch?: boolean;
+
+    // Expert Memory & Performance
+    numCtx?: number;
+    kvCacheQuantization?: number;
+    ropeFrequencyBase?: number;
+    ropeFrequencyScale?: number;
+    flashAttention?: boolean;
+    speculativeDecoding?: boolean;
+    dynamicTemperature?: boolean;
+    threadCount?: number;
+
+    // Expert Guidance & Local
+    cfgScale?: number;
+    negativePrompt?: string;
+    loraPath?: string;
+    loraScale?: number;
+    quantizationLevel?: string;
+    promptTemplate?: string;
+
+    // Intelligence Identification
+    intelligenceId?: string;
+    modelId?: string;
 
     // Advanced features
     inlineImages?: { mimeType: string; data: string }[];

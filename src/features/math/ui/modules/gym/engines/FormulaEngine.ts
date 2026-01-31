@@ -19,25 +19,25 @@ export const FormulaEngine: GymEngine = {
         if (Math.random() > 0.5) {
           return {
             id: `form-1-${timestamp}`,
-            question: `\\sin(2x)`,
+            question: `$$\\sin(2x)$$`,
             answer: `2*sin(x)*cos(x)`,
             displayAnswer: `2\\sin(x)\\cos(x)`,
             context: "Schrijf om naar een vorm zonder 2x",
             solutionSteps: [
-              `Verdubbelingsformule: \\sin(2A) = 2\\sin(A)\\cos(A).`,
-              `Antwoord: 2\\sin(x)\\cos(x)`,
+              `Verdubbelingsformule: $$\\sin(2A) = 2\\sin(A)\\cos(A)$$.`,
+              `Antwoord: $$2\\sin(x)\\cos(x)$$`,
             ],
           };
         } else {
           return {
             id: `form-1b-${timestamp}`,
-            question: `\\cos^2(x) + \\sin^2(x)`,
+            question: `$$\\cos^2(x) + \\sin^2(x)$$`,
             answer: `1`,
             displayAnswer: `1`,
             context: "Vereenvoudig tot een getal",
             solutionSteps: [
-              `De grondformule van de goniometrie: \\cos^2(A) + \\sin^2(A) = 1.`,
-              `Antwoord: 1`,
+              `De grondformule van de goniometrie: $$\\cos^2(A) + \\sin^2(A) = 1$$.`,
+              `Antwoord: $1$`,
             ],
           };
         }
@@ -53,7 +53,7 @@ export const FormulaEngine: GymEngine = {
         const variant = cos2xVars[rand(0, 2)]!;
         return {
           id: `form-2-${timestamp}`,
-          question: `\\cos(2x)`,
+          question: `$$\\cos(2x)$$`,
           answer: variant.a,
           displayAnswer: variant.a
             .replace(/\*/g, "")
@@ -63,7 +63,7 @@ export const FormulaEngine: GymEngine = {
           solutionSteps: [
             `Verdubbelingsformule voor cosinus heeft drie vormen.`,
             `Gevraagd: ${variant.hint}`,
-            `Antwoord: ${variant.a.replace(/\*/g, "")}`,
+            `Antwoord: $${variant.a.replace(/\*/g, "")}$`,
           ],
         };
       }
@@ -73,26 +73,26 @@ export const FormulaEngine: GymEngine = {
         if (Math.random() > 0.5) {
           return {
             id: `form-3-${timestamp}`,
-            question: `1 - \\sin^2(x)`,
+            question: `$$1 - \\sin^2(x)$$`,
             answer: `cos^2(x)`,
             displayAnswer: `\\cos^2(x)`,
             context: "Vereenvoudig",
             solutionSteps: [
-              `Uit \\sin^2(x) + \\cos^2(x) = 1 volgt dat 1 - \\sin^2(x) = \\cos^2(x).`,
-              `Antwoord: \\cos^2(x)`,
+              `Uit $$\\sin^2(x) + \\cos^2(x) = 1$$ volgt dat $$1 - \\sin^2(x) = \\cos^2(x)$$.`,
+              `Antwoord: $$\\cos^2(x)$$`,
             ],
           };
         } else {
           return {
             id: `form-3b-${timestamp}`,
-            question: `\\sin(x)\\cos(x)`,
+            question: `$$\\sin(x)\\cos(x)$$`,
             answer: `0.5*sin(2x)`,
             displayAnswer: `\\frac{1}{2}\\sin(2x)`,
             context: "Schrijf om met de sinus-verdubbelingsformule",
             solutionSteps: [
-              `\\sin(2x) = 2\\sin(x)\\cos(x)`,
-              `Dus \\sin(x)\\cos(x) = \\frac{1}{2}\\sin(2x).`,
-              `Antwoord: 0,5\\sin(2x)`,
+              `$$\\sin(2x) = 2\\sin(x)\\cos(x)$$`,
+              `Dus $$\\sin(x)\\cos(x) = \\frac{1}{2}\\sin(2x)$$.`,
+              `Antwoord: $$0,5\\sin(2x)$$`,
             ],
           };
         }
@@ -108,12 +108,12 @@ export const FormulaEngine: GymEngine = {
         const alg = algs[rand(0, algs.length - 1)]!;
         return {
           id: `form-4-${timestamp}`,
-          question: alg.q,
+          question: `$$${alg.q}$$`,
           answer: alg.a,
           context: alg.c,
           solutionSteps: [
             `Gebruik de merkwaardige producten.`,
-            `Antwoord: ${alg.a}`,
+            `Antwoord: $$${alg.a}$$`,
           ],
         };
       }

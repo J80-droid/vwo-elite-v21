@@ -16,7 +16,7 @@ export const DashboardPlaceholder: React.FC = () => {
   };
 
   return (
-    <div className="w-full h-full flex flex-col items-center justify-center gap-12 max-w-6xl mx-auto p-8 overflow-y-auto custom-scrollbar">
+    <div className="w-full h-full flex flex-col items-center justify-start gap-12 max-w-6xl mx-auto py-20 px-8 overflow-y-auto custom-scrollbar">
       <div className="text-center space-y-4">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-[10px] font-black uppercase tracking-[0.2em] mb-4">
           <Sparkles size={12} />

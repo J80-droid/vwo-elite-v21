@@ -1,0 +1,9 @@
+export type TrajectoryPoint = { month: string; grade: number; projected?: number; };
+export type ErrorDNAItem = { name: string; value: number; color: string; };
+export type SyllabusItem = { id: string; name: string; type: "CE" | "SE"; coverage: number; weight: number; };
+export type ConfidencePoint = { conf: number; correct: number; size: number; name: string; };
+export type RTTIDataPoint = { subject: string; A: number; fullMark: number; };
+export type RetentionData = { overall: number; segments: { label: string; count: number; color: string; percentage: number }[] };
+export type MentalState = { focusScore: number; burnoutRisk: 'Low' | 'Medium' | 'High'; volume24h: number };
+export type BenchmarkItem = { name: string; user: number; elite: number };
+export type WPMData = { name: string; wpm: number }[];

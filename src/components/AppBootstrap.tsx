@@ -1,8 +1,11 @@
 import { bootstrapApp } from "@shared/api/bootstrap";
+import { useAutoSync } from "@shared/hooks/useAutoSync";
+import { useSettings } from "@shared/hooks/useSettings";
 import { isFirstRun } from "@shared/lib/firstRunDetection";
 import React, { ReactNode, useEffect, useState } from "react";
 
 import { SystemLoader } from "../shared/ui/loading";
+import { VaultUnlockModal } from "../shared/ui/VaultUnlockModal";
 
 interface AppBootstrapProps {
   children: ReactNode;
@@ -16,7 +19,12 @@ interface AppBootstrapProps {
  * In v7.0, the cinematic first-run is handled by the Main process splash.
  */
 export const AppBootstrap: React.FC<AppBootstrapProps> = ({ children }) => {
+  const { settings } = useSettings();
   const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
+
+  // 💓 ELITE HEARTBEAT: Auto-Sync & Provider Health Monitoring
+  useAutoSync(settings);
+
   const [error, setError] = useState<string | null>(null);
   const [isFirstVisit] = useState(isFirstRun());
 
@@ -100,6 +108,7 @@ export const AppBootstrap: React.FC<AppBootstrapProps> = ({ children }) => {
   return (
     <>
       {children}
+      <VaultUnlockModal />
     </>
   );
 };

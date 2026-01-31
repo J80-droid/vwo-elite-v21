@@ -31,7 +31,7 @@ export const chatWithSocraticCoach = async (
   additionalContext?: string,
   basePromptOverride?: string,
 ): Promise<string> => {
-  const ai = await getGeminiAPI(aiConfig?.geminiApiKey);
+  const { aiGenerate } = await import("../ai-brain/orchestrator");
 
   // Map coach role to prompt role
   const roleMap: Record<PersonaType, PromptRole> = {
@@ -41,7 +41,7 @@ export const chatWithSocraticCoach = async (
     eli5: "eli5",
     strategist: "strategist",
     debater: "debater",
-    feynman: "eli5", // Feynman uses ELI5-style prompts at its core
+    feynman: "eli5",
   };
   const promptRole = roleMap[coachRole] || "socratic_mentor";
 
@@ -77,41 +77,35 @@ export const chatWithSocraticCoach = async (
     `;
   }
 
-  const contents = [
-    { role: "user", parts: [{ text: systemPrompt }] },
-    ...history,
-    { role: "user", parts: [{ text: message }] },
-  ];
+  // Convert history to standard LLM messages
+  const messages = history.map(h => ({
+    role: (h.role === "model" ? "assistant" : "user") as any,
+    content: h.parts[0]?.text || ""
+  }));
 
   try {
+    // Execute via Elite Orchestrator for multi-model support and intelligent routing
+    return await aiGenerate(message, {
+      systemPrompt,
+      context: additionalContext,
+      preferQuality: true,
+      intent: "socratic_coaching" as any,
+      messages: messages
+    });
+  } catch (error: unknown) {
+    console.error("[SocraticCoach] Orchestrator failed, falling back to basic Gemini:", error);
+    // Fallback to basic Gemini if Orchestrator fails
+    const ai = await getGeminiAPI(aiConfig?.geminiApiKey);
+    const contents = [
+      { role: "user", parts: [{ text: systemPrompt }] },
+      ...history,
+      { role: "user", parts: [{ text: message }] },
+    ];
     const model = ai.getGenerativeModel({ model: MODEL_FLASH });
     const response = await model.generateContent({
       contents: contents as any,
     });
     return response.response.text() || "Ik kon geen antwoord genereren.";
-  } catch (error: unknown) {
-    // Fallback to gemini-1.5-flash on 429 rate limit
-    const err = error as { status?: number; message?: string };
-    if (
-      err?.status === 429 ||
-      err?.message?.includes("429") ||
-      err?.message?.includes("RESOURCE_EXHAUSTED")
-    ) {
-      console.warn(
-        "[Chat] Rate limited on primary model, falling back to secondary",
-      );
-      console.warn(
-        "[Chat] Rate limited on primary model, falling back to secondary",
-      );
-      const model = ai.getGenerativeModel({ model: MODEL_FLASH });
-      const fallbackResponse = await model.generateContent({
-        contents: contents as any,
-      });
-      return (
-        fallbackResponse.response.text() || "Ik kon geen antwoord genereren."
-      );
-    }
-    throw error;
   }
 };
 
@@ -158,7 +152,7 @@ export const generateChatSummary = async (
     const response = await model.generateContent(prompt);
     return JSON.parse(
       response.response.text() ||
-        '{"topic":"Gesprek","summary":"","actionItems":[]}',
+      '{"topic":"Gesprek","summary":"","actionItems":[]}',
     );
   } catch (error: unknown) {
     // Fallback to gemini-1.5-flash on 429 rate limit
@@ -181,7 +175,7 @@ export const generateChatSummary = async (
       const fallbackResponse = await model.generateContent(prompt);
       return JSON.parse(
         fallbackResponse.response.text() ||
-          '{"topic":"Gesprek","summary":"","actionItems":[]}',
+        '{"topic":"Gesprek","summary":"","actionItems":[]}',
       );
     }
     throw error;

@@ -1,40 +1,133 @@
-import { aiGenerate } from "../../aiCascadeService";
+import { z } from "zod";
 
-/**
- * Handle Natural Sciences tool execution
- */
-export async function handleScienceTool(
-  name: string,
-  params: Record<string, unknown>,
-): Promise<unknown> {
-  switch (name) {
-    case "balance_equation":
-      return await balanceEquation(String(params.equation));
-    case "lookup_periodic_table":
-      return await lookupPeriodicTable(String(params.symbol));
-    case "lookup_binas":
-      return await lookupBinas(String(params.query));
-    case "physics_formula_helper":
-      return await physicsFormulaHelper(String(params.problem));
-    case "simulate_physics":
-      return await simulatePhysics(String(params.scenario), params.parameters);
-    case "molecule_visualizer":
-      return await visualizeMolecule(String(params.name));
-    case "biology_diagram": {
-      const res = await generateBiologyDiagram(String(params.concept));
-      return { success: true, ...res };
-    }
-    case "protein_structure": {
-      const res = await proteinStructure(
-        String(params.protein_name),
-        String(params.organism || ""),
-      );
-      return { success: !res.error, ...res };
-    }
-    default:
-      throw new Error(`Science tool ${name} not implemented.`);
+import { aiGenerate } from "../../aiCascadeService";
+import { getToolRegistry, type IToolHandler } from "../ToolRegistry";
+
+// --- Tool Implementations ---
+
+const BalanceEquationTool: IToolHandler = {
+  name: "balance_equation",
+  category: "Science",
+  description: "Balanceert chemische reactievergelijkingen",
+  schema: z.object({
+    equation: z.string().min(1),
+  }),
+  parametersSchema: {
+    type: "object",
+    properties: {
+      equation: { type: "string", description: "De chemische vergelijking (bijv. H2 + O2 -> H2O)" }
+    },
+    required: ["equation"]
+  },
+  async execute(params) {
+    return await balanceEquation(String(params.equation));
   }
-}
+};
+
+const LookupPeriodicTableTool: IToolHandler = {
+  name: "lookup_periodic_table",
+  category: "Science",
+  description: "Zoekt informatie over elementen in het periodiek systeem",
+  schema: z.object({
+    symbol: z.string().min(1),
+  }),
+  parametersSchema: {
+    type: "object",
+    properties: {
+      symbol: { type: "string", description: "Het symbool of naam van het element" }
+    },
+    required: ["symbol"]
+  },
+  async execute(params) {
+    return await lookupPeriodicTable(String(params.symbol));
+  }
+};
+
+const LookupBinasTool: IToolHandler = {
+  name: "lookup_binas",
+  category: "Science",
+  description: "Zoekt relevante informatie of tabelnummers in BINAS",
+  schema: z.object({
+    query: z.string().min(1),
+  }),
+  parametersSchema: {
+    type: "object",
+    properties: {
+      query: { type: "string", description: "De vraag of het onderwerp om in BINAS te zoeken" }
+    },
+    required: ["query"]
+  },
+  async execute(params) {
+    return await lookupBinas(String(params.query));
+  }
+};
+
+const PhysicsFormulaHelperTool: IToolHandler = {
+  name: "physics_formula_helper",
+  category: "Science",
+  description: "Helpt bij het vinden en begrijpen van natuurkundeformules",
+  schema: z.object({
+    problem: z.string().min(1),
+  }),
+  async execute(params) {
+    return await physicsFormulaHelper(String(params.problem));
+  }
+};
+
+const SimulatePhysicsTool: IToolHandler = {
+  name: "simulate_physics",
+  category: "Science",
+  description: "Voert een mentale simulatie uit voor natuurkundige scenario's",
+  schema: z.object({
+    scenario: z.string().min(1),
+    parameters: z.any().optional(),
+  }),
+  async execute(params) {
+    return await simulatePhysics(String(params.scenario), params.parameters);
+  }
+};
+
+const MoleculeVisualizerTool: IToolHandler = {
+  name: "molecule_visualizer",
+  category: "Science",
+  description: "Analyseert en visualiseert moleculaire structuren",
+  schema: z.object({
+    name: z.string().min(1),
+  }),
+  async execute(params) {
+    return await visualizeMolecule(String(params.name));
+  }
+};
+
+const BiologyDiagramTool: IToolHandler = {
+  name: "biology_diagram",
+  category: "Science",
+  description: "Genereert Mermaid diagrammen voor biologische concepten",
+  schema: z.object({
+    concept: z.string().min(1),
+  }),
+  async execute(params) {
+    return await generateBiologyDiagram(String(params.concept));
+  }
+};
+
+const ProteinStructureTool: IToolHandler = {
+  name: "protein_structure",
+  category: "Science",
+  description: "Zoekt AlphaFold 3D-structuren van eiwitten",
+  schema: z.object({
+    protein_name: z.string().min(1),
+    organism: z.string().optional(),
+  }),
+  async execute(params) {
+    return await proteinStructure(
+      String(params.protein_name),
+      String(params.organism || ""),
+    );
+  }
+};
+
+// --- Helper Functions ---
 
 async function proteinStructure(proteinName: string, organism?: string) {
   const { searchProteins, getProteinStructure, getAlphaFoldViewerUrl } =
@@ -131,8 +224,8 @@ async function simulatePhysics(scenario: string, parameters: unknown) {
   });
   return { scenario, parameters, simulation_result: content };
 }
+
 async function visualizeMolecule(name: string) {
-  // Attempt to resolve real molecule data from our database
   try {
     const { mcpResourceManager } = await import("../mcpResourceManager");
     const molecule = await mcpResourceManager.getResource(
@@ -146,7 +239,6 @@ async function visualizeMolecule(name: string) {
     };
   } catch (error) {
     console.warn(`Molecule lookup failed for ${name}:`, error);
-    // Fallback to AI description if not in DB
     const content = await aiGenerate(
       `Beschrijf de moleculaire structuur van ${name} (atomen en verbindingen).`,
       { systemPrompt: "Je bent een expert in organische scheikunde." },
@@ -168,4 +260,35 @@ Gebruik een flowchart (graph TD) of sequenceDiagram. Geef ALLEEN de Mermaid code
 
   const content = await aiGenerate(prompt, { systemPrompt });
   return { concept, diagram_code: content, type: "mermaid" };
+}
+
+// --- Registration ---
+
+export function registerScienceTools(): void {
+  const registry = getToolRegistry();
+  registry.registerAll([
+    BalanceEquationTool,
+    LookupPeriodicTableTool,
+    LookupBinasTool,
+    PhysicsFormulaHelperTool,
+    SimulatePhysicsTool,
+    MoleculeVisualizerTool,
+    BiologyDiagramTool,
+    ProteinStructureTool,
+  ]);
+  console.log("[ScienceTools] Registered 8 tools.");
+}
+
+/**
+ * Legacy handler
+ * @deprecated Use ToolRegistry instead
+ */
+export async function handleScienceTool(
+  name: string,
+  params: Record<string, unknown>,
+): Promise<unknown> {
+  const registry = getToolRegistry();
+  const handler = registry.get(name);
+  if (handler) return handler.execute(params);
+  throw new Error(`Science tool ${name} not implemented.`);
 }

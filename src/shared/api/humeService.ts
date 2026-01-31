@@ -5,11 +5,14 @@
 
 export interface EmotionAnalysisConfig {
     apiKey: string;
+    secretKey?: string;
+    modelId?: string; // The primary model to use (prosody, face, etc.)
     audioData: Blob | ArrayBuffer;
     models?: {
         face?: object;
         prosody?: object;
         burst?: object;
+        language?: object;
     };
 }
 
@@ -40,8 +43,13 @@ export async function analyzeAudioEmotion(config: EmotionAnalysisConfig): Promis
             : new Blob([config.audioData], { type: 'audio/wav' });
 
         formData.append('file', blob, 'audio.wav');
+
+        // Use the selected modelId or default to prosody
+        const targetModel = config.modelId || 'prosody';
+        const modelConfig = config.models || { [targetModel]: {} };
+
         formData.append('json', JSON.stringify({
-            models: config.models || { prosody: {} }
+            models: modelConfig
         }));
 
         const startResponse = await fetch('https://api.hume.ai/v0/batch/jobs', {
@@ -49,7 +57,8 @@ export async function analyzeAudioEmotion(config: EmotionAnalysisConfig): Promis
             headers: {
                 'X-Hume-Api-Key': config.apiKey,
             },
-            body: formData
+            body: formData,
+            signal: AbortSignal.timeout(60000)
         });
 
         if (!startResponse.ok) {
@@ -67,7 +76,8 @@ export async function analyzeAudioEmotion(config: EmotionAnalysisConfig): Promis
         while (status !== 'completed' && status !== 'failed' && retries < MAX_RETRIES) {
             await new Promise(r => setTimeout(r, 1000));
             const statusResponse = await fetch(`https://api.hume.ai/v0/batch/jobs/${job_id}`, {
-                headers: { 'X-Hume-Api-Key': config.apiKey }
+                headers: { 'X-Hume-Api-Key': config.apiKey },
+                signal: AbortSignal.timeout(60000)
             });
             const statusData = await statusResponse.json();
             status = statusData.state.status;
@@ -80,7 +90,8 @@ export async function analyzeAudioEmotion(config: EmotionAnalysisConfig): Promis
 
         // 3. Get Predictions
         const predResponse = await fetch(`https://api.hume.ai/v0/batch/jobs/${job_id}/predictions`, {
-            headers: { 'X-Hume-Api-Key': config.apiKey }
+            headers: { 'X-Hume-Api-Key': config.apiKey },
+            signal: AbortSignal.timeout(60000)
         });
         const predictions = await predResponse.json();
 

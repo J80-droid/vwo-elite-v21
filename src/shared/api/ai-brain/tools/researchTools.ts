@@ -129,6 +129,7 @@ const SummarizePaperTool: IToolHandler = {
  */
 const DeepSearchTool: IToolHandler = {
   name: "deep_search",
+  // ... (keep current)
   category: "Research",
   description: "Voert een diepgaand onderzoek uit in meerdere stappen. Zoekt eerst breed, analyseert resultaten, en graaft dan dieper in op relevante sub-onderwerpen.",
   schema: z.object({
@@ -153,6 +154,114 @@ const DeepSearchTool: IToolHandler = {
   }
 };
 
+/**
+ * analyze_pws_sources: Specialized analysis for Profielwerkstuk
+ */
+const AnalyzePwsSourcesTool: IToolHandler = {
+  name: "analyze_pws_sources",
+  category: "Research",
+  description: "Analyseert bronnen specifiek voor een Profielwerkstuk (PWS) op betrouwbaarheid en relevantie.",
+  schema: z.object({
+    sources: z.array(z.string()).min(1),
+  }),
+  async execute(params) {
+    const { sources } = params as { sources: string[] };
+    const prompt = `Analyseer deze PWS bronnen:\n${sources.join("\n")}. Bepaal betrouwbaarheid en bruikbaarheid.`;
+    const result = await aiGenerate(prompt, { systemPrompt: "Elite PWS Begeleider." });
+    return { analysis: result };
+  }
+};
+
+/**
+ * check_apa_citations: Validation of bibliography formatting
+ */
+const CheckApaCitationsTool: IToolHandler = {
+  name: "check_apa_citations",
+  category: "Research",
+  description: "Controleert tekst op correcte APA citaties en bronvermelding.",
+  schema: z.object({
+    text: z.string().min(1),
+  }),
+  async execute(params) {
+    const { text } = params as { text: string };
+    const prompt = `Controleer of de volgende tekst correcte APA citaties bevat:\n"${text}". Geef verbeteringen waar nodig.`;
+    const result = await aiGenerate(prompt, { systemPrompt: "Expert in academische standaarden." });
+    return { verification: result };
+  }
+};
+
+/**
+ * check_originality: Plagiarism and uniqueness check
+ */
+const CheckOriginalityTool: IToolHandler = {
+  name: "check_originality",
+  category: "Research",
+  description: "Evalueert de originaliteit van een tekst en identificeert mogelijke plagiaatrisico's.",
+  schema: z.object({
+    text: z.string().min(1),
+  }),
+  async execute(params) {
+    const { text } = params as { text: string };
+    const prompt = `Evalueer de originaliteit van deze tekst:\n"${text}". Geef een inschatting van de authenticiteit.`;
+    const result = await aiGenerate(prompt, { systemPrompt: "Elite Academic Integrity Service." });
+    return { originality_score: "AI analysis completed", feedback: result };
+  }
+};
+
+/**
+ * evaluate_source: Critical appraisal of source quality
+ */
+const EvaluateSourceTool: IToolHandler = {
+  name: "evaluate_source",
+  category: "Research",
+  description: "Geeft een kritische beoordeling van de kwaliteit en betrouwbaarheid van een specifieke bron.",
+  schema: z.object({
+    source_description: z.string().min(1),
+  }),
+  async execute(params) {
+    const { source_description } = params as { source_description: string };
+    const prompt = `Beoordeel de kwaliteit van de volgende bronbeschrijving: "${source_description}". Focus op de CRAAP-methode.`;
+    const result = await aiGenerate(prompt, { systemPrompt: "Expert in informatievaardigheden." });
+    return { evaluation: result };
+  }
+};
+
+/**
+ * research_design_check: Methodological verification
+ */
+const ResearchDesignCheckTool: IToolHandler = {
+  name: "research_design_check",
+  category: "Research",
+  description: "Evalueert een onderzoeksopzet op methodologische consistentie en validiteit.",
+  schema: z.object({
+    design: z.string().min(1),
+  }),
+  async execute(params) {
+    const { design } = params as { design: string };
+    const prompt = `Controleer deze onderzoeksopzet op methodologische validiteit:\n"${design}". Geef suggesties voor verbetering.`;
+    const result = await aiGenerate(prompt, { systemPrompt: "Expert in onderzoeksmethodologie." });
+    return { methodological_feedback: result };
+  }
+};
+
+/**
+ * generate_literature_matrix: Synthesis of multiple papers
+ */
+const GenerateLiteratureMatrixTool: IToolHandler = {
+  name: "generate_literature_matrix",
+  category: "Research",
+  description: "Genereert een vergelijkende tabel (literatuurmatrix) op basis van meerdere bronnen.",
+  schema: z.object({
+    sources: z.array(z.string()).min(1),
+  }),
+  async execute(params) {
+    const { sources } = params as { sources: string[] };
+    const prompt = `Maak een literatuurmatrix (vergelijking op basis van thema's, methoden en resultaten) voor deze bronnen:\n${sources.join("\n")}.`;
+    const result = await aiGenerate(prompt, { systemPrompt: "Synthese expert voor academisch onderzoek." });
+    return { matrix_content: result };
+  }
+};
+
 // --- Registration Function ---
 
 export function handleResearchTool(name: string, params: Record<string, unknown>) {
@@ -165,13 +274,22 @@ export function handleResearchTool(name: string, params: Record<string, unknown>
 export function registerResearchTools(): void {
   const registry = getToolRegistry();
   registry.registerAll([
-    DocumentSearchTool,
     ArxivSearchTool,
     ExtractDataFromPdfTool,
     CrossReferenceTool,
     VisualizeScientificDataTool,
     SummarizePaperTool,
-    DeepSearchTool
+    DeepSearchTool,
+    AnalyzePwsSourcesTool,
+    CheckApaCitationsTool,
+    CheckOriginalityTool,
+    EvaluateSourceTool,
+    ResearchDesignCheckTool,
+    GenerateLiteratureMatrixTool,
   ]);
-  console.log("[ResearchTools] Registered 6 specialized tools.");
+
+  // Register with aliases
+  registry.register(DocumentSearchTool, ["find_academic_sources"]);
+
+  console.log("[ResearchTools] Registered 8 specialized tools.");
 }

@@ -33,6 +33,8 @@ const DEFAULT_SETTINGS: UserSettings = {
       negativePrompt: "",
       enableChainOfThought: true,
       historyContextLength: 10,
+      coachSpeaksFirst: false,
+      coachGreeting: "Hoi, hoe gaat het? Waarmee kan ik ik jou helpen vandaag?",
     },
     inferenceConfig: {
       temperature: 0.7,

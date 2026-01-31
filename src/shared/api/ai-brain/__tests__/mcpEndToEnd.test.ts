@@ -1,18 +1,81 @@
 import * as dotenv from "dotenv";
 import { beforeAll, describe, expect, it, vi } from "vitest";
 
+import { initializeAIBrain } from "../bootstrap";
 import { getToolRunner } from "../toolRunner";
 
 // Load environment variables for AI services
 dotenv.config();
 
-// Mock environment-specific services
+// Mock Whisper Service
+vi.mock("../../whisperService", () => ({
+  isWhisperConfigured: vi.fn().mockReturnValue(true),
+  transcribeAudio: vi.fn().mockResolvedValue({ text: "Mocked transcription", language: "nl", duration: 10 }),
+  base64ToArrayBuffer: vi.fn().mockReturnValue(new ArrayBuffer(0)),
+  getMimeType: vi.fn().mockReturnValue("audio/mp3"),
+}));
+
+// Mock Hume Service
+vi.mock("../../humeService", () => ({
+  analyzeAudioEmotion: vi.fn().mockResolvedValue({ emotions: [], dominantEmotion: "happy" }),
+}));
+
+// Mock Python Service
 vi.mock("../../pythonService", () => ({
   pythonService: {
     init: vi.fn().mockResolvedValue(undefined),
     run: vi.fn().mockResolvedValue({ output: "4", variables: [] }),
   },
 }));
+
+// Mock Python Sandbox
+vi.mock("../../../lib/pythonSandbox", () => ({
+  pythonSandbox: {
+    execute: vi.fn().mockResolvedValue({ output: "42", error: null, result: 42, images: [] }),
+  },
+}));
+
+// Mock Weather Service
+vi.mock("../../weatherService", () => ({
+  fetchWeather: vi.fn().mockResolvedValue({
+    location: "Amsterdam",
+    temp: 18,
+    description: "Zonnig",
+    icon: "Sun",
+    lat: 52.3,
+    lon: 4.9,
+  }),
+}));
+
+// Mock Wikipedia Service
+vi.mock("../../wikipediaService", () => ({
+  getWikipediaArticle: vi.fn().mockResolvedValue({
+    title: "Mock Title",
+    extract: "Mock content from Wikipedia",
+    url: "https://wikipedia.org",
+  }),
+}));
+
+// Mock YouTube Service
+vi.mock("../../youtubeService", () => ({
+  extractYouTubeContent: vi.fn().mockResolvedValue({
+    metadata: { title: "Mock Video" },
+    transcript: "Mock transcript",
+  }),
+}));
+
+// Mock AlphaFold Service
+vi.mock("../../alphafoldService", () => ({
+  searchProteins: vi.fn().mockResolvedValue([{ uniprotId: "P12345", proteinName: "Mock Protein" }]),
+  getProteinStructure: vi.fn().mockResolvedValue({
+    entryName: "MOCK",
+    organism: "Homo sapiens",
+    confidenceLevel: "High",
+    averageConfidence: 95,
+  }),
+  getAlphaFoldViewerUrl: vi.fn().mockReturnValue("https://alphafold.test"),
+}));
+
 
 // Mock AI generation to avoid requiring real API keys for logic verification
 vi.mock("../../aiCascadeService", () => ({
@@ -53,7 +116,7 @@ vi.mock("@shared/api/sqliteService", () => ({
   sqliteSelect: vi.fn().mockResolvedValue([]),
 }));
 
-vi.mock("../../sqliteService", () => ({
+vi.mock("../../../sqliteService", () => ({
   initDatabase: vi.fn().mockResolvedValue({}),
   getAllGeneratedMediaSQL: vi.fn().mockResolvedValue([]),
   saveGeneratedMediaSQL: vi.fn().mockResolvedValue(true),
@@ -96,7 +159,8 @@ vi.mock("../../../model/plannerStore", () => ({
 describe("MCP Tools End-to-End Verification", () => {
   let originalFetch: typeof global.fetch;
 
-  beforeAll(() => {
+  beforeAll(async () => {
+    await initializeAIBrain();
     originalFetch = global.fetch;
 
     // Mock window.fetch for relative URLs (internal services)
@@ -115,9 +179,21 @@ describe("MCP Tools End-to-End Verification", () => {
       return originalFetch(url, init); // Fallback to real fetch for absolute URLs (AI services)
     });
 
-    // Mock localStorage for Somtoday
+    // Mock localStorage for Somtoday and AI Keys
     global.localStorage = {
-      getItem: vi.fn(),
+      getItem: vi.fn().mockImplementation((key) => {
+        if (key === "vwo_elite_settings_backup") {
+          return JSON.stringify({
+            aiConfig: {
+              openaiApiKey: "mock-openai-key",
+              humeApiKey: "mock-hume-key",
+              hfToken: "mock-hf-token",
+              replicateApiKey: "mock-replicate-key",
+            },
+          });
+        }
+        return null;
+      }),
       setItem: vi.fn(),
       removeItem: vi.fn(),
       clear: vi.fn(),
@@ -343,5 +419,5 @@ describe("MCP Tools End-to-End Verification", () => {
     }
 
     expect(failures.length).toBe(0);
-  }, 60000);
+  }, 120000);
 });

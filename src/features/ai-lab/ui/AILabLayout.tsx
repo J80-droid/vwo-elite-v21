@@ -52,8 +52,8 @@ export const AILabLayout: React.FC = () => {
   // HUB VIEW
   if (!activeModuleId) {
     return (
-      <div className="flex h-full bg-obsidian-950 text-white font-outfit overflow-hidden">
-        <div className="flex-1 relative overflow-hidden flex flex-col bg-black/50">
+      <div className="flex h-full bg-obsidian-950 text-white font-outfit overflow-hidden relative transition-all duration-300">
+        <div className="flex-1 relative overflow-hidden flex flex-col bg-black/50 transition-all duration-300">
           <AILabHub />
         </div>
       </div>
@@ -61,7 +61,7 @@ export const AILabLayout: React.FC = () => {
   }
 
   return (
-    <div className="flex h-full bg-obsidian-950 text-white font-outfit overflow-hidden">
+    <div className="flex h-full bg-obsidian-950 text-white font-outfit overflow-hidden relative transition-all duration-300">
       {/* LAB SIDEBAR */}
       <div className="w-20 md:w-64 border-r border-white/5 bg-obsidian-900 flex flex-col z-20">
         <div className="p-6 border-b border-white/5 flex items-center gap-3">

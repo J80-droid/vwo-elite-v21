@@ -121,6 +121,7 @@ export const generateGroqCompletion = async (
       seed: options.seed,
       logit_bias: options.logitBias,
       stop: options.stopSequences,
+      // Pass through any other compatible OpenAI params
       ...(jsonMode && { response_format: { type: "json_object" } }),
       ...(options.tools && { tools: options.tools, tool_choice: "auto" }),
     }),

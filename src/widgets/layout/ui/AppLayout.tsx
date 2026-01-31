@@ -318,7 +318,7 @@ export const AppLayout: React.FC = () => {
 
         {/* Content Container */}
         <main
-          className={`flex-1 min-w-0 transition-all duration-500 w-full flex flex-col
+          className={`flex-1 min-w-0 transition-all duration-300 w-full flex flex-col relative
             ${isImmersive ? "p-0" : "px-8 py-8 max-w-[1920px] mx-auto"}`}
         >
           {!isImmersive && (

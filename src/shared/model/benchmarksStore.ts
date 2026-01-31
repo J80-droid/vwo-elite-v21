@@ -35,11 +35,36 @@ export const useBenchmarksStore = create<BenchmarksState>()(
 
                 set({ loading: true, error: null });
                 try {
-                    // Attempt to fetch from local proxy
-                    const response = await fetch('http://localhost:3001/api/benchmarks');
+                    // Attempt to fetch from local proxy (Elite Proxy)
+                    let response: Response;
 
-                    if (!response.ok) {
-                        throw new Error(`Failed to fetch benchmarks: ${response.statusText}`);
+                    // IF we are likely in a dev environment, try the direct localhost first to avoid Vite SPA redirects
+                    const isLocalDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+                    if (isLocalDev) {
+                        // Attempt direct localhost (Port 3001 is where our Elite Proxy typically lives)
+                        try {
+                            response = await fetch('http://localhost:3001/api/benchmarks');
+                            if (!response.ok) throw new Error();
+                        } catch {
+                            // Fallback to relative
+                            response = await fetch('/api/benchmarks');
+                        }
+                    } else {
+                        response = await fetch('/api/benchmarks');
+                    }
+
+                    // Validate JSON content type
+                    const contentType = response.headers.get("content-type");
+                    if (!response.ok || (contentType && !contentType.includes("application/json"))) {
+                        // If relative failed or returned HTML, try absolute localhost as final fallback
+                        if (!isLocalDev) {
+                            response = await fetch('http://localhost:3001/api/benchmarks');
+                        }
+
+                        if (!response.ok || (response.headers.get("content-type") && !response.headers.get("content-type")?.includes("application/json"))) {
+                            throw new Error("Benchmark source unavailable (Offline)");
+                        }
                     }
 
                     const data = await response.json();
@@ -54,9 +79,16 @@ export const useBenchmarksStore = create<BenchmarksState>()(
                         throw new Error("Invalid benchmark data structure");
                     }
                 } catch (error) {
-                    console.error("Benchmark fetch failed:", error);
+                    // SILENCE LOCAL PROXY ERRORS: If the benchmark server isn't running, just fail silently.
+                    const isNetworkError = error instanceof TypeError && (error.message.includes("fetch") || error.message.includes("NetworkError"));
+                    const isOffline = (error as Error).message?.includes("unavailable");
+
+                    if (!isNetworkError && !isOffline) {
+                        console.error("Benchmark fetch failed:", error);
+                    }
+
                     set({
-                        error: (error as Error).message,
+                        error: (isNetworkError || isOffline) ? "Local benchmark engine offline" : (error as Error).message,
                         loading: false
                     });
                 }

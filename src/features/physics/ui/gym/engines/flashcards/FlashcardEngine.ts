@@ -1,4 +1,4 @@
-import { GymProblem } from "@shared/types/gym";
+import { GymEngine, GymProblem } from "@shared/types/gym";
 
 import { PHYSICS_DEFINITIONS } from "./PhysicsDefinitions";
 
@@ -7,7 +7,10 @@ const pick = <T>(arr: T[]): T => {
   return arr[Math.floor(Math.random() * arr.length)] as T;
 };
 
-export const FlashcardEngine = {
+export const FlashcardEngine: GymEngine = {
+  id: "flashcards",
+  name: "Begrippen",
+  description: "Oefen belangrijke natuurkunde definities.",
   generate: (level: number): GymProblem => {
     // Level 1: Definition -> Term (Multiple Choice style context?)
     // Level 2: Cloze -> Term

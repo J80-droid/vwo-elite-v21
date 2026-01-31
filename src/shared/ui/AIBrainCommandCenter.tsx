@@ -68,7 +68,7 @@ export const AIBrainCommandCenter: React.FC<{ className?: string }> = ({
                             Elite AI Brain
                         </h3>
                         <span className="text-[8px] font-mono text-blue-400/60 uppercase tracking-tighter">
-                            v21.3 // 750% intelligence
+                            v21.3 // 1250% Elite Intelligence
                         </span>
                     </div>
                 </div>

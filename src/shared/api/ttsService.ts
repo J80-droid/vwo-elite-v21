@@ -11,19 +11,54 @@ declare global {
 }
 
 export interface TTSConfig {
-    apiKey: string;
-    model?: "tts-1" | "tts-1-hd";
-    voice?: "alloy" | "echo" | "fable" | "onyx" | "nova" | "shimmer";
+    apiKey?: string;
+    elevenLabsApiKey?: string;
+    provider?: "openai" | "elevenlabs";
+    model?: string;
+    voice?: string;
     speed?: number; // 0.25 to 4.0
 }
 
 /**
- * Convert text to speech (returns an AudioBuffer or URL)
+ * Convert text to speech (returns an ArrayBuffer)
  */
 export async function synthesizeSpeech(
     text: string,
     config: TTSConfig
 ): Promise<ArrayBuffer> {
+    const provider = config.provider || (config.elevenLabsApiKey ? "elevenlabs" : "openai");
+
+    if (provider === "elevenlabs") {
+        if (!config.elevenLabsApiKey) {
+            throw new Error("ElevenLabs API key is required for synthesis");
+        }
+
+        const voiceId = config.voice || "pNInz6obpgmqS81G48uW"; // Rachel (Default)
+        const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "xi-api-key": config.elevenLabsApiKey,
+            },
+            body: JSON.stringify({
+                text,
+                model_id: config.model || "eleven_multilingual_v2",
+                voice_settings: {
+                    stability: 0.5,
+                    similarity_boost: 0.75,
+                },
+            }),
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => ({}));
+            throw new Error(errorData.detail?.status || "ElevenLabs synthesis failed");
+        }
+
+        return await response.arrayBuffer();
+    }
+
+    // Fallback to OpenAI
     if (!config.apiKey) {
         throw new Error("OpenAI API key is required for TTS synthesis");
     }
@@ -71,6 +106,6 @@ export async function playSpeech(
 /**
  * Check if TTS is configured
  */
-export function isTTSConfigured(apiKey?: string): boolean {
-    return !!apiKey && apiKey.startsWith("sk-");
+export function isTTSConfigured(config: Partial<TTSConfig>): boolean {
+    return !!(config.apiKey || config.elevenLabsApiKey);
 }

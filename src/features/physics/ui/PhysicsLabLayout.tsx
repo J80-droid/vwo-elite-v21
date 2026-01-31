@@ -1,14 +1,33 @@
-/* eslint-disable simple-import-sort/imports */
-import { toPng } from "html-to-image";
 import {
   Atom,
   Calendar,
   Camera,
   Download,
+  Layers,
   Type,
   User,
   X,
 } from "lucide-react";
+import {
+  closestCenter,
+  defaultDropAnimationSideEffects,
+  DndContext,
+  DragEndEvent,
+  DragOverlay,
+  DragStartEvent,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  rectSortingStrategy,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  useSortable,
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import React, { Suspense, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -16,7 +35,7 @@ import { useSaveStudyMaterial } from "@shared/hooks/useLocalData";
 import { useTranslations } from "@shared/hooks/useTranslations";
 
 import { LabNavCategory, LabSidebar } from "@shared/ui/LabSidebar";
-import { ImmersiveControls } from "./common/ImmersiveControls";
+import { ImmersiveControls } from "@shared/ui/ImmersiveControls";
 import { ConceptQuiz } from "./common/ConceptQuiz";
 import { SNAPSHOT_PRESETS } from "@features/math";
 import { usePhysicsLabContext } from "../hooks/usePhysicsLabContext";
@@ -24,10 +43,10 @@ import { useTutor } from "./tutor/useTutor";
 import { registerPhysicsModules } from "./modules";
 import { PhysicsLabProvider } from "../hooks/PhysicsLabContext";
 import { TutorProvider } from "./tutor/TutorContext";
-import { getAllModules, getModuleConfig } from "../api/registry";
+import { getAllModules, getModuleConfig, PhysicsModuleConfig } from "../api/registry";
 import { DEFAULT_THEME, MODULE_THEMES } from "../types/themes";
-
-const LazyPhysicsLabHub = React.lazy(() => import("./PhysicsLabHub").then(m => ({ default: m.PhysicsLabHub })));
+// Removed LazyPhysicsLabHub as it's now embedded
+const LazyPhysicsGymStage = React.lazy(() => import("./gym/PhysicsGymStage").then(m => ({ default: m.PhysicsGymStage })));
 
 // --- LAZY MODULE COMPONENTS ---
 const MODULE_COMPONENTS: Record<
@@ -112,7 +131,7 @@ const MODULE_COMPONENTS: Record<
     Sidebar: React.lazy(() => import("./modules/astro/AstroSidebar").then(m => ({ default: m.AstroSidebar }))),
   },
   gym: {
-    Stage: LazyPhysicsLabHub,
+    Stage: LazyPhysicsGymStage,
   },
 };
 import type { PhysicsModule } from "../types";
@@ -189,7 +208,7 @@ const PhysicsLabLayoutInner: React.FC = () => {
   // Registry Status
   const [isRegistryReady] = useState(true);
 
-  const allModules = isRegistryReady ? getAllModules() : [];
+  const allModules = React.useMemo(() => isRegistryReady ? getAllModules() : [], [isRegistryReady]);
   const activeConfig = isRegistryReady
     ? getModuleConfig(activeModule as string)
     : undefined;
@@ -265,14 +284,193 @@ const PhysicsLabLayoutInner: React.FC = () => {
   };
 
   // ─────────────────────────────────────────────────────────────────────────
-  // MODULE VIEW: Show when a module is selected
+  // HUB DND LOGIC
+  // ─────────────────────────────────────────────────────────────────────────
+  const [activeId, setActiveId] = useState<string | null>(null);
+  const [sortedModules, setSortedModules] = useState<PhysicsModuleConfig[]>(allModules);
+
+  // Sync sorted modules with registry on load
+  useEffect(() => {
+    if (allModules.length > 0) {
+      setSortedModules(allModules);
+    }
+  }, [allModules]);
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
+  );
+
+  const handleDragStart = (event: DragStartEvent) => {
+    setActiveId(event.active.id as string);
+  };
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+    if (over && active.id !== over.id) {
+      const oldIndex = sortedModules.findIndex((m) => m.id === active.id);
+      const newIndex = sortedModules.findIndex((m) => m.id === over.id);
+      setSortedModules(arrayMove(sortedModules, oldIndex, newIndex));
+    }
+    setActiveId(null);
+  };
+
+  const activeModuleConfig = activeId
+    ? sortedModules.find((m) => m.id === activeId)
+    : null;
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // SORTABLE CARD COMPONENT (Embedded like Chemistry)
+  // ─────────────────────────────────────────────────────────────────────────
+  const SortableModuleCard = ({
+    mod,
+    onSelect,
+    t,
+    isOverlay = false,
+  }: {
+    mod: PhysicsModuleConfig;
+    onSelect: (id: string) => void;
+    t: any;
+    isOverlay?: boolean;
+  }) => {
+    const {
+      attributes,
+      listeners,
+      setNodeRef,
+      transform,
+      transition,
+      isDragging,
+    } = useSortable({ id: mod.id });
+
+    const theme = MODULE_THEMES[mod.id] || DEFAULT_THEME;
+
+    const style = {
+      transform: CSS.Transform.toString(transform),
+      transition,
+      opacity: isDragging ? 0.3 : 1,
+      zIndex: isDragging ? 0 : 1,
+    };
+
+    const cardBaseClasses = `
+      relative p-6 rounded-3xl border backdrop-blur-md transition-all duration-300
+      group cursor-pointer flex flex-col justify-between h-56
+      bg-black/40 border-white/5 hover:bg-black/60
+      ${theme.border} hover:shadow-[0_0_30px_rgba(255,255,255,0.05)]
+    `;
+
+    if (isOverlay) {
+      return (
+        <div className="h-56 scale-105 cursor-grabbing z-50">
+          <div className={`relative p-6 rounded-3xl border backdrop-blur-md flex flex-col justify-between h-full bg-black/80 shadow-2xl border-white/20`}>
+            <div className="flex items-center gap-3">
+              <div className={`p-2.5 rounded-xl bg-black/40 border border-white/5 ${theme.icon}`}>
+                <mod.icon size={24} />
+              </div>
+              <div>
+                <h3 className="text-xl font-black tracking-tight text-white uppercase">{mod.label(t)}</h3>
+                <p className={`text-[10px] font-bold opacity-60 uppercase tracking-widest ${theme.icon}`}>Elite Physics</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <div ref={setNodeRef} style={style} {...attributes} {...listeners} className="touch-none h-full">
+        <div onClick={() => onSelect(mod.id)} className={cardBaseClasses}>
+          <div className="flex items-start justify-between relative z-10">
+            <div className="flex items-center gap-3">
+              <div className={`p-2.5 rounded-xl bg-black/40 border border-white/5 transition-colors duration-300 ${theme.icon} group-hover:bg-white/5`}>
+                <mod.icon size={24} />
+              </div>
+              <div>
+                <h3 className="text-xl font-black tracking-tight text-white uppercase group-hover:text-white/90 transition-colors uppercase">{mod.label(t)}</h3>
+                <p className={`text-[10px] font-bold opacity-60 uppercase tracking-widest ${theme.text}`}>Elite Physics</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-6 mt-2 relative z-10">
+            <div className="relative w-16 h-12 flex items-center justify-center rounded-lg bg-white/5 border border-white/5">
+              <Layers size={20} className={`opacity-50 ${theme.icon}`} />
+            </div>
+            <div className="flex flex-col">
+              <span className={`text-sm font-bold ${theme.text}`}>Ready</span>
+              <span className="text-xs text-slate-400 line-clamp-1">{t(`physics.modules.${mod.id}_desc`, "Interactive Simulation")}</span>
+            </div>
+          </div>
+
+          <div className="mt-auto pt-4 border-t border-white/5 flex items-center justify-between relative z-10">
+            <div className="flex items-center gap-2">
+              <Atom size={14} className="text-slate-500 group-hover:text-cyan-400 transition-colors" />
+              <span className="text-xs font-medium text-slate-500 group-hover:text-slate-300 transition-colors">VWO Module</span>
+            </div>
+            <div className={`font-mono text-sm font-bold bg-black/30 px-3 py-1 rounded transition-all duration-300 ${theme.text} group-hover:bg-white/10`}>OPEN</div>
+          </div>
+
+          <div className={`absolute -inset-1 blur-xl opacity-0 group-hover:opacity-20 transition-opacity duration-500 pointer-events-none bg-gradient-to-br ${theme.glow.replace("group-hover:", "")}`} />
+        </div>
+      </div>
+    );
+  };
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // HUB VIEW
   // ─────────────────────────────────────────────────────────────────────────
   if (!activeConfig || !activeModule) {
     return (
-      <div className="flex h-full bg-black overflow-hidden relative font-outfit text-white relative isolate overflow-hidden rounded-none">
-        <Suspense fallback={null}>
-          <LazyPhysicsLabHub />
-        </Suspense>
+      <div className="flex h-full bg-black overflow-hidden relative font-outfit">
+        {/* Background Grid/Effect */}
+        <div id="physics-stage" className="absolute inset-0 z-0 bg-gradient-to-b from-obsidian-950 to-black">
+          <div
+            className="absolute inset-0 opacity-[0.05] pointer-events-none"
+            style={{
+              backgroundImage: "linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)",
+              backgroundSize: "40px 40px",
+            }}
+          />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(16,185,129,0.1),transparent_50%)] pointer-events-none" />
+        </div>
+
+        <div className="absolute inset-0 z-10 overflow-y-auto custom-scrollbar">
+          <div className="min-h-full w-full flex flex-col items-center justify-center p-8 pt-12 pb-16">
+            <div className="max-w-6xl w-full">
+              {/* Header */}
+              <div className="text-center mb-16 animate-in fade-in slide-in-from-bottom-8 duration-700">
+                <h1 className="text-5xl md:text-7xl font-black text-white mb-6 tracking-tighter">
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-500 to-cyan-600">
+                    <Atom className="inline-block mr-4 mb-2" size={56} />
+                    PHYSICS
+                  </span>{" "}
+                  LAB
+                </h1>
+                <p className="text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed">
+                  {t("physics.hub_description", "Advanced physics simulations. Explore mechanics, quantum dynamics, and wave theory.")}
+                </p>
+              </div>
+
+              {/* Grid with Drag & Drop */}
+              <DndContext sensors={sensors} collisionDetection={closestCenter} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
+                <SortableContext items={sortedModules.map((m) => m.id)} strategy={rectSortingStrategy}>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-200">
+                    {sortedModules.map((mod) => (
+                      <SortableModuleCard key={mod.id} mod={mod} onSelect={handleModuleSelect} t={t} />
+                    ))}
+                  </div>
+                </SortableContext>
+
+                <DragOverlay dropAnimation={{ sideEffects: defaultDropAnimationSideEffects({ styles: { active: { opacity: "0.4" } } }) }}>
+                  {activeModuleConfig ? (
+                    <SortableModuleCard mod={activeModuleConfig} onSelect={() => { }} t={t} isOverlay />
+                  ) : null}
+                </DragOverlay>
+              </DndContext>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
@@ -295,6 +493,7 @@ const PhysicsLabLayoutInner: React.FC = () => {
             themes={MODULE_THEMES}
             defaultTheme={DEFAULT_THEME}
             labTitle="Physics Lab"
+            onBack={() => navigate("/physics")}
           />
         )}
 
@@ -381,7 +580,8 @@ const PhysicsLabLayoutInner: React.FC = () => {
             )}
 
             {activeConfig &&
-              activeConfig.Sidebar &&
+              activeModule &&
+              MODULE_COMPONENTS[activeModule]?.Sidebar &&
               activeModule !== "astro" &&
               activeModule !== "relativity" && (
                 <ImmersiveControls
@@ -511,7 +711,7 @@ const PhysicsLabLayoutInner: React.FC = () => {
       {activeQuiz && (
         <ConceptQuiz
           isOpen={true}
-          question={activeQuiz as any}
+          question={activeQuiz}
           onComplete={endQuiz}
         />
       )}

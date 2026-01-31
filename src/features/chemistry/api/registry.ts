@@ -14,6 +14,7 @@ export const getModuleConfig = (
 };
 
 // --- MODULE IMPORTS ---
+import { gymConfig } from "../ui/gym/config";
 import { binasConfig } from "../ui/modules/binas/config";
 import { electrochemistryConfig } from "../ui/modules/electrochemistry/config";
 import { energyConfig } from "../ui/modules/energy/config";
@@ -28,6 +29,7 @@ import { stereoConfig } from "../ui/modules/stereo/config";
 import { stoichiometryConfig } from "../ui/modules/stoichiometry/config";
 import { titrationConfig } from "../ui/modules/titration/config";
 import { visualizerConfig } from "../ui/modules/visualizer/config";
+
 
 export const getAllModules = () => [
   periodicConfig,
@@ -44,7 +46,13 @@ export const getAllModules = () => [
   energyConfig,
   stereoConfig,
   orbitalConfig,
+  gymConfig,
 ];
+
+// Initialize Registry
+getAllModules().forEach(config => {
+  modules[config.id] = config;
+});
 
 export const getModuleIds = (): string[] => {
   return Object.keys(modules);

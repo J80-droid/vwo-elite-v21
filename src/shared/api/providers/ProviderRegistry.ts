@@ -1,7 +1,14 @@
+import { AnthropicProvider } from "./AnthropicProvider";
+import { CohereProvider } from "./CohereProvider";
 import { CustomProvider } from "./CustomProvider";
+import { DeepSeekProvider } from "./DeepSeekProvider";
 import { GeminiProvider } from "./GeminiProvider";
 import { GroqProvider } from "./GroqProvider";
 import { HuggingFaceProvider } from "./HuggingFaceProvider";
+import { KimiProvider } from "./KimiProvider";
+import { MistralProvider } from "./MistralProvider";
+import { OpenAIProvider } from "./OpenAIProvider";
+import { OpenRouterProvider } from "./OpenRouterProvider";
 import { AIProvider, PROVIDER_ID } from "./types";
 
 export class ProviderRegistry {
@@ -12,7 +19,14 @@ export class ProviderRegistry {
         // Register static primary providers
         this.register(new GeminiProvider());
         this.register(new GroqProvider());
+        this.register(new KimiProvider());
+        this.register(new OpenAIProvider());
+        this.register(new CohereProvider());
+        this.register(new AnthropicProvider());
+        this.register(new DeepSeekProvider());
+        this.register(new OpenRouterProvider());
         this.register(new HuggingFaceProvider());
+        this.register(new MistralProvider());
     }
 
     static getInstance(): ProviderRegistry {

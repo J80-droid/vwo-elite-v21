@@ -91,6 +91,7 @@ i18n
       "library",
       "chemistry",
       "philosophy",
+      "api",
     ],
     interpolation: {
       escapeValue: false,

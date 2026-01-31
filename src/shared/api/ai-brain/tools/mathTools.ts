@@ -1,7 +1,7 @@
 import { z } from "zod";
 
+import { pythonSandbox } from "../../../lib/pythonSandbox";
 import { aiGenerate } from "../../aiCascadeService";
-import { pythonService } from "../../pythonService";
 import { getToolRegistry, type IToolHandler } from "../ToolRegistry";
 
 // --- Tool Implementations ---
@@ -11,15 +11,23 @@ const SolveMathProblemTool: IToolHandler = {
   category: "Math",
   description: "Lost wiskundige problemen op met stapsgewijze uitleg",
   schema: z.object({
-    expression: z.string().min(1),
+    problem: z.string().min(1),
     show_steps: z.boolean().optional().default(true),
   }),
+  parametersSchema: {
+    type: "object",
+    properties: {
+      problem: { type: "string", description: "Het wiskundeprobleem om op te lossen" },
+      show_steps: { type: "boolean", description: "Of er een stapsgewijze uitleg moet worden gegeven" }
+    },
+    required: ["problem"]
+  },
   async execute(params) {
-    const { expression, show_steps } = params as { expression: string; show_steps: boolean };
-    const prompt = `Los het volgende wiskunde-probleem op: "${expression}". 
+    const { problem, show_steps } = params as { problem: string; show_steps: boolean };
+    const prompt = `Los het volgende wiskunde-probleem op: "${problem}". 
         ${show_steps ? "Laat alle stappen van de berekening zien." : "Geef alleen het eindantwoord."}`;
     const content = await aiGenerate(prompt, { systemPrompt: "Je bent een wiskunde expert." });
-    return { expression, solution: content };
+    return { problem, solution: content };
   }
 };
 
@@ -28,14 +36,22 @@ const GraphFunctionTool: IToolHandler = {
   category: "Math",
   description: "Analyseert een functie en genereert visualisatie code",
   schema: z.object({
-    equation: z.string().min(1),
+    expression: z.string().min(1),
     range_x: z.array(z.number()).length(2).optional().default([-10, 10]),
   }),
+  parametersSchema: {
+    type: "object",
+    properties: {
+      expression: { type: "string", description: "De functie-uitdrukking (bijv. x^2 + 2x + 1)" },
+      range_x: { type: "array", items: { type: "number" }, minItems: 2, maxItems: 2 }
+    },
+    required: ["expression"]
+  },
   async execute(params) {
-    const { equation, range_x } = params as { equation: string; range_x: number[] };
-    const prompt = `Analyseer de functie "${equation}" voor x = [${range_x.join(", ")}]. Beschrijf nulpunten, extremen, asymptoten.`;
+    const { expression, range_x } = params as { expression: string; range_x: number[] };
+    const prompt = `Analyseer de functie "${expression}" voor x = [${range_x.join(", ")}]. Beschrijf nulpunten, extremen, asymptoten.`;
     const content = await aiGenerate(prompt, { systemPrompt: "Expert in functie-analyse." });
-    return { equation, rangeX: range_x, analysis: content };
+    return { expression, rangeX: range_x, analysis: content };
   }
 };
 
@@ -46,16 +62,39 @@ const ExecutePythonTool: IToolHandler = {
   schema: z.object({
     code: z.string().min(1),
   }),
+  parametersSchema: {
+    type: "object",
+    properties: {
+      code: { type: "string", description: "De Python-code om uit te voeren" }
+    },
+    required: ["code"]
+  },
   async execute(params) {
     const { code } = params as { code: string };
     try {
-      await pythonService.init();
-      const result = await pythonService.run(code);
-      return { code, output: result.output, error: result.error, plots_count: result.plots?.length || 0, variables: result.variables };
+      const result = await pythonSandbox.execute(code);
+      return {
+        code,
+        output: result.output,
+        error: result.error,
+        result: result.result,
+        plots_count: result.images?.length || 0,
+        images: result.images
+      };
     } catch (error: unknown) {
       return { code, status: "error", error: error instanceof Error ? error.message : String(error) };
     }
   }
+};
+
+/**
+ * [ELITE LEVEL 8] Python Interpreter Tool
+ * Direct alias for execute_python but registered as the primary Elite Tool
+ */
+const PythonInterpreterTool: IToolHandler = {
+  ...ExecutePythonTool,
+  name: "python_interpreter",
+  description: "Elite Python Sandbox. Gebruik voor: wiskunde, data-analyse, matplotlib plots, of logische puzzels. Volledig geïsoleerd."
 };
 
 const SolveCalculusTool: IToolHandler = {
@@ -63,7 +102,7 @@ const SolveCalculusTool: IToolHandler = {
   category: "Math",
   description: "Berekent afgeleiden of integralen",
   schema: z.object({
-    operation: z.enum(["differentiate", "integrate"]),
+    operation: z.enum(["differentiate", "integrate"]).optional().default("integrate"),
     expression: z.string().min(1),
     variable: z.string().optional().default("x"),
   }),
@@ -160,12 +199,15 @@ export function registerMathTools(): void {
   registry.registerAll([
     SolveMathProblemTool,
     GraphFunctionTool,
-    ExecutePythonTool,
     SolveCalculusTool,
     GetHintTool,
     CheckSolutionTool,
     ImageToFormulaTool,
     GraphToFunctionTool,
   ]);
-  console.log("[MathTools] Registered 8 tools.");
+
+  // Register with aliases
+  registry.register(PythonInterpreterTool, ["execute_python"]);
+
+  console.log("[MathTools] Registered 8 tools (with aliases).");
 }

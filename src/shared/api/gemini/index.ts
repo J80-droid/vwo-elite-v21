@@ -22,7 +22,12 @@ export { solveCalculus } from "./code";
 export { generateDebateTurn, judgeDebate } from "./debate";
 export * from "./helpers";
 export { generateLanguageFeedback } from "./language";
-export { connectLiveSession } from "./live";
+export {
+  connectLiveSession,
+  GEMINI_LIVE_VOICES,
+  LiveAudioService,
+  previewGeminiVoice,
+} from "./live";
 export { generatePodcastAudio } from "./media";
 export { analyzePronunciation } from "./pronunciation";
 export { analyzeBlurting, generateLesson } from "./study";

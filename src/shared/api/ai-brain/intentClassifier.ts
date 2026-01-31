@@ -48,7 +48,7 @@ export function classifyIntentByRules(query: string): ClassificationResult {
     /python|javascript|java|c\+\+|typescript/i,
     /debug|fout.*code|error.*code|erreur.*code|error.*código/i,
     /```|<code>|<script>/i,
-    /import |export |const |let |var /i,
+    /\b(import|export|const|let|var)\b/i, // 🚀 ELITE FIX: Word boundaries to avoid false positives in economics/trade
   ];
 
   if (codePatterns.some((p) => p.test(normalizedQuery))) {
@@ -64,7 +64,8 @@ export function classifyIntentByRules(query: string): ClassificationResult {
     /deze afbeelding|this image|foto|picture|cette image|esta imagen/i,
     /wat zie je|what do you see|que vois-tu|qué ves/i,
     /analyseer.*beeld|analyze.*image|analyser.*image|analizar.*imagen/i,
-    /screenshot|diagram|grafiek|graph|graphique|gráfico/i,
+    /screenshot|diagram|visuele analyse/i,
+    /(?<!teken een |maak een )\bgrafiek\b/i, // 🚀 ELITE FIX: Negative lookbehind for "draw a graph" (which is math/code)
   ];
 
   if (visionPatterns.some((p) => p.test(normalizedQuery))) {

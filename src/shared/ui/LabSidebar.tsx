@@ -52,6 +52,7 @@ export const LabSidebar: React.FC<LabSidebarProps> = ({
   defaultTheme,
   labTitle = "Lab Modules",
   footerProtocol = "Elite-CORE Protocol v2.5",
+  onBack,
 }) => {
   return (
     <div
@@ -66,7 +67,11 @@ export const LabSidebar: React.FC<LabSidebarProps> = ({
         className={`flex items-center p-4 border-b border-white/5 bg-white/[0.02] ${isCollapsed ? "justify-center" : "justify-between"}`}
       >
         {!isCollapsed && (
-          <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 whitespace-nowrap">
+          <span
+            onClick={onBack}
+            className={`text-[10px] font-black uppercase tracking-[0.2em] whitespace-nowrap transition-colors ${onBack ? "cursor-pointer text-slate-400 hover:text-white" : "text-slate-500"
+              }`}
+          >
             {labTitle}
           </span>
         )}

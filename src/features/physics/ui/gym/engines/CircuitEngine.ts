@@ -1,6 +1,9 @@
-import { Difficulty, GymProblem } from "@shared/types/gym";
+import { Difficulty, GymEngine, GymProblem } from "@shared/types/gym";
 
-export const CircuitEngine = {
+export const CircuitEngine: GymEngine = {
+  id: "circuits",
+  name: "Circuits",
+  description: "Serie en parallel schakelingen rekenen.",
   generate: (_level: Difficulty): GymProblem => {
     // We genereren mooie getallen voor parallelrekenen (bijv. 60 en 30 -> 20)
     const pairs = [
@@ -25,7 +28,7 @@ export const CircuitEngine = {
       rTotal = r1 + r2;
 
       question = `Twee weerstanden van $${r1}\\ \\Omega$ en $${r2}\\ \\Omega$ staan in **serie**.\n\nBereken de vervangingsweerstand $R_{v}$.`;
-      steps = ["Serie: $R_v = R_1 + R_2$", `${r1} + ${r2} = ${rTotal}`];
+      steps = ["Serie: $R_v = R_1 + R_2$", `$${r1} + ${r2} = ${rTotal}$`];
     } else {
       // Parallel: Kies een mooi paar
       const set = pairs[Math.floor(Math.random() * pairs.length)]!;
@@ -40,7 +43,7 @@ export const CircuitEngine = {
       steps = [
         "Parallel: $\\frac{1}{R_v} = \\frac{1}{R_1} + \\frac{1}{R_2}$",
         "Of sneller: $R_v = \\frac{R_1 \\cdot R_2}{R_1 + R_2}$",
-        `$R_v = \\frac{${r1} \\cdot ${r2}}{${r1} + ${r2}} = \\frac{${r1 * r2}}{${r1 + r2}} = ${rTotal}`,
+        `$R_v = \\frac{${r1} \\cdot ${r2}}{${r1} + ${r2}} = \\frac{${r1 * r2}}{${r1 + r2}} = ${rTotal}$`,
       ];
     }
 

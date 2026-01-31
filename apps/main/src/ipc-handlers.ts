@@ -9,6 +9,7 @@ import {
   DocMeta,
   DocSearchSchema,
   IpcChannels,
+  SysFetchUrlSchema,
   SysOpenPathSchema,
   TaskAddSchema,
 } from "@vwo/shared-types";
@@ -388,6 +389,39 @@ export function registerIpcHandlers() {
         return false;
       }
     },
+  );
+
+  // System Fetch Proxy (Bypasses CORS)
+  safeHandle(
+    IpcChannels.SYS_FETCH_URL,
+    async (_event: IpcMainInvokeEvent, args: unknown) => {
+      try {
+        const validation = SysFetchUrlSchema.safeParse(args);
+        if (!validation.success) {
+          throw new Error("Invalid fetch arguments");
+        }
+
+        const { url, options = {} } = validation.data;
+        const res = await fetch(url, options as RequestInit);
+
+        if (!res.ok) {
+          return { ok: false, status: res.status, statusText: res.statusText };
+        }
+
+        const contentType = res.headers.get("content-type");
+        let data;
+        if (contentType?.includes("application/json")) {
+          data = await res.json();
+        } else {
+          data = await res.text();
+        }
+
+        return { ok: true, status: res.status, data };
+      } catch (error) {
+        safeLog.error(`[IPC] Fetch proxy failed:`, error);
+        return { ok: false, error: (error as Error).message };
+      }
+    }
   );
 
   // PERFORMANCE TRACING

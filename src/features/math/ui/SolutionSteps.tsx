@@ -27,7 +27,7 @@ export const SolutionSteps: React.FC<SolutionStepsProps> = ({ solution }) => {
 
         {/* Problem Statement */}
         <div className="p-6 bg-black/40 border border-white/5 rounded-xl text-center">
-          <MathRenderer text={`$${solution.problem}$`} />
+          <MathRenderer text={solution.problem} />
         </div>
 
         {/* Teaching Steps with Morphing Animation */}
@@ -69,7 +69,7 @@ export const SolutionSteps: React.FC<SolutionStepsProps> = ({ solution }) => {
 
                   {step.latex && (
                     <div className="bg-black/40 rounded-lg p-4 border border-black/20 overflow-x-auto">
-                      <MathRenderer text={`$${step.latex}$`} />
+                      <MathRenderer text={step.latex} />
                     </div>
                   )}
 
@@ -101,7 +101,7 @@ export const SolutionSteps: React.FC<SolutionStepsProps> = ({ solution }) => {
             className="text-lg font-mono font-bold"
             style={{ color: solution.primaryColor ? "white" : "#6ee7b7" }}
           >
-            <MathRenderer text={`$${solution.finalAnswer}$`} />
+            <MathRenderer text={solution.finalAnswer} />
           </div>
         </div>
       </div>

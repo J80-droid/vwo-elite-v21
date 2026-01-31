@@ -296,21 +296,29 @@ export const SocraticCoach: React.FC = () => {
   const runPlan = useCallback(async () => {
     if (!activePlan) return;
 
-    const { getNextSteps, executePlanStep } = await import("@shared/api/ai-brain/planExecutor");
+    const { getNextExecutableSteps, executePlanStep } = await import("@shared/api/ai-brain/planExecutor");
     let currentPlan = activePlan;
 
     while (currentPlan.status !== "completed" && currentPlan.status !== "failed") {
-      const nextSteps = getNextSteps(currentPlan);
-      if (nextSteps.length === 0) break;
+      const nextSteps = getNextExecutableSteps(currentPlan);
+      if (nextSteps.length === 0) {
+        // Check if we are stuck (shouldn't happen with correct DAGs)
+        if (currentPlan.steps.some(s => s.status === "pending")) {
+          console.warn("[SocraticCoach] DAG execution stuck. Check dependencies.");
+        }
+        break;
+      }
 
-      for (const step of nextSteps) {
+      // 🧠 ELITE v5 Parallel Execution
+      // Execute all ready steps concurrently
+      await Promise.all(nextSteps.map(async (step) => {
         currentPlan = await executePlanStep(currentPlan, step.id, async (name, args) => {
-          // Simulate tool execution for now
+          // Simulated tool execution
           await new Promise(r => setTimeout(r, 2000));
           return `Resultaat van ${name} met args ${JSON.stringify(args)}`;
         });
         setActivePlan({ ...currentPlan });
-      }
+      }));
     }
 
     if (currentPlan.status === "completed") {

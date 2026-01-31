@@ -1,0 +1,60 @@
+{
+    "title": "Elite API Ecosystem",
+    "subtitle": "Koppel je eigen hersens voor maximale controle en snelheid.",
+    "research": "Research & Citaties",
+    "audio": "Audio & Stemmen",
+    "labels": {
+        "chat": "Chat",
+        "reasoning": "Redeneren",
+        "vision": "Visie",
+        "live": "Live"
+    },
+    "gemini": {
+        "title": "Google Gemini (Aanbevolen)",
+        "desc": "De enige multimodale provider met 1M+ context window."
+    },
+    "groq": {
+        "title": "Groq LPU",
+        "desc": "Ultra-snelle inferentie voor directe feedback."
+    },
+    "openai": {
+        "title": "OpenAI",
+        "desc": "De standaard voor DALL-E 3 en GPT modellen."
+    },
+    "anthropic": {
+        "title": "Anthropic Claude",
+        "desc": "Superieur in redeneren en natuurlijk schrijven."
+    },
+    "cohere": {
+        "title": "Cohere Command",
+        "desc": "Geoptimaliseerd voor RAG en zakelijke precisie."
+    },
+    "kimi": {
+        "title": "Moonshot Kimi",
+        "desc": "Specialist in extreem lange documenten."
+    },
+    "deepseek": {
+        "title": "DeepSeek",
+        "desc": "Open-source krachtpatser voor codering en wiskunde."
+    },
+    "openrouter": {
+        "title": "OpenRouter",
+        "desc": "Eén gateway naar honderden open-source modellen."
+    },
+    "huggingface": {
+        "title": "Hugging Face Hub",
+        "desc": "Toegang tot de grootste bibliotheek van ML modellen."
+    },
+    "replicate": {
+        "title": "Replicate",
+        "desc": "Cloud GPU's voor 3D en beeldgeneratie."
+    },
+    "hume": {
+        "title": "Hume AI",
+        "desc": "Emotionele intelligentie voor spraak-interactie."
+    },
+    "custom": {
+        "title": "Custom Providers & Local AI",
+        "desc": "Voeg je eigen OpenAI-compatible endpoints toe (LM Studio, Ollama)."
+    }
+}

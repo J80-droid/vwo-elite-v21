@@ -3,6 +3,8 @@
  * Core type definitions for the multi-model AI system
  */
 
+import { z } from "zod";
+
 // =============================================================================
 // MODEL CAPABILITIES
 // =============================================================================
@@ -155,34 +157,69 @@ export type TaskIntent =
   | "research"
   | "unknown";
 
-export interface AITask {
+// =============================================================================
+// ELITE PROTOCOL (ZOD SCHEMAS)
+// =============================================================================
+
+export const LLMMessageSchema = z.object({
+  role: z.enum(["user", "assistant", "system", "model", "tool"]),
+  content: z.string(),
+  name: z.string().optional(),
+  tool_calls: z.array(z.any()).optional(), // Strict ToolCallSchema can be added later
+  tool_call_id: z.string().optional(),
+});
+
+export type LLMMessage = z.infer<typeof LLMMessageSchema>;
+
+export const EliteTaskSchema = z.object({
+  id: z.string().uuid().optional(),
+  intent: z.enum([
+    "simple_question",
+    "complex_reasoning",
+    "math_problem",
+    "code_task",
+    "vision_task",
+    "creative_writing",
+    "translation",
+    "summarization",
+    "embedding",
+    "image_generation",
+    "speech_output",
+    "somtoday_action",
+    "video_generation",
+    "multi_agent_collab",
+    "quantum_reasoning",
+    "complex_goal",
+    "research",
+    "unknown"
+  ]),
+  prompt: z.string(),
+  systemPrompt: z.string().optional(),
+  images: z.array(z.string()).optional(),
+  context: z.string().optional(),
+  messages: z.array(LLMMessageSchema).optional(),
+  modelId: z.string().optional(),
+  priority: z.number().optional(),
+  isLocal: z.boolean().optional(),
+  jsonMode: z.boolean().optional(),
+});
+
+export type EliteTask = z.infer<typeof EliteTaskSchema>;
+
+export type AITask = z.infer<typeof EliteTaskSchema> & {
   id: string;
-  intent: TaskIntent;
   status: TaskStatus;
-
-  // Input
-  prompt: string;
-  systemPrompt?: string;
-  images?: string[]; // Base64 encoded
-  context?: string; // Injected context from memory
-
-  // Execution
-  modelId?: string;
-  priority: number;
-  isLocal: boolean; // Determines queue behavior
-
-  // Timing
   createdAt: number;
+
+  // Runtime Execution State
   startedAt?: number;
   completedAt?: number;
-
-  // Result
   output?: string;
   error?: string;
   tokensUsed?: number;
   responseTimeMs?: number;
 
-  // Steps (Thought Process)
+  // Thought Process / Agentic Steps
   steps?: Array<{
     id: string;
     name: string;
@@ -191,12 +228,10 @@ export interface AITask {
     timestamp: number;
   }>;
 
-  // Routing metadata
+  // Metadata & HITL
   routingReason?: string;
-
-  // HITL
   requiresUserApproval?: boolean;
-}
+};
 
 // =============================================================================
 // MCP TOOLS

@@ -206,6 +206,7 @@ const PsychologyLabLayoutInner: React.FC = () => {
           themes={MODULE_THEMES}
           defaultTheme={DEFAULT_THEME}
           labTitle="Psychology Lab"
+          onBack={() => navigate("/psychology")}
         />
 
         {/* 2. MAIN CONTENT AREA */}

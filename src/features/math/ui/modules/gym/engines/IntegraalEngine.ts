@@ -21,14 +21,14 @@ export const IntegraalEngine: GymEngine = {
         const n = rand(1, 4);
         return {
           id: `int-1-${timestamp}`,
-          question: `\\int ${a}x^{${n}} \\, dx`,
+          question: `$$\\int ${a}x^{${n}} \\, dx$$`,
           answer: `(${a / (n + 1)})x^(${n + 1})`,
           displayAnswer: `\\frac{${a}}{${n + 1}}x^{${n + 1}} + C`,
           context: "Bepaal de onbepaalde integraal (laat +C weg in invoer)",
           solutionSteps: [
-            `Gebruik de machtsregel voor integreren: \\int x^n dx = \\frac{1}{n+1}x^{n+1}.`,
-            `Term: ${a}x^{${n}} \\to \\frac{${a}}{${n}+1}x^{${n}+1} = \\frac{${a}}{${n + 1}}x^{${n + 1}}`,
-            `Antwoord: \\frac{${a}}{${n + 1}}x^{${n + 1}}`,
+            `Gebruik de machtsregel voor integreren: $$\\int x^n dx = \\frac{1}{n+1}x^{n+1}$$.`,
+            `Term: $${a}x^{${n}} \\to \\frac{${a}}{${n}+1}x^{${n}+1} = \\frac{${a}}{${n + 1}}x^{${n + 1}}$`,
+            `Antwoord: $$\\frac{${a}}{${n + 1}}x^{${n + 1}}$$`,
           ],
         };
       }
@@ -37,14 +37,14 @@ export const IntegraalEngine: GymEngine = {
         // e^ax forms
         return {
           id: `int-2-${timestamp}`,
-          question: `\\int e^{${a}x} \\, dx`,
+          question: `$$\\int e^{${a}x} \\, dx$$`,
           answer: `(1/(${a}))e^(${a}x)`,
           displayAnswer: `\\frac{1}{${a}}e^{${a}x} + C`,
           context: "Bepaal de onbepaalde integraal (laat +C weg in invoer)",
           solutionSteps: [
-            `De integraal van e^{kx} is \\frac{1}{k}e^{kx}.`,
-            `Hier is k = ${a}.`,
-            `Antwoord: \\frac{1}{${a}}e^{${a}x}`,
+            `De integraal van $e^{kx}$ is $$\\frac{1}{k}e^{kx}$$.`,
+            `Hier is $k = ${a}$.`,
+            `Antwoord: $$\\frac{1}{${a}}e^{${a}x}$$`,
           ],
         };
       }
@@ -53,14 +53,14 @@ export const IntegraalEngine: GymEngine = {
         // 1/(ax+b) forms -> ln|ax+b|
         return {
           id: `int-3-${timestamp}`,
-          question: `\\int \\frac{1}{${a}x + ${b}} \\, dx`,
+          question: `$$\\int \\frac{1}{${a}x + ${b}} \\, dx$$`,
           answer: `(1/(${a}))*ln(|(${a})x + (${b})|)`,
           displayAnswer: `\\frac{1}{${a}}\\ln|${a}x + ${b}| + C`,
           context: "Bepaal de onbepaalde integraal (gebruik ln|...|)",
           solutionSteps: [
-            `De integraal van \\frac{1}{ax+b} is \\frac{1}{a}\\ln|ax+b|.`,
-            `Hier is a = ${a} en b = ${b}.`,
-            `Antwoord: \\frac{1}{${a}}\\ln|${a}x + ${b}|`,
+            `De integraal van $$\\frac{1}{ax+b}$$ is $$\\frac{1}{a}\\ln|ax+b|$$.`,
+            `Hier is $a = ${a}$ en $b = ${b}$.`,
+            `Antwoord: $$\\frac{1}{${a}}\\ln|${a}x + ${b}|$$`,
           ],
         };
       }
@@ -70,27 +70,27 @@ export const IntegraalEngine: GymEngine = {
         if (Math.random() > 0.5) {
           return {
             id: `int-4-${timestamp}`,
-            question: `\\int \\sin(${a}x) \\, dx`,
+            question: `$$\\int \\sin(${a}x) \\, dx$$`,
             answer: `-(1/(${a}))*cos((${a})x)`,
             displayAnswer: `-\\frac{1}{${a}}\\cos(${a}x) + C`,
             context: "Bepaal de onbepaalde integraal",
             solutionSteps: [
-              `De integraal van \\sin(kx) is -\\frac{1}{k}\\cos(kx).`,
-              `Hier is k = ${a}.`,
-              `Antwoord: -\\frac{1}{${a}}\\cos(${a}x)`,
+              `De integraal van $\\sin(kx)$ is $$-\\frac{1}{k}\\cos(kx)$$.`,
+              `Hier is $k = ${a}$.`,
+              `Antwoord: $$-\\frac{1}{${a}}\\cos(${a}x)$$`,
             ],
           };
         } else {
           return {
             id: `int-4b-${timestamp}`,
-            question: `\\int \\cos(${a}x) \\, dx`,
+            question: `$$\\int \\cos(${a}x) \\, dx$$`,
             answer: `(1/(${a}))*sin((${a})x)`,
             displayAnswer: `\\frac{1}{${a}}\\sin(${a}x) + C`,
             context: "Bepaal de onbepaalde integraal",
             solutionSteps: [
-              `De integraal van \\cos(kx) is \\frac{1}{k}\\sin(kx).`,
-              `Hier is k = ${a}.`,
-              `Antwoord: \\frac{1}{${a}}\\sin(${a}x)`,
+              `De integraal van $\\cos(kx)$ is $$\\frac{1}{k}\\sin(kx)$$.`,
+              `Hier is $k = ${a}$.`,
+              `Antwoord: $$\\frac{1}{${a}}\\sin(${a}x)$$`,
             ],
           };
         }

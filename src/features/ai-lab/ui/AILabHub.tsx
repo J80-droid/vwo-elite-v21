@@ -1,6 +1,6 @@
 import { MeshViewer } from "@shared/ui/components/MeshViewer";
 import { motion } from "framer-motion";
-import { ArrowRight, BrainCircuit, type LucideIcon,Network, Sparkles } from "lucide-react";
+import { ArrowRight, BrainCircuit, type LucideIcon, Network, Sparkles } from "lucide-react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -81,7 +81,7 @@ export const AILabHub: React.FC = () => {
       description:
         "Master prompt engineering en verken LLM capabilities direct in de interface.",
       icon: Sparkles,
-      modelUrl: "/models/ai/neural_brain.glb",
+      modelUrl: "models/ai/neural_brain.glb",
       color: "text-purple-400",
       bg: "bg-purple-500/10",
       border: "border-purple-500/20",
@@ -94,7 +94,7 @@ export const AILabHub: React.FC = () => {
       description:
         "Ontwerp en visualiseer neurale netwerken en AI architecturen.",
       icon: Network,
-      modelUrl: "/models/ai/logic_gate.glb",
+      modelUrl: "models/ai/logic_gate.glb",
       color: "text-cyan-400",
       bg: "bg-cyan-500/10",
       border: "border-cyan-500/20",
@@ -107,7 +107,7 @@ export const AILabHub: React.FC = () => {
       description:
         "Live status van alle 14 Elite intelligentie systemen.",
       icon: Sparkles,
-      modelUrl: "/models/ai/neural_brain.glb",
+      modelUrl: "models/ai/neural_brain.glb",
       color: "text-electric",
       bg: "bg-electric/10",
       border: "border-electric/20",

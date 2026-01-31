@@ -8,6 +8,7 @@ export interface IToolHandler {
     category: string;
     description: string;
     schema?: z.ZodSchema;
+    parametersSchema?: Record<string, unknown>;
     execute(params: Record<string, unknown>): Promise<unknown>;
 }
 
@@ -18,6 +19,7 @@ export interface IToolHandler {
 export class ToolRegistry {
     private static instance: ToolRegistry;
     private tools: Map<string, IToolHandler> = new Map();
+    private aliases: Map<string, string> = new Map();
 
     private constructor() { }
 
@@ -31,12 +33,19 @@ export class ToolRegistry {
     /**
      * Register a new tool (at runtime or startup)
      */
-    register(tool: IToolHandler): void {
+    register(tool: IToolHandler, aliases?: string[]): void {
         if (this.tools.has(tool.name)) {
             console.warn(`[Registry] Overwriting existing tool: ${tool.name}`);
         }
         this.tools.set(tool.name, tool);
-        console.log(`[Registry] Registered tool: ${tool.name} [${tool.category}]`);
+
+        if (aliases) {
+            for (const alias of aliases) {
+                this.aliases.set(alias, tool.name);
+            }
+        }
+
+        console.log(`[Registry] Registered tool: ${tool.name} [${tool.category}]${aliases ? ` (aliases: ${aliases.join(', ')})` : ''}`);
     }
 
     /**
@@ -49,17 +58,39 @@ export class ToolRegistry {
     }
 
     /**
-     * Get a tool by name
+     * Get a tool by name (with Alias and Fuzzy support)
      */
     get(name: string): IToolHandler | undefined {
-        return this.tools.get(name);
+        const toolName = this.aliases.get(name) || name;
+        const tool = this.tools.get(toolName);
+
+        if (!tool) {
+            const suggestion = this.findSuggestion(name);
+            if (suggestion) {
+                console.info(`[Registry] Tool "${name}" not found. Did you mean "${suggestion}"?`);
+            }
+        }
+
+        return tool;
+    }
+
+    /**
+     * Find a similar tool name if a lookup fails
+     */
+    private findSuggestion(name: string): string | null {
+        const keys = Array.from(this.tools.keys());
+        const lowerName = name.toLowerCase();
+
+        // Simple heuristic: startsWith or includes
+        const match = keys.find(k => k.toLowerCase().startsWith(lowerName) || lowerName.startsWith(k.toLowerCase()) || k.toLowerCase().includes(lowerName));
+        return match || null;
     }
 
     /**
      * Check if a tool exists
      */
     has(name: string): boolean {
-        return this.tools.has(name);
+        return this.tools.has(name) || this.aliases.has(name);
     }
 
     /**
@@ -71,6 +102,13 @@ export class ToolRegistry {
             category: t.category,
             description: t.description
         }));
+    }
+
+    /**
+     * Get all tool handlers
+     */
+    getAllTools(): IToolHandler[] {
+        return Array.from(this.tools.values());
     }
 
     /**
@@ -92,6 +130,7 @@ export class ToolRegistry {
      */
     clear(): void {
         this.tools.clear();
+        this.aliases.clear();
     }
 }
 

@@ -1,13 +1,15 @@
-import { calculateModelScore,RECOMMENDED_MODELS } from "@shared/lib/modelDefaults";
+import { sortModelsByReliability } from "@shared/lib/modelClassifier";
+import { calculateModelScore, RECOMMENDED_MODELS } from "@shared/lib/modelDefaults";
+import { ModelInfo } from "@shared/types/config";
 import { AnimatePresence, motion } from "framer-motion";
-import { Brain, Check, ChevronDown, type LucideIcon, RefreshCw, Sparkles } from "lucide-react";
+import { Brain, Check, ChevronDown, type LucideIcon, RefreshCw, ShieldCheck, Sparkles } from "lucide-react";
 import React, { useEffect, useMemo, useState } from "react";
 
 interface ModelSelectorCardProps {
   label: string;
   provider: string;
   type: string;
-  models: string[];
+  models: string[] | ModelInfo[];
   isLoading: boolean;
   error?: string | null;
   onRefresh?: () => void;
@@ -17,7 +19,7 @@ interface ModelSelectorCardProps {
   hasApiKey: boolean;
 }
 
-export const ModelSelectorCard: React.FC<ModelSelectorCardProps> = ({
+export const ModelSelectorCard: React.FC<ModelSelectorCardProps> = React.memo(({
   label,
   provider,
   type,
@@ -39,32 +41,36 @@ export const ModelSelectorCard: React.FC<ModelSelectorCardProps> = ({
     return () => window.removeEventListener("click", handleClick);
   }, [isOpen]);
 
-  // SMART SORTING LOGIC
+  // ELITE CAPABILITIES CACHE (Memoized to prevent multiple localStorage reads)
+  const capabilitiesCache = useMemo(() => {
+    try {
+      return JSON.parse(localStorage.getItem("vwo-elite-capabilities-v1") || "{}");
+    } catch {
+      return {};
+    }
+  }, []); // Only read once on mount
+
   const { recommended, others } = useMemo(() => {
     // Get recommended list for this provider/type
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const recs = (RECOMMENDED_MODELS as any)[provider]?.[type] || [];
 
-    // Sort Helper: Higher Score -> Newer Version -> Alphabetical
-    const sortByScore = (a: string, b: string) => {
-      const scoreA = calculateModelScore(a);
-      const scoreB = calculateModelScore(b);
-      return scoreB - scoreA;
-    };
+    // Normalize input to string array for sorting/filtering
+    const modelIds = Array.isArray(models)
+      ? models.map(m => typeof m === "string" ? m : m.id)
+      : [];
 
     // Filter available models that match recommended list
-    const recommendedModels = models
-      .filter(m => recs.includes(m))
-      .sort(sortByScore); // Sort recommendations too (best first)
+    const recommendedModels = sortModelsByReliability(
+      modelIds.filter(id => recs.includes(id)),
+      calculateModelScore
+    );
 
     // Filter everything else
-    const otherModels = models
-      .filter(m => !recs.includes(m))
-      .sort((a, b) => {
-        const scoreDiff = sortByScore(a, b);
-        if (scoreDiff !== 0) return scoreDiff;
-        return a.localeCompare(b);
-      });
+    const otherModels = sortModelsByReliability(
+      modelIds.filter(id => !recs.includes(id)),
+      calculateModelScore
+    );
 
     return { recommended: recommendedModels, others: otherModels };
   }, [models, provider, type]);
@@ -73,6 +79,13 @@ export const ModelSelectorCard: React.FC<ModelSelectorCardProps> = ({
     // const badge = getModelBadge(m); // Removed in favor of Score
     const score = calculateModelScore(m);
     const isSelected = currentModel === m;
+
+    // 1. Controleer of het model geverifieerd is in de cache
+    const isVerified = !!capabilitiesCache[m];
+
+    // 2. Specifieke check voor 'live' ondersteuning indien het type 'live' is
+    const supportsLive = type === "live" &&
+      capabilitiesCache[m]?.methods.some((meth: string) => meth.toLowerCase().includes("bidigeneratecontent"));
 
     return (
       <button
@@ -86,8 +99,21 @@ export const ModelSelectorCard: React.FC<ModelSelectorCardProps> = ({
           : "text-slate-400 hover:bg-white/5 hover:text-white"
           }`}
       >
-        <div className="flex items-center gap-2 overflow-hidden">
-          <span className="truncate">{m}</span>
+        <div className="flex items-center gap-2 mr-4 overflow-hidden">
+          <span className="whitespace-nowrap truncate">{m}</span>
+          {/* VERIFIED BADGE */}
+          {isVerified && (
+            <div
+              className={`flex items-center gap-0.5 px-1.5 py-0.5 rounded-full border text-[9px] font-black uppercase tracking-tighter shrink-0 ${supportsLive
+                ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20 shadow-[0_0_8px_rgba(16,185,129,0.1)]"
+                : "bg-blue-500/10 text-blue-400 border-blue-500/20"
+                }`}
+              title={supportsLive ? "Native Live Audio Verified" : "API Capabilities Verified"}
+            >
+              <ShieldCheck size={10} />
+              {supportsLive ? "Live" : "Verified"}
+            </div>
+          )}
         </div>
         <div className="flex items-center gap-2 shrink-0">
           {/* Version/Experimental Tag (Optional) */}
@@ -97,8 +123,8 @@ export const ModelSelectorCard: React.FC<ModelSelectorCardProps> = ({
           <span className={`text-[10px] font-mono font-bold ${score > 1300 ? "text-emerald-400" : score > 1200 ? "text-blue-400" : "text-slate-500"}`}>
             {score}
           </span>
+          {isSelected && <Check size={12} className="text-electric ml-1" />}
         </div>
-        {isSelected && <Check size={12} className="text-electric" />}
       </button>
     );
   };
@@ -153,7 +179,7 @@ export const ModelSelectorCard: React.FC<ModelSelectorCardProps> = ({
           className={`w-full flex items-center justify-between bg-obsidian-950/60 border border-white/10 rounded-lg px-3 py-2 text-white text-xs transition-all text-left ${isOpen ? "border-electric/50 ring-1 ring-electric/20" : "hover:border-white/20"
             }`}
         >
-          <span className="truncate font-mono text-slate-300">
+          <span className="font-mono text-slate-300 text-[10px] break-all leading-tight pr-2">
             {currentModel || "Selecteer..."}
           </span>
           <ChevronDown size={14} className={`text-slate-500 transition-transform ${isOpen ? "rotate-180" : ""}`} />
@@ -165,7 +191,7 @@ export const ModelSelectorCard: React.FC<ModelSelectorCardProps> = ({
               initial={{ opacity: 0, scale: 0.95, y: 5 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 5 }}
-              className="absolute top-full left-0 right-0 mt-2 z-50 bg-obsidian-950 border border-white/10 rounded-xl shadow-2xl overflow-hidden backdrop-blur-xl max-w-[300px] md:max-w-none"
+              className="absolute top-full left-0 min-w-full w-auto max-w-[95vw] mt-2 z-50 bg-obsidian-950 border border-white/10 rounded-xl shadow-2xl backdrop-blur-xl"
             >
               <div className="max-h-60 overflow-y-auto p-2 custom-scrollbar space-y-3">
 
@@ -208,4 +234,4 @@ export const ModelSelectorCard: React.FC<ModelSelectorCardProps> = ({
       </div>
     </motion.div>
   );
-};
+});

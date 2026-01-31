@@ -3,15 +3,27 @@ import { useGymProgress } from "@shared/hooks/useGymProgress";
 import {
   Activity,
   ArrowUpRight,
+  Atom,
   BookOpen,
+  Box,
   Dices,
+  Layers,
+  Magnet,
+  Orbit,
   Radiation,
   Scale,
+  Search,
+  Star,
+  Target,
+  Thermometer,
   TrendingUp,
+  Waves,
   Zap,
 } from "lucide-react";
 import React, { useState } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+
+import { PHYSICS_ENGINES } from "./engines";
 
 export const PhysicsGymStage: React.FC = () => {
   const { stats } = useGymProgress();
@@ -32,6 +44,7 @@ export const PhysicsGymStage: React.FC = () => {
     return (
       <GymSession
         engineId={activeSession}
+        engine={PHYSICS_ENGINES[activeSession]}
         onExit={() => navigate("/physics/gym")}
         questionCount={questionCount}
       />
@@ -92,7 +105,7 @@ export const PhysicsGymStage: React.FC = () => {
               1,
               Math.round(
                 Object.values(stats.levels || {}).reduce((a, b) => a + b, 0) /
-                  (Object.keys(stats.levels || {}).length || 1),
+                (Object.keys(stats.levels || {}).length || 1),
               ),
             )}
             onClick={() =>
@@ -175,15 +188,111 @@ export const PhysicsGymStage: React.FC = () => {
             }
           />
 
-          {/* ENGINE 7: GRAPH READER */}
+          {/* ENGINE 7: GRAFIEK GOEROE */}
           <GymEngineCard
-            id="graphs"
-            title="The Graph Reader"
+            id="graph-interpreter"
+            title="Grafiek Goeroe"
             description="Helling of Oppervlakte? Koppel wiskunde aan fysieke betekenis."
             icon={<TrendingUp size={32} />}
-            difficulty={stats.levels?.["graphs"] || 1}
+            difficulty={stats.levels?.["graph-interpreter"] || 1}
             onClick={() =>
-              setSelectedEngine({ id: "graphs", title: "The Graph Reader" })
+              setSelectedEngine({ id: "graph-interpreter", title: "Grafiek Goeroe" })
+            }
+          />
+
+          {/* ENGINE 8: QUANTUM SPRINTER */}
+          <GymEngineCard
+            id="quantum-leap"
+            title="Quantum Sprinter"
+            description="Fotonen, energie en golflengtes. De abstracte wereld van de kleinste deeltjes."
+            icon={<Atom size={32} />}
+            difficulty={stats.levels?.["quantum-leap"] || 1}
+            onClick={() =>
+              setSelectedEngine({ id: "quantum-leap", title: "Quantum Sprinter" })
+            }
+          />
+
+          {/* ENGINE 9: THERMODYNAMICA TANK */}
+          <GymEngineCard
+            id="gas-law"
+            title="Thermodynamica Tank"
+            description="Ideale gaswet en soortelijke warmte. Beheers de wetten van warmte."
+            icon={<Thermometer size={32} />}
+            difficulty={stats.levels?.["gas-law"] || 1}
+            onClick={() =>
+              setSelectedEngine({ id: "gas-law", title: "Thermodynamica Tank" })
+            }
+          />
+
+          {/* ENGINE 10: FLUX MASTER */}
+          <GymEngineCard
+            id="magnetic-field"
+            title="Flux Master"
+            description="Lorentzkracht, magnetische velden en inductie. Elektromagnetisme tot in de puntjes."
+            icon={<Magnet size={32} />}
+            difficulty={stats.levels?.["magnetic-field"] || 1}
+            onClick={() =>
+              setSelectedEngine({ id: "magnetic-field", title: "Flux Master" })
+            }
+          />
+
+          {/* ENGINE 11: GRAVITY GURU */}
+          <GymEngineCard
+            id="orbit-engine"
+            title="Gravity Guru"
+            description="Satellietbanen, gravitatiekracht en de wetten van Kepler."
+            icon={<Orbit size={32} />}
+            difficulty={stats.levels?.["orbit-engine"] || 1}
+            onClick={() =>
+              setSelectedEngine({ id: "orbit-engine", title: "Gravity Guru" })
+            }
+          />
+
+          {/* ENGINE 12: FOCUS FANAAT */}
+          <GymEngineCard
+            id="optics-engine"
+            title="Focus Fanaat"
+            description="Lenzenwet, vergroting en dioptrie. Alles over licht en beeldvorming."
+            icon={<Search size={32} />}
+            difficulty={stats.levels?.["optics-engine"] || 1}
+            onClick={() =>
+              setSelectedEngine({ id: "optics-engine", title: "Focus Fanaat" })
+            }
+          />
+
+          {/* ENGINE 13: NEWTON'S PRO */}
+          <GymEngineCard
+            id="mechanics-pro"
+            title="Newton's Pro"
+            description="Impuls, hefbomen en trillingstijden. Gevorderde mechanica voor experts."
+            icon={<Layers size={32} />}
+            difficulty={stats.levels?.["mechanics-pro"] || 1}
+            onClick={() =>
+              setSelectedEngine({ id: "mechanics-pro", title: "Newton's Pro" })
+            }
+          />
+
+          {/* ENGINE 14: DEELTJES DIERENTUIN */}
+          <GymEngineCard
+            id="particle-zoo"
+            title="Deeltjes Dierentuin"
+            description="Het Standaardmodel: Quarks, leptonen en boson-deeltjes."
+            icon={<Box size={32} />}
+            difficulty={stats.levels?.["particle-zoo"] || 1}
+            onClick={() =>
+              setSelectedEngine({ id: "particle-zoo", title: "Deeltjes Dierentuin" })
+            }
+          />
+
+          {/* ENGINE 15: STERRENKIJKER */}
+          <GymEngineCard
+            id="astro-knowledge"
+            title="Sterrenkijker"
+            description="Heelal, roodverschuiving en sterrenlevens. Astronomie op examen-niveau."
+            icon={<Star size={32} />}
+            difficulty={stats.levels?.["astro-knowledge"] || 1}
+            onClick={() =>
+              setSelectedEngine({ id: "astro-knowledge", title: "Sterrenkijker" })
             }
           />
 
@@ -198,6 +307,36 @@ export const PhysicsGymStage: React.FC = () => {
               setSelectedEngine({
                 id: "flashcards",
                 title: "Definition Destroyer",
+              })
+            }
+          />
+
+          {/* ENGINE 9: MECHANICS MASTER */}
+          <GymEngineCard
+            id="mechanics-master"
+            title="Mechanics Master"
+            description="F=ma, Energie-omzettingen en Arbeid. De basis van de klassieke fysica."
+            icon={<Target size={32} />}
+            difficulty={stats.levels?.["mechanics-master"] || 1}
+            onClick={() =>
+              setSelectedEngine({
+                id: "mechanics-master",
+                title: "Mechanics Master",
+              })
+            }
+          />
+
+          {/* ENGINE 10: WAVE WIZARD */}
+          <GymEngineCard
+            id="wave-wizard"
+            title="Wave Wizard"
+            description="Trillingen, golven en optica (Snellius). Beheers de sinus van de natuur."
+            icon={<Waves size={32} />}
+            difficulty={stats.levels?.["wave-wizard"] || 1}
+            onClick={() =>
+              setSelectedEngine({
+                id: "wave-wizard",
+                title: "Wave Wizard",
               })
             }
           />

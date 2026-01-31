@@ -24,14 +24,14 @@ export const FractionEngine: GymEngine = {
         if (Math.random() > 0.5) {
           return {
             id: `frac-1-${timestamp}`,
-            question: `\\frac{${n1}}{${v1}} + \\frac{${n2}}{${v1}}`,
+            question: `$$\\frac{${n1}}{${v1}} + \\frac{${n2}}{${v1}}$$`,
             answer: `(${n1}+${n2})/${v1}`,
-            displayAnswer: `\\frac{${n1 + n2}}{${v1}}`,
+            displayAnswer: `$$\\frac{${n1 + n2}}{${v1}}$$`,
             context: "Tel op (gelijke noemers)",
             solutionSteps: [
-              `De noemers zijn gelijk: beide ${v1}`,
-              `Tel alleen de tellers op: ${n1} + ${n2} = ${n1 + n2}`,
-              `Antwoord: \\frac{${n1 + n2}}{${v1}}`,
+              `De noemers zijn gelijk: beide $${v1}$`,
+              `Tel alleen de tellers op: $${n1} + ${n2} = ${n1 + n2}$`,
+              `Antwoord: $$\\frac{${n1 + n2}}{${v1}}$$`,
             ],
           };
         } else {
@@ -42,17 +42,17 @@ export const FractionEngine: GymEngine = {
           const g = gcd(sum, prod);
           return {
             id: `frac-1b-${timestamp}`,
-            question: `\\frac{1}{${n1}} + \\frac{1}{${n2}}`,
+            question: `$$\\frac{1}{${n1}} + \\frac{1}{${n2}}$$`,
             answer: `${sum / g}/${prod / g}`,
-            displayAnswer: `\\frac{${sum / g}}{${prod / g}}`,
+            displayAnswer: `$$\\frac{${sum / g}}{${prod / g}}$$`,
             context: "Maak gelijknamig (getallen)",
             solutionSteps: [
-              `Maak de noemers gelijk: KGV(${n1}, ${n2}) = ${prod}`,
-              `\\frac{1}{${n1}} = \\frac{${n2}}{${prod}} en \\frac{1}{${n2}} = \\frac{${n1}}{${prod}}`,
-              `Tel de tellers op: ${n1} + ${n2} = ${sum}`,
+              `Maak de noemers gelijk: $KGV(${n1}, ${n2}) = ${prod}$`,
+              `$$\\frac{1}{${n1}} = \\frac{${n2}}{${prod}}$$ en $$\\frac{1}{${n2}} = \\frac{${n1}}{${prod}}$$`,
+              `Tel de tellers op: $${n1} + ${n2} = ${sum}$`,
               g > 1
-                ? `Vereenvoudig: \\frac{${sum}}{${prod}} = \\frac{${sum / g}}{${prod / g}}`
-                : `Antwoord: \\frac{${sum}}{${prod}}`,
+                ? `Vereenvoudig: $$\\frac{${sum}}{${prod}} = \\frac{${sum / g}}{${prod / g}}$$`
+                : `Antwoord: $$\\frac{${sum}}{${prod}}$$`,
             ],
           };
         }
@@ -61,18 +61,18 @@ export const FractionEngine: GymEngine = {
         // Vraag: 1/x + 2/y
         return {
           id: `frac-2-${timestamp}`,
-          question: `\\frac{1}{${v1}} + \\frac{2}{${v2}}`,
+          question: `$$\\frac{1}{${v1}} + \\frac{2}{${v2}}$$`,
           answer: `(${v2} + 2*${v1}) / (${v1}*${v2})`,
-          displayAnswer: `\\frac{${v2} + 2${v1}}{${v1}${v2}}`,
+          displayAnswer: `$$\\frac{${v2} + 2${v1}}{${v1}${v2}}$$`,
           context: "Schrijf als één breuk",
           misconceptions: {
             [`3/(${v1}+${v2})`]:
               "Je mag tellers en noemers niet zomaar optellen!",
           },
           solutionSteps: [
-            `Gemeenschappelijke noemer: ${v1} \\cdot ${v2}`,
-            `\\frac{1}{${v1}} = \\frac{${v2}}{${v1}${v2}} en \\frac{2}{${v2}} = \\frac{2${v1}}{${v1}${v2}}`,
-            `Tel op: \\frac{${v2} + 2${v1}}{${v1}${v2}}`,
+            `Gemeenschappelijke noemer: $${v1} \\cdot ${v2}$`,
+            `$$\\frac{1}{${v1}} = \\frac{${v2}}{${v1}${v2}}$$ en $$\\frac{2}{${v2}} = \\frac{2${v1}}{${v1}${v2}}$$`,
+            `Tel op: $$\\frac{${v2} + 2${v1}}{${v1}${v2}}$$`,
           ],
         };
 
@@ -80,17 +80,17 @@ export const FractionEngine: GymEngine = {
         // Vraag: (x + y) / xy
         return {
           id: `frac-3-${timestamp}`,
-          question: `\\frac{${v1} + ${v2}}{${v1}${v2}}`,
+          question: `$$\\frac{${v1} + ${v2}}{${v1}${v2}}$$`,
           answer: `1/${v2} + 1/${v1}`,
-          displayAnswer: `\\frac{1}{${v2}} + \\frac{1}{${v1}}`,
+          displayAnswer: `$$\\frac{1}{${v2}} + \\frac{1}{${v1}}$$`,
           context: "Splits in twee losse breuken",
           misconceptions: {
             [`${v1}/${v1}${v2} + ${v2}/${v1}${v2}`]:
               "Goed, maar vereenvoudig nu verder!",
           },
           solutionSteps: [
-            `Splits de teller: \\frac{${v1}}{${v1}${v2}} + \\frac{${v2}}{${v1}${v2}}`,
-            `Vereenvoudig elk deel: \\frac{1}{${v2}} + \\frac{1}{${v1}}`,
+            `Splits de teller: $$\\frac{${v1}}{${v1}${v2}} + \\frac{${v2}}{${v1}${v2}}$$`,
+            `Vereenvoudig elk deel: $$\\frac{1}{${v2}} + \\frac{1}{${v1}}$$`,
           ],
         };
 
@@ -98,15 +98,15 @@ export const FractionEngine: GymEngine = {
         // Vraag: 1/(x-1) + 1/(x+1)
         return {
           id: `frac-4-${timestamp}`,
-          question: `\\frac{1}{${v1}-1} + \\frac{1}{${v1}+1}`,
+          question: `$$\\frac{1}{${v1}-1} + \\frac{1}{${v1}+1}$$`,
           answer: `2*${v1}/(${v1}^2-1)`,
-          displayAnswer: `\\frac{2${v1}}{${v1}^2-1}`,
+          displayAnswer: `$$\\frac{2${v1}}{${v1}^2-1}$$`,
           context: "Breng onder één noemer",
           solutionSteps: [
-            `Gemeenschappelijke noemer: (${v1}-1)(${v1}+1) = ${v1}^2 - 1`,
-            `\\frac{${v1}+1}{${v1}^2-1} + \\frac{${v1}-1}{${v1}^2-1}`,
-            `Tel tellers op: (${v1}+1) + (${v1}-1) = 2${v1}`,
-            `Antwoord: \\frac{2${v1}}{${v1}^2-1}`,
+            `Gemeenschappelijke noemer: $(${v1}-1)(${v1}+1) = ${v1}^2 - 1$`,
+            `$$\\frac{${v1}+1}{${v1}^2-1} + \\frac{${v1}-1}{${v1}^2-1}$$`,
+            `Tel tellers op: $(${v1}+1) + (${v1}-1) = 2${v1}$`,
+            `Antwoord: $$\\frac{2${v1}}{${v1}^2-1}$$`,
           ],
         };
 

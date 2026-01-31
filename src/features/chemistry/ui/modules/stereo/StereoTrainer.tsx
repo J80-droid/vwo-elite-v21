@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { SafeOrbitControls, SceneStabilizer } from "@features/threed-studio";
@@ -14,18 +14,16 @@ import {
   type Atom,
   ATOM_COLORS,
   ATOM_RADII,
-  getRandomMolecule,
-  mirrorMolecule,
   type Molecule,
-  MOLECULES,
-  rotateMolecule,
   validateMolecule,
   type Vec3,
 } from "@shared/assets/data/molecules";
 import { useCanvasReady } from "@shared/hooks/useCanvasReady";
-import { useVoiceCoachContext } from "@shared/lib/contexts/VoiceCoachContext";
 import { FischerProjection } from "@shared/ui/FischerProjection";
-import { AnimatePresence, motion } from "framer-motion";
+import {
+  AnimatePresence,
+  motion,
+} from "framer-motion";
 import {
   Atom as AtomIcon,
   ChevronRight,
@@ -44,12 +42,12 @@ import {
 import React, {
   useCallback,
   useEffect,
-  useMemo,
   useRef,
-  useState,
 } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import * as THREE from "three";
+
+import { type GameMode, useStereoStore } from "../../../hooks/useStereoStore";
 
 // --- Quantum Components ---
 const QuantumParticles = () => {
@@ -276,75 +274,45 @@ const useSound = () => {
 };
 
 // --- Game Modes ---
-interface Question {
-  type: "same-or-enantiomer";
-  targetMolecule: Molecule;
-  optionMolecule: Molecule;
-  isEnantiomer: boolean;
-  correctAnswer: "same" | "enantiomer";
-}
-
-type GameMode = "identifier" | "fischer-builder";
 
 // --- Main Component ---
 export const StereoTrainer: React.FC<{
   t?: any;
   onNavigate?: (view: any) => void;
-}> = ({ onNavigate }) => {
+  mode?: "stage" | "controls";
+}> = ({ onNavigate, mode: viewMode }) => {
   const { submodule } = useParams();
   const navigate = useNavigate();
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Map URL path to Internal Mode
-  const getModeFromUrl = (sub?: string): GameMode => {
-    if (sub === "fischerbouwer") return "fischer-builder";
-    return "identifier"; // Default to identifier (herkenning)
-  };
+  const {
+    mode, setMode,
+    question,
+    score,
+    round,
+    feedback,
+    gameOver,
+    gameStarted,
+    difficulty, setDifficulty,
+    soundEnabled, setSoundEnabled,
+    showLabels,
+    userRS, setUserRS,
+    fischerChallengeMol,
+    userMolecules, setUserMolecules,
+    selectedUserMolecule, setSelectedUserMolecule,
+    showMyMolecules, setShowMyMolecules,
+    startGame, handleAnswer, checkFischer, advanceRound,
+    setGameStarted
+  } = useStereoStore();
 
-  const [mode, setMode] = useState<GameMode>(getModeFromUrl(submodule));
-
-  // Sync URL -> State
-  useEffect(() => {
-    const newMode = getModeFromUrl(submodule);
-    if (newMode !== mode) {
-      setMode(newMode);
-    }
-  }, [submodule]);
-
-  // Handle Mode Switching via URL
-  const switchMode = (newMode: GameMode) => {
-    const path = newMode === "fischer-builder" ? "fischerbouwer" : "herkenning";
-    navigate(`/chemistry/stereo/${path}`);
-  };
-  const [question, setQuestion] = useState<Question | null>(null);
-  const [score, setScore] = useState(0);
-  const [round, setRound] = useState(1);
-  // const { mounted, canvasReady } = useCanvasReady(150); // Unused if we persist canvas? No, good for initial load
   const { canvasReady } = useCanvasReady(150);
-  // Removed roundReady logic to prevent Canvas unmounting/remounting
-  // const [roundReady, setRoundReady] = useState(false);
+  const { playCorrect, playWrong } = useSound();
 
-  const [feedback, setFeedback] = useState<"correct" | "wrong" | null>(null);
-  const [gameOver, setGameOver] = useState(false);
-  const [gameStarted, setGameStarted] = useState(false);
-  const [soundEnabled, setSoundEnabled] = useState(true);
-  const [difficulty, setDifficulty] = useState<"easy" | "medium" | "hard">(
-    "easy",
-  );
-  const [showLabels] = useState(true);
-
-  // Fischer Builder State
-  const [userRS, setUserRS] = useState<"R" | "S" | null>(null);
-  const [fischerChallengeMol, setFischerChallengeMol] =
-    useState<Molecule | null>(null);
-
-  // Validation state
-
-  // User Molecules Selection
-  const [userMolecules, setUserMolecules] = useState<Molecule[]>([]);
-  const [selectedUserMolecule, setSelectedUserMolecule] =
-    useState<Molecule | null>(null);
-  const [showMyMolecules, setShowMyMolecules] = useState(false);
+  // Trigger sounds on feedback change
+  useEffect(() => {
+    if (feedback === "correct" && soundEnabled) playCorrect();
+    if (feedback === "wrong" && soundEnabled) playWrong();
+  }, [feedback, soundEnabled, playCorrect, playWrong]);
 
   useEffect(() => {
     const stored = localStorage.getItem("vwo_user_molecules");
@@ -355,7 +323,7 @@ export const StereoTrainer: React.FC<{
         console.error("Failed to load user molecules", e);
       }
     }
-  }, []);
+  }, [setUserMolecules]);
 
   useEffect(() => {
     const mol =
@@ -367,264 +335,105 @@ export const StereoTrainer: React.FC<{
     }
   }, [question, fischerChallengeMol, mode, selectedUserMolecule]);
 
-  const MAX_ROUNDS = mode === "identifier" ? 10 : 5;
-  const { playCorrect, playWrong } = useSound();
-
-  // Voice Coach Context - injects chirality-specific prompts with FULL screen details
-  const screenContext = useMemo(() => {
-    const mol =
-      mode === "identifier" ? question?.targetMolecule : fischerChallengeMol;
-    const optionMol = question?.optionMolecule;
-
-    return {
-      mode,
-      difficulty,
-      score,
-      round,
-      maxRounds: MAX_ROUNDS,
-      gameStarted,
-      feedback,
-      // Full molecule data so coach can "see" what student sees
-      targetMolecule: mol
-        ? {
-          name: mol.name,
-          chiralCenters: mol.chiralCenters,
-          rsConfiguration: mol.rsConfiguration,
-          atomCount: mol.atoms.length,
-          bondCount: mol.bonds.length,
-          atoms: mol.atoms
-            .map(
-              (a) =>
-                `${a.element} at(${a.position.map((p) => p.toFixed(1)).join(", ")})`,
-            )
-            .join("; "),
-        }
-        : null,
-      // For identifier mode - the comparison molecule
-      optionMolecule: optionMol
-        ? {
-          name: optionMol.name,
-          rsConfiguration: optionMol.rsConfiguration,
-        }
-        : null,
-      // What answer is expected
-      correctAnswer: question?.correctAnswer,
-      // User's Fischer guess
-      userFischerGuess: userRS,
-    };
-  }, [
-    mode,
-    difficulty,
-    score,
-    round,
-    question,
-    fischerChallengeMol,
-    gameStarted,
-    feedback,
-    userRS,
-  ]);
-
-  useVoiceCoachContext(
-    "StereoTrainer",
-    `Je bent een Socratische tutor voor stereochemie en chiraliteit.
-De student ziet nu PRECIES dit op het scherm:
-
-MODUS: ${mode === "identifier" ? "Enantiomeer Identifier - vergelijk twee moleculen" : "Fischer Projectie - bepaal R/S configuratie"}
-MOEILIJKHEID: ${difficulty}
-VOORTGANG: Ronde ${round} van ${MAX_ROUNDS}, Score: ${score}
-${feedback ? `FEEDBACK: Student heeft net ${feedback === "correct" ? "GOED" : "FOUT"} geantwoord` : ""}
-
-${screenContext.targetMolecule
-      ? `
-DOEL MOLECUUL "${screenContext.targetMolecule.name}":
-- Chirale centra: ${screenContext.targetMolecule.chiralCenters || "onbekend"}
-- R/S configuratie: ${screenContext.targetMolecule.rsConfiguration ? JSON.stringify(screenContext.targetMolecule.rsConfiguration) : "onbekend"}
-- Atomen (${screenContext.targetMolecule.atomCount}): ${screenContext.targetMolecule.atoms}
-`
-      : "Geen molecuul geladen"
+  // Sync URL -> State (Legacy fallback for direct navigation)
+  useEffect(() => {
+    if (submodule) {
+      const newMode = submodule === "fischerbouwer" ? "fischer-builder" : "identifier";
+      if (newMode !== mode) setMode(newMode);
     }
+  }, [submodule, mode, setMode]);
 
-${mode === "identifier" && screenContext.optionMolecule
-      ? `
-VERGELIJKINGS MOLECUUL "${screenContext.optionMolecule.name}":
-- R/S configuratie: ${screenContext.optionMolecule.rsConfiguration ? JSON.stringify(screenContext.optionMolecule.rsConfiguration) : "onbekend"}
-VRAAG: Is dit hetzelfde molecuul of een enantiomeer?
-CORRECT ANTWOORD: ${screenContext.correctAnswer}
-`
-      : ""
-    }
-
-${mode === "fischer-builder" && screenContext.userFischerGuess
-      ? `
-STUDENT'S FISCHER ANTWOORD: ${screenContext.userFischerGuess}
-`
-      : ""
-    }
-
-COACHING INSTRUCTIES:
-- Stel vragen over wat de student ZIET op het scherm
-    - Vraag naar specifieke atomen en hun posities
-        - Help de student de R / S regels toe te passen
-            - Geef NOOIT het directe antwoord`,
-    screenContext,
-  );
-
-  const generateQuestion = useCallback((): Question => {
-    const baseMolecule = selectedUserMolecule || getRandomMolecule(difficulty);
-
-    const isEnantiomer = Math.random() > 0.5;
-
-    // Random rotation for visual variety
-    const rotX = Math.random() * Math.PI * 2;
-    const rotY = Math.random() * Math.PI * 2;
-    const rotZ = Math.random() * Math.PI * 2;
-
-    let optionMolecule: Molecule;
-    if (isEnantiomer) {
-      // Mirror then rotate
-      optionMolecule = rotateMolecule(
-        mirrorMolecule(baseMolecule, 0),
-        rotX,
-        rotY,
-        rotZ,
-      );
-    } else {
-      // Just rotate (same molecule)
-      optionMolecule = rotateMolecule(baseMolecule, rotX, rotY, rotZ);
-    }
-
-    return {
-      type: "same-or-enantiomer",
-      targetMolecule: baseMolecule,
-      optionMolecule,
-      isEnantiomer,
-      correctAnswer: isEnantiomer ? "enantiomer" : "same",
-    };
-  }, [difficulty, selectedUserMolecule]);
-
-  const generateFischerChallenge = useCallback(() => {
-    // Get a molecule with a chiral center
-    const base = selectedUserMolecule || getRandomMolecule(difficulty);
-    // Ensure it has chirality
-    if (!base.chiralCenters || base.chiralCenters.length === 0) {
-      // Fallback to known chiral if random failed
-      const retry =
-        MOLECULES.find((m) => m.chiralCenters && m.chiralCenters.length > 0) ||
-        base;
-      setFischerChallengeMol(retry);
-    } else {
-      setFischerChallengeMol(base);
-    }
-  }, [difficulty, selectedUserMolecule]);
-
-  const startGame = useCallback(() => {
-    setGameStarted(true);
-    setScore(0);
-    setRound(1);
-    setGameOver(false);
-    setFeedback(null);
-
-    if (mode === "identifier") {
-      setQuestion(generateQuestion());
-    } else {
-      generateFischerChallenge();
-    }
-  }, [generateQuestion, generateFischerChallenge, mode]);
-
-  const nextRound = useCallback(() => {
-    setFeedback(null);
-
-    if (mode === "identifier") {
-      setQuestion(generateQuestion());
-    } else {
-      generateFischerChallenge();
-    }
-  }, [generateQuestion, generateFischerChallenge, mode]);
-
-  const handleAnswer = useCallback(
-    (answer: "same" | "enantiomer") => {
-      if (feedback || !question) return;
-
-      const isCorrect = answer === question.correctAnswer;
-
-      if (isCorrect) {
-        setFeedback("correct");
-        setScore((s) => s + 1);
-        if (soundEnabled) playCorrect();
-        // Auto-advance only for correct answers
-        setTimeout(() => {
-          if (round >= MAX_ROUNDS) {
-            setGameOver(true);
-          } else {
-            setRound((r) => r + 1);
-            setQuestion(generateQuestion());
-            setFeedback(null);
-          }
-        }, 800);
-      } else {
-        setFeedback("wrong");
-        if (soundEnabled) playWrong();
-        // Do NOT auto-advance
-      }
-    },
-    [
-      feedback,
-      question,
-      round,
-      soundEnabled,
-      playCorrect,
-      playWrong,
-      generateQuestion,
-      MAX_ROUNDS,
-    ],
-  );
-
-  // Manual advance after wrong answer investigation
-  const advanceRound = useCallback(() => {
-    if (round >= MAX_ROUNDS) {
-      setGameOver(true);
-    } else {
-      setRound((r) => r + 1);
-      nextRound();
-    }
-  }, [round, MAX_ROUNDS, nextRound]);
-
-  // Check Fischer Answer
-  const checkFischer = () => {
-    if (
-      !fischerChallengeMol ||
-      !userRS ||
-      !fischerChallengeMol.chiralCenters?.length
-    )
-      return;
-
-    const chiralIdx = fischerChallengeMol.chiralCenters[0]!;
-    const targetRS = fischerChallengeMol.rsConfiguration?.[chiralIdx];
-
-    // Correct if user built RS matches target RS
-    const isCorrect = userRS === targetRS;
-
-    if (isCorrect) {
-      setFeedback("correct");
-      setScore((s) => s + 20); // More points for builder
-      if (soundEnabled) playCorrect();
-      // Auto-advance only for correct answers
-      setTimeout(() => {
-        if (round >= MAX_ROUNDS) {
-          setGameOver(true);
-        } else {
-          setRound((r) => r + 1);
-          generateFischerChallenge();
-          setFeedback(null);
-          setUserRS(null);
-        }
-      }, 1000);
-    } else {
-      setFeedback("wrong");
-      if (soundEnabled) playWrong();
-      // Do NOT auto-advance
-    }
+  const switchMode = (newMode: GameMode) => {
+    const path = newMode === "fischer-builder" ? "fischerbouwer" : "herkenning";
+    navigate(`/chemistry/stereo/${path}`);
   };
+
+  const MAX_ROUNDS = mode === "identifier" ? 10 : 5;
+
+  if (viewMode === "controls") {
+    return (
+      <div className="flex flex-row items-center gap-4">
+        {gameStarted && !gameOver ? (
+          <>
+            <div className="flex items-center gap-2 bg-black/40 border border-white/5 p-1 rounded-xl">
+              <span className="text-[8px] font-black text-emerald-500 uppercase tracking-widest px-2">Mode</span>
+              <div className="flex gap-0.5">
+                <button
+                  onClick={() => switchMode("identifier")}
+                  className={`px-3 py-1.5 rounded-lg text-[10px] font-black transition-all ${mode === "identifier" ? "bg-emerald-500/20 text-emerald-400" : "text-slate-600 hover:text-white"}`}
+                >
+                  Herkenning
+                </button>
+                <button
+                  onClick={() => switchMode("fischer-builder")}
+                  className={`px-3 py-1.5 rounded-lg text-[10px] font-black transition-all ${mode === "fischer-builder" ? "bg-emerald-500/20 text-emerald-400" : "text-slate-600 hover:text-white"}`}
+                >
+                  Fischer
+                </button>
+              </div>
+            </div>
+
+            {mode === "identifier" && (
+              <div className="flex gap-1 bg-white/5 p-1 rounded-xl border border-white/5">
+                <button
+                  onClick={() => handleAnswer("same")}
+                  disabled={!!feedback}
+                  className="px-4 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-[10px] font-black text-emerald-400 hover:bg-emerald-500/20 transition-all uppercase"
+                >
+                  Hetzelfde
+                </button>
+                <button
+                  onClick={() => handleAnswer("enantiomer")}
+                  disabled={!!feedback}
+                  className="px-4 py-1.5 rounded-lg bg-purple-500/10 border border-purple-500/30 text-[10px] font-black text-purple-400 hover:bg-purple-500/20 transition-all uppercase"
+                >
+                  Enantiomeer
+                </button>
+              </div>
+            )}
+
+            {mode === "fischer-builder" && (
+              <div className="flex gap-1 bg-white/5 p-1 rounded-xl border border-white/5">
+                <button
+                  onClick={() => setUserRS("R")}
+                  className={`px-4 py-1.5 rounded-lg text-[10px] font-black transition-all ${userRS === "R" ? "bg-blue-500/20 text-blue-400 border border-blue-500/50" : "text-slate-600 border border-transparent"}`}
+                >
+                  (R)
+                </button>
+                <button
+                  onClick={() => setUserRS("S")}
+                  className={`px-4 py-1.5 rounded-lg text-[10px] font-black transition-all ${userRS === "S" ? "bg-purple-500/20 text-purple-400 border border-purple-500/50" : "text-slate-600 border border-transparent"}`}
+                >
+                  (S)
+                </button>
+                <button
+                  onClick={checkFischer}
+                  disabled={!userRS || !!feedback}
+                  className="ml-2 px-4 py-1.5 rounded-lg bg-emerald-500/20 border border-emerald-500/50 text-[10px] font-black text-emerald-400 hover:bg-emerald-500/30 transition-all uppercase"
+                >
+                  Check
+                </button>
+              </div>
+            )}
+
+            <div className="ml-auto flex items-center gap-3 bg-white/5 border border-white/5 px-3 py-1.5 rounded-xl">
+              <div className="flex flex-col items-end">
+                <span className="text-[8px] font-black text-slate-500 uppercase leading-none">Score</span>
+                <span className="text-[10px] font-black text-emerald-400 leading-tight uppercase">{score} PTS / Ronde {round}</span>
+              </div>
+            </div>
+          </>
+        ) : (
+          <button
+            onClick={startGame}
+            className="px-6 py-2 rounded-xl bg-emerald-500/10 border border-emerald-500/50 text-emerald-400 text-[10px] font-black uppercase tracking-widest hover:bg-emerald-500/20 transition-all shadow-[0_0_20px_rgba(16,185,129,0.1)]"
+          >
+            Systeem Kalibratie Starten
+          </button>
+        )}
+      </div>
+    );
+  }
 
   // --- Start Screen ---
   if (!gameStarted) {

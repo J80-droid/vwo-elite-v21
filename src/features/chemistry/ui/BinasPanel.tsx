@@ -7,7 +7,6 @@ import {
   ChevronDown,
   ChevronUp,
   Search,
-  Table as TableIcon,
   X,
 } from "lucide-react";
 import React, { useState } from "react";
@@ -506,28 +505,20 @@ export const BinasControls: React.FC = () => {
   const [state, setState] = useModuleState("binas", {
     activeTab: "T45" as keyof typeof BINAS_DATA,
   });
+
   return (
-    <div className="space-y-8">
+    <div className="flex flex-row items-center gap-4 overflow-x-auto no-scrollbar max-w-full">
       {Object.entries(CATEGORIES).map(([catName, tables]) => (
-        <div key={catName} className="space-y-1">
-          <div className="px-3 py-2 text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em] mb-1 opacity-50 border-b border-white/5 pb-2">
-            {catName}
-          </div>
-          <div className="grid grid-cols-1 gap-1 pt-1">
+        <div key={catName} className="flex items-center gap-1 bg-black/40 border border-white/5 p-1 rounded-xl shrink-0">
+          <span className="text-[8px] font-black text-slate-500 uppercase tracking-widest px-2">{catName}</span>
+          <div className="flex gap-0.5">
             {tables.map((key) => (
               <button
                 key={key}
                 onClick={() => setState({ activeTab: key as any })}
-                className={`btn-elite-glass !w-full !px-3 !py-2 !rounded-xl !text-[13px] !justify-start !border-transparent group ${state.activeTab === key ? "btn-elite-cyan active" : "text-slate-400 hover:text-white bg-white/5"}`}
+                className={`px-2 py-1 rounded-lg text-[9px] font-black transition-all ${state.activeTab === key ? "bg-cyan-500/20 text-cyan-400" : "text-slate-600 hover:text-slate-400"}`}
               >
-                <TableIcon
-                  size={14}
-                  className={`transition-transform duration-500 ${state.activeTab === key ? "text-cyan-400 scale-110" : "opacity-40 group-hover:opacity-100"}`}
-                />
-                <span className="truncate font-medium">{key}</span>
-                {state.activeTab === key && (
-                  <div className="ml-auto w-1.5 h-1.5 rounded-full bg-cyan-400 shadow-[0_0_8px_rgba(34,211,238,0.8)]" />
-                )}
+                {key}
               </button>
             ))}
           </div>

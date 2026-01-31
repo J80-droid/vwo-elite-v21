@@ -1,4 +1,5 @@
 import { BiologyModuleConfig } from "../types";
+import { gymConfig } from "../ui/gym/config";
 import { ecologyConfig } from "../ui/modules/ecology/config";
 import { genomicsConfig } from "../ui/modules/genomics/config";
 import { microscopyConfig } from "../ui/modules/microscopy/config";
@@ -29,3 +30,4 @@ registerModule(microscopyConfig);
 registerModule(ecologyConfig);
 registerModule(physiologyConfig);
 registerModule(proteinConfig);
+registerModule(gymConfig);

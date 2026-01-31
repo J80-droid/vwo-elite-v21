@@ -641,9 +641,9 @@ function NodeDetails({
 }) {
   // Mapping node types/ids to potential 3D models
   const modelUrl = useMemo(() => {
-    if (node.type === "feature") return "/models/architecture/feature_module.glb";
-    if (node.type === "shared") return "/models/architecture/core_engine.glb";
-    if (node.id === "api") return "/models/architecture/gateway_spire.glb";
+    if (node.type === "feature") return "models/architecture/feature_module.glb";
+    if (node.type === "shared") return "models/architecture/core_engine.glb";
+    if (node.id === "api") return "models/architecture/gateway_spire.glb";
     return null;
   }, [node]);
 

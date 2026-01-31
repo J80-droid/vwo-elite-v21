@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import "./modules";
 
 import {
   closestCenter,
@@ -31,10 +30,10 @@ import { ChemistryModuleConfig } from "@features/chemistry/types";
 import { saveStudyMaterialSQL } from "@shared/api/sqliteService";
 import { useTranslations } from "@shared/hooks/useTranslations";
 import { useHubStore } from "@shared/model/hubStore";
-import { LabSidebar } from "@shared/ui/LabSidebar"; // LabModule, LabNavCategory, LabTheme only used as types, maybe? check usage
+import { ImmersiveControls } from "@shared/ui/ImmersiveControls";
+import { LabSidebar } from "@shared/ui/LabSidebar";
 import { FlaskConical, Layers } from "lucide-react";
 import React, { Suspense, useCallback, useEffect, useState } from "react";
-// Force Update
 import { useNavigate, useParams } from "react-router-dom";
 
 // Module Color Themes - Matches Library SubjectTile subtle neon style
@@ -156,6 +155,11 @@ const MODULE_THEMES: Record<
 };
 
 const NAV_CATEGORIES = [
+  {
+    id: "training",
+    label: (t: any) => t("chemistry.categories.training", "Training"),
+    modules: ["gym"],
+  },
   {
     id: "basis",
     label: (t: any) => t("chemistry.categories.basis", "Basis"),
@@ -334,13 +338,17 @@ const MODULE_COMPONENTS: Record<
       return { default: (m as any).OrbitalSidebar || m };
     }),
   },
+  gym: {
+    Stage: React.lazy(() => import("./gym/ChemistryGymStage").then(m => ({ default: m.ChemistryGymStage }))),
+    Input: React.lazy(() => Promise.resolve({ default: () => null })),
+  },
 };
 
 const ChemistryLabLayoutInner: React.FC = () => {
-  // Registry Initialization
-  useEffect(() => {
-    import("./modules").then((m) => m.registerChemistryModules());
-  }, []);
+  // Registry Initialization - handled in api/registry.ts
+  // useEffect(() => {
+  //   import("./modules").then((m) => m.registerChemistryModules());
+  // }, []);
 
   const { activeModule, setActiveModule } = useChemistryLabContext();
 
@@ -694,7 +702,6 @@ const ChemistryLabLayoutInner: React.FC = () => {
   // ─────────────────────────────────────────────────────────────────────────
   return (
     <div className="flex flex-col h-full w-full bg-black font-outfit text-white overflow-hidden relative isolate">
-
       {/* MAIN CONTENT ROW */}
       <div className="flex-1 flex min-h-0 relative items-stretch overflow-hidden">
         {/* 1. MODULES SIDEBAR (Categorized Elite Sidebar) */}
@@ -709,71 +716,77 @@ const ChemistryLabLayoutInner: React.FC = () => {
           themes={MODULE_THEMES as any}
           defaultTheme={DEFAULT_THEME}
           labTitle="Chemistry Lab"
+          onBack={() => navigate("/chemistry")}
         />
 
-        {/* 2. LEFT SIDEBAR: CONTROLS - Sticky */}
-        {activeModule !== "reaction" && (
-          <div className="w-80 flex flex-col border-r border-white/10 bg-obsidian-950/80 backdrop-blur-sm z-30 h-full">
-            <div className="flex-1 overflow-y-auto custom-scrollbar p-5 space-y-6">
-              <div className="flex items-center gap-2 text-xs font-bold text-slate-500 uppercase tracking-widest mb-4 opacity-50">
-                <Layers size={14} /> Control Panel
-              </div>
+        {/* 2. MAIN STAGE AREA: Takes 100% of remaining width */}
+        <div className="flex-1 relative min-w-0 bg-gradient-to-br from-obsidian-950 to-black overflow-hidden transition-all duration-300">
+          <div className="absolute inset-0 w-full h-full flex flex-col pointer-events-none">
+            {/* Background Visuals */}
+            <div
+              className="absolute inset-x-0 top-0 h-full opacity-[0.03] pointer-events-none"
+              style={{
+                backgroundImage: "radial-gradient(#fff 1px, transparent 1px)",
+                backgroundSize: "24px 24px",
+              }}
+            />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(6,182,212,0.08),transparent_50%)] pointer-events-none" />
 
-              <div className="min-h-[200px] animate-in slide-in-from-left-4 duration-500">
-                {activeModule && MODULE_COMPONENTS[activeModule]?.Input ? (
-                  <Suspense
-                    fallback={
-                      <div className="p-4 text-xs text-slate-500 animate-pulse">
-                        Controls laden...
-                      </div>
-                    }
-                  >
+            {/* Simulation Component - This layer catches the events */}
+            <div
+              id="chemistry-stage"
+              className="relative z-10 w-full h-full flex flex-col pointer-events-auto items-center justify-center"
+            >
+              <Suspense
+                fallback={
+                  <div className="flex items-center justify-center min-h-[400px] text-cyan-500 gap-3">
+                    <FlaskConical size={32} className="animate-bounce" />
+                  </div>
+                }
+              >
+                {activeModule && MODULE_COMPONENTS[activeModule]?.Stage ? (
+                  (() => {
+                    const Stage = MODULE_COMPONENTS[activeModule].Stage;
+                    return <Stage />;
+                  })()
+                ) : (
+                  <div className="p-10 text-white">Module not found</div>
+                )}
+              </Suspense>
+            </div>
+
+            {/* IMMERSIVE CONTROLS: BOTTOM OVERLAY */}
+            {activeModule && MODULE_COMPONENTS[activeModule]?.Input && (
+              <ImmersiveControls
+                key={activeModule}
+                activeModuleLabel={activeConfig?.label(t)}
+                accentColor={(MODULE_THEMES[activeModule]?.text?.split("-")[1] as any) || "cyan"}
+                controls={
+                  <Suspense fallback={null}>
                     {(() => {
                       const Input = MODULE_COMPONENTS[activeModule].Input;
                       return <Input />;
                     })()}
                   </Suspense>
-                ) : (
-                  <div className="p-6 border border-dashed border-white/10 rounded-2xl text-center text-slate-600 text-sm">
-                    Geen specifieke controls beschikbaar.
+                }
+                instructions={
+                  <div className="space-y-4">
+                    <p className="opacity-80">
+                      {t(
+                        `chemistry.descriptions.${activeModule}`,
+                        "Deze simulatie stelt je in staat om de fundamentele principes van scheikunde te verkennen door middel van interactieve experimenten.",
+                      )}
+                    </p>
+                    <div className="p-4 bg-white/5 rounded-2xl border border-white/5 italic text-xs">
+                      {t(
+                        `chemistry.hints.${activeModule}`,
+                        "Probeer de parameters in de onderste balk aan te passen om real-time effecten te zien.",
+                      )}
+                    </div>
                   </div>
-                )}
-              </div>
-            </div>
-            <div className="p-3 border-t border-white/10 bg-black/20 text-[10px] text-slate-600 text-center">
-              VWO Elite System v2.0
-            </div>
-          </div>
-        )}
-
-        {/* 2. CENTER: STAGE */}
-        <div className="flex-1 flex flex-col relative min-w-0 bg-gradient-to-br from-obsidian-950 to-black overflow-visible min-h-full">
-          <div
-            className="absolute inset-x-0 top-0 h-full opacity-[0.03] pointer-events-none"
-            style={{
-              backgroundImage: "radial-gradient(#fff 1px, transparent 1px)",
-              backgroundSize: "24px 24px",
-            }}
-          />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(6,182,212,0.08),transparent_50%)] pointer-events-none" />
-
-          <div className="relative z-10 w-full h-full">
-            <Suspense
-              fallback={
-                <div className="flex items-center justify-center min-h-[400px] text-cyan-500 gap-3">
-                  <FlaskConical size={32} className="animate-bounce" />
-                </div>
-              }
-            >
-              {activeModule && MODULE_COMPONENTS[activeModule]?.Stage ? (
-                (() => {
-                  const Stage = MODULE_COMPONENTS[activeModule].Stage;
-                  return <Stage />;
-                })()
-              ) : (
-                <div className="p-10 text-white">Module not found</div>
-              )}
-            </Suspense>
+                }
+              />
+            )}
           </div>
         </div>
       </div>

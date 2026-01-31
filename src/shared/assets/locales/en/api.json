@@ -1,0 +1,60 @@
+{
+    "title": "Elite API Ecosystem",
+    "subtitle": "Connect your own brain for maximum control and speed.",
+    "research": "Research & Citations",
+    "audio": "Audio & Voices",
+    "labels": {
+        "chat": "Chat",
+        "reasoning": "Reasoning",
+        "vision": "Vision",
+        "live": "Live"
+    },
+    "gemini": {
+        "title": "Google Gemini (Recommended)",
+        "desc": "The only multimodal provider with 1M+ context window."
+    },
+    "groq": {
+        "title": "Groq LPU",
+        "desc": "Ultra-fast inference for instant feedback."
+    },
+    "openai": {
+        "title": "OpenAI",
+        "desc": "The standard for DALL-E 3 and GPT models."
+    },
+    "anthropic": {
+        "title": "Anthropic Claude",
+        "desc": "Superior in reasoning and natural writing."
+    },
+    "cohere": {
+        "title": "Cohere Command",
+        "desc": "Optimized for RAG and enterprise precision."
+    },
+    "kimi": {
+        "title": "Moonshot Kimi",
+        "desc": "Specialist in extremely long documents."
+    },
+    "deepseek": {
+        "title": "DeepSeek",
+        "desc": "Open-source powerhouse for coding and math."
+    },
+    "openrouter": {
+        "title": "OpenRouter",
+        "desc": "One gateway to hundreds of open-source models."
+    },
+    "huggingface": {
+        "title": "Hugging Face Hub",
+        "desc": "Access to the largest library of ML models."
+    },
+    "replicate": {
+        "title": "Replicate",
+        "desc": "Cloud GPUs for 3D and image generation."
+    },
+    "hume": {
+        "title": "Hume AI",
+        "desc": "Emotional intelligence for voice interaction."
+    },
+    "custom": {
+        "title": "Custom Providers & Local AI",
+        "desc": "Add your own OpenAI-compatible endpoints (LM Studio, Ollama)."
+    }
+}

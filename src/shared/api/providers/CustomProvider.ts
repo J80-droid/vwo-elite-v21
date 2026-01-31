@@ -64,7 +64,7 @@ export class CustomProvider extends BaseProvider {
 
         if (!config) throw new Error(`Custom provider ${this.id} non configured or not found`);
 
-        const model = config.models.chat;
+        const model = options.modelId || config.models.chat;
 
         try {
             const messages = options.messages

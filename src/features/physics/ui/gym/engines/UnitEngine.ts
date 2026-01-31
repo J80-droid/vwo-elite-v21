@@ -1,4 +1,4 @@
-import { Difficulty, GymProblem } from "@shared/types/gym";
+import { Difficulty, GymEngine, GymProblem } from "@shared/types/gym";
 
 // Helper: Genereer 'mooie' getallen (geen 3.19284)
 const getRandom = (min: number, max: number) =>
@@ -23,7 +23,10 @@ const PREFIXES = {
 
 type PrefixKey = keyof typeof PREFIXES;
 
-export const UnitEngine = {
+export const UnitEngine: GymEngine = {
+  id: "units",
+  name: "Eenheden",
+  description: "Conversies: van micro tot giga.",
   generate: (level: Difficulty): GymProblem => {
     let question = "";
     let answerStr = "";
@@ -55,16 +58,16 @@ export const UnitEngine = {
       const factor = Math.pow(10, expDiff);
       const ans = round(val * factor);
 
-      question = `$${val} \\text{ ${p1}${type.base}} = \\dots \\text{ ${p2}${type.base}}$`;
+      question = `$$${val} \\text{ ${p1}${type.base}} = \\dots \\text{ ${p2}${type.base}}$$`;
       answerStr = ans.toString();
       context = "Basis Conversies";
 
       steps = [
-        `\\text{Van } \\text{${p1 || "basis"}} (10^{${PREFIXES[p1].val}}) \\text{ naar } \\text{${p2 || "basis"}} (10^{${PREFIXES[p2].val}})`,
-        `Verschil in machten van 10: ${PREFIXES[p1].val} - ${PREFIXES[p2].val} = ${expDiff}`,
-        `Factor: 10^{${expDiff}} = ${factor > 1 ? factor : factor.toExponential()}`,
-        `${val} \\times ${factor} = ${ans}`,
-      ];
+        `\\text{Van } ${p1 || "\\text{basis}"} (10^{${PREFIXES[p1].val}}) \\text{ naar } ${p2 || "\\text{basis}"} (10^{${PREFIXES[p2].val}})`,
+        `Verschil in machten van 10: $${PREFIXES[p1].val} - ${PREFIXES[p2].val} = ${expDiff}$`,
+        `Factor: $10^{${expDiff}} = ${factor > 1 ? factor : factor.toExponential()}$`,
+        `Berekening: $${val} \\times ${factor > 0.01 ? factor : factor.toExponential()} = ${ans}$`,
+      ].map(s => s.startsWith("$") ? s : `$${s}$`);
     }
 
     // LEVEL 2: Exotic Prefixes (Nano, Giga, Micro)
@@ -91,15 +94,15 @@ export const UnitEngine = {
       // Maar de 'schone' string voor weergave:
       answerStr = `${round(val, 2)} \\cdot 10^{${expDiff}}`;
 
-      question = `$${val} \\text{ ${p1}${base}} = \\dots \\text{ ${p2}${base}}$`;
+      question = `$$${val} \\text{ ${p1}${base}} = \\dots \\text{ ${p2}${base}}$$`;
       context = "Grote Sprongen (BINAS T2)";
 
       steps = [
         `Bepaal de exponenten uit Binas Tabel 2`,
         `\\text{${PREFIXES[p1].name}}: 10^{${PREFIXES[p1].val}} \\quad \\text{${PREFIXES[p2].name}}: 10^{${PREFIXES[p2].val}}`,
-        `Stappen: ${PREFIXES[p1].val} - ${PREFIXES[p2].val} = ${expDiff}`,
-        `Antwoord: ${round(val, 2)} \\cdot 10^{${expDiff}}`,
-      ];
+        `Stappen: $${PREFIXES[p1].val} - ${PREFIXES[p2].val} = ${expDiff}$`,
+        `Antwoord: $${round(val, 2)} \\cdot 10^{${expDiff}}$`,
+      ].map(s => s.startsWith("$") ? s : `$${s}$`);
     }
 
     // LEVEL 3: Kwadraten en Derde Machten (Area/Volume)
@@ -120,16 +123,16 @@ export const UnitEngine = {
       const linearDiff = PREFIXES[p1].val - PREFIXES[p2].val;
       const totalExp = linearDiff * power; // De cruciale stap
 
-      question = `$${val} \\text{ ${p1}m}^${power} = \\dots \\text{ ${p2}m}^${power}$`;
+      question = `$$${val} \\text{ ${p1}m}^${power} = \\dots \\text{ ${p2}m}^${power}$$`;
       answerStr = `${val} \\cdot 10^{${totalExp}}`;
-      context = isVolume ? "Volume Conversies" : "Oppervlakte Conversies";
+      context = (isVolume as boolean) ? "Volume Conversies" : "Oppervlakte Conversies";
 
       steps = [
         `Lineaire stap van ${p1}m naar ${p2}m is $10^{${linearDiff}}$`,
         `Omdat het tot de macht ${power} is, moet je de stap ook tot de macht ${power} doen.`,
         `Factor: $(10^{${linearDiff}})^${power} = 10^{${linearDiff * power}}$`,
-        `Berekening: ${val} \\cdot 10^{${totalExp}}`,
-      ];
+        `Berekening: $${val} \\cdot 10^{${totalExp}}$`,
+      ].map(s => s.startsWith("$") ? s : `$${s}$`);
     }
 
     // LEVEL 4: Snelheid (km/h <-> m/s) en Tijd (h <-> s)
@@ -143,8 +146,8 @@ export const UnitEngine = {
 
         const ans = toMS ? val / 3.6 : val * 3.6;
         question = toMS
-          ? `$${val} \\text{ km/h} = \\dots \\text{ m/s}$`
-          : `$${val} \\text{ m/s} = \\dots \\text{ km/h}$`;
+          ? `$$${val} \\text{ km/h} = \\dots \\text{ m/s}$$`
+          : `$$${val} \\text{ m/s} = \\dots \\text{ km/h}$$`;
 
         answerStr = round(ans).toString();
         context = "Snelheid (Factor 3.6)";
@@ -153,21 +156,21 @@ export const UnitEngine = {
             ? `Van km/h naar m/s: DELEN door 3,6`
             : `Van m/s naar km/h: VERMENIGVULDIGEN met 3,6`,
           toMS
-            ? `${val} / 3,6 = ${round(ans)}`
-            : `${val} \\times 3,6 = ${round(ans)}`,
-        ];
+            ? `$${val} / 3,6 = ${round(ans)}$`
+            : `$${val} \\times 3,6 = ${round(ans)}$`,
+        ].map(s => s.startsWith("$") ? s : `$${s}$`);
       } else {
         // Time
         const val = getRandom(1, 120); // minuten of uren
         // Simpele uur naar seconde
-        question = `$${val} \\text{ h} = \\dots \\text{ s}$`;
+        question = `$$${val} \\text{ h} = \\dots \\text{ s}$$`;
         const ans = val * 3600;
         answerStr = ans.toString();
         context = "Tijd Conversies";
         steps = [
           `1 uur = 60 minuten = 3600 seconden`,
-          `${val} \\times 3600 = ${ans}`,
-        ];
+          `$${val} \\times 3600 = ${ans}$`,
+        ].map(s => s.startsWith("$") ? s : `$${s}$`);
       }
     }
 
@@ -216,7 +219,7 @@ export const UnitEngine = {
       context,
       solutionSteps: steps,
       answer: answerStr, // Voor interne check
-      displayAnswer: answerStr, // Voor UI display
+      displayAnswer: `$${answerStr}$`, // Voor UI display
     };
   },
 

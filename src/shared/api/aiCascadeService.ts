@@ -8,6 +8,7 @@ import { jsonrepair as jsonRepair } from "jsonrepair";
 import { concurrency } from "../lib/concurrency";
 import { logger } from "../lib/logger";
 import { AIConfig } from "../types/config";
+import { ContextManager } from "./ai-brain/ContextManager";
 import { ProviderRegistry } from "./providers/ProviderRegistry";
 import {
   GenerationOptions,
@@ -72,25 +73,44 @@ const filterMultimodal = (providers: string[], registry: ProviderRegistry): stri
   });
 };
 
-/**
- * Resolve the dynamic cascade list based on config
- */
-export const getCascade = (aiConfig?: AIConfig): string[] => {
-  const providers: string[] = [];
 
-  // Logic from modelDefaults / original flow
-  // Usually Gemini is primary for Elite
+/**
+ * Resolve the dynamic cascade list based on config and intelligence type
+ * SEED: Integrated Kimi into the Elite Cascade.
+ */
+export const getCascade = (aiConfig?: AIConfig, intelligenceId?: string): string[] => {
+  const providers: string[] = [];
+  const isReasoning = intelligenceId === "reasoning" || intelligenceId === "logic";
+
+  // Elite Logic: Gemini is primary for most tasks
   providers.push("gemini");
 
-  // Followed by backups
-  providers.push("groq");
-  providers.push("huggingface");
+  // Reasoning tasks should prioritize OpenAI (gpt-4o) or Kimi (128k context)
+  if (isReasoning) {
+    if (!providers.includes("openai")) providers.push("openai");
+    if (!providers.includes("kimi")) providers.push("kimi");
+    if (!providers.includes("cohere")) providers.push("cohere"); // Command R+ is great for logic
+    if (!providers.includes("groq")) providers.push("groq");
+  } else {
+    // Standard chat/fast flow
+    providers.push("anthropic");
+    providers.push("deepseek");
+    providers.push("openai");
+    providers.push("groq");
+    providers.push("kimi");
+    providers.push("cohere");
+    providers.push("mistral");
+    providers.push("openrouter");
+  }
+
+  // Backup
+  if (!providers.includes("huggingface")) providers.push("huggingface");
 
   // Add custom providers
   if (aiConfig?.customProviders) {
     aiConfig.customProviders
-      .filter(p => p.enabled)
-      .forEach(p => providers.push(`custom:${p.id}`));
+      .filter((p) => p.enabled)
+      .forEach((p) => providers.push(`custom:${p.id}`));
   }
 
   return providers;
@@ -113,7 +133,7 @@ export const cascadeGenerate = async (
   options: GenerationOptions = {}
 ): Promise<ProviderResponse> => {
   const registry = ProviderRegistry.getInstance();
-  let providers = getCascade(options.aiConfig);
+  let providers = getCascade(options.aiConfig, options.intelligenceId);
 
   if (options.requiresMultimodal || (options.inlineImages && options.inlineImages.length > 0)) {
     providers = filterMultimodal(providers, registry);
@@ -138,12 +158,35 @@ export const cascadeGenerate = async (
     options.onStatus?.("generating", `Elite Engine: ${activeProviders[0].toUpperCase()}`);
   }
 
+  // ═══════════════════════════════════════════════════════════════════════════
+  // EXPERT MODE INJECTION
+  // ═══════════════════════════════════════════════════════════════════════════
+  const mergeExpertOptions = (opts: GenerationOptions): GenerationOptions => {
+    const intelId = opts.intelligenceId || (opts.jsonMode ? "logic" : "text");
+    const expertConfig = opts.aiConfig?.intelligencesConfig?.[intelId];
+
+    if (!expertConfig) return opts;
+
+    return {
+      ...expertConfig,
+      ...opts, // Local overrides take precedence
+      // Re-map fields that might have different names or need specific handling
+      temperature: opts.temperature ?? expertConfig.temperature,
+      maxTokens: opts.maxTokens ?? expertConfig.maxTokens,
+      topP: opts.topP ?? expertConfig.topP,
+      // Ensure complex objects are merged correctly if needed
+      logitBias: { ...expertConfig.logitBias, ...opts.logitBias },
+    };
+  };
+
+  const expertOptions = mergeExpertOptions(options);
+
   for (let provIdx = 0; provIdx < activeProviders.length; provIdx++) {
     const providerId = activeProviders[provIdx]!;
     const provider = registry.get(providerId);
 
     // We already checked availability, but good to be safe
-    if (!provider.isAvailable(options.aiConfig)) continue;
+    if (!provider.isAvailable(expertOptions.aiConfig)) continue;
 
     const isLastProvider = provIdx === activeProviders.length - 1;
     let retries = 0;
@@ -153,28 +196,39 @@ export const cascadeGenerate = async (
 
     while (retries <= maxRetries) {
       try {
-        // ELITE FIX: Sanitize options for backup providers
+        // ELITE FIX: Smart sanitize options and prune context
+        const currentOptions = { ...expertOptions };
         let currentPrompt = prompt;
-        const currentOptions = { ...options };
 
-        if (providerId !== 'gemini') {
+        // Multimodal enforcement
+        if (!provider.capabilities.multimodal) {
           currentOptions.inlineImages = [];
           currentOptions.inlineMedia = [];
           currentOptions.requiresMultimodal = false;
+        }
 
-          const MAX_SAFE_CHARS = 100000;
-          if (currentPrompt.length > MAX_SAFE_CHARS) {
-            logger.warn(`[Cascade] Truncating prompt for ${providerId} (${currentPrompt.length} -> ${MAX_SAFE_CHARS})`);
-            currentPrompt = `[CONTEXT TRUNCATED FOR BACKUP]\n...${currentPrompt.substring(currentPrompt.length - MAX_SAFE_CHARS)}`;
-          }
+        // Dynamic pruning based on provider's specific limit
+        const limit = provider.capabilities.maxContext || 32000;
 
-          if (currentOptions.messages && currentOptions.messages.length > 0) {
-            const totalMsgLen = currentOptions.messages.reduce((acc, m) => acc + (m.content?.length || 0), 0);
-            if (totalMsgLen > MAX_SAFE_CHARS) {
-              logger.warn(`[Cascade] Pruning messages for ${providerId}`);
-              currentOptions.messages = currentOptions.messages.slice(-3);
-            }
-          }
+        // ✂️ DRY FIX: Centralized Pruning via ContextManager
+        // Strategy: Combine Prompt + History -> Prune -> Split back
+        const fullConversation: LLMMessage[] = [
+          ...(currentOptions.messages || []),
+          { role: "user", content: currentPrompt } as LLMMessage
+        ];
+
+        // Use the centralized logic
+        const { safeMessages } = ContextManager.pruneMessages(fullConversation, limit);
+
+        // Extract the last message as the 'prompt' (required by some provider interfaces)
+        // and the rest as 'history'
+        if (safeMessages.length > 0) {
+          const lastMsg = safeMessages[safeMessages.length - 1];
+          currentPrompt = lastMsg?.content || currentPrompt;
+          currentOptions.messages = safeMessages.slice(0, -1);
+        } else {
+          // Should theoretically not happen, but safe fallback
+          currentOptions.messages = [];
         }
 
         return await provider.generate(currentPrompt, systemPrompt, currentOptions);
@@ -182,6 +236,7 @@ export const cascadeGenerate = async (
         const errorMsg = error instanceof Error ? error.message : String(error);
         const isRateLimit = errorMsg.includes("429") || errorMsg.includes("rate") || errorMsg.includes("quota");
         const isServiceUnavailable = errorMsg.includes("503") || errorMsg.includes("unavailable");
+        const isNotFound = errorMsg.includes("404") || errorMsg.includes("not found");
 
         if (isRateLimit) {
           // ELITE RESILIENCE: Globally throttle concurrency to protect providers
@@ -242,6 +297,12 @@ export const cascadeGenerate = async (
           }
         }
 
+        if (isNotFound) {
+          logger.warn(`[Cascade] Model not found (404) for ${providerId}. Switching to next provider...`);
+          errors.push(`${providerId}: 404 Not Found (Switched to backup)`);
+          break; // Exit retry loop for this provider, move to next
+        }
+
         // Retry on 5xx or connection issues
         if (isServiceUnavailable || retries < maxRetries) {
           retries++;
@@ -275,7 +336,7 @@ export const cascadeGenerate = async (
       const primary = registry.get(primaryId);
       try {
         logger.info(`[Cascade] Global Rescue: Retrying primary provider ${primaryId}`);
-        return await primary.generate(prompt, systemPrompt, options);
+        return await primary.generate(prompt, systemPrompt, expertOptions);
       } catch (e: unknown) {
         const rescueError = e instanceof Error ? e.message : String(e);
         errors.push(`Global Rescue (${primaryId}): ${rescueError}`);
@@ -297,7 +358,10 @@ export const aiGenerate = async (
     const result = await cascadeGenerate(
       prompt,
       options.systemPrompt || "You are a helpful assistant.",
-      options
+      {
+        intelligenceId: "text",
+        ...options
+      }
     );
     return result.content;
   }, false, (ms) => {
@@ -321,6 +385,7 @@ export const aiGenerateJSON = async <T>(
       // ELITE FIX: Increase default tokens for complex structures/lessons
       maxTokens: options.maxTokens || 16384,
       jsonMode: true,
+      intelligenceId: options.intelligenceId || "logic",
     } as GenerationOptions);
   }, true, (ms) => {
     // ELITE UX: Map physical RPM guard to status messages
@@ -342,12 +407,28 @@ export const aiGenerateJSON = async <T>(
         .replace(/^```(?:json)?\s*/, "")
         .replace(/\s*```$/, "")
         .trim();
+    } else {
+      // 🚀 ELITE FIX: Fallback for raw JSON (no markdown blocks)
+      const rawMatch = content.match(/\{[\s\S]*\}|\[[\s\S]*\]/);
+      if (rawMatch) {
+        jsonString = rawMatch[0];
+      }
     }
 
     // 2. Battle-tested repair if needed
     try {
       return JSON.parse(jsonString);
     } catch {
+      // ELITE RELIABILITY: Only attempt repair if the response isn't abruptly truncated
+      // If it ends with a comma or doesn't look like it finished a structure, 
+      // repairing might lead to invalid data.
+      const isAbrupt = !/[}\]]\s*$/.test(jsonString);
+
+      if (isAbrupt) {
+        logger.error("[JSON] Abrupt end detected. String ends with:", jsonString.slice(-20));
+        throw new Error("AI response was abruptly truncated and cannot be safely repaired.");
+      }
+
       logger.warn("JSON parse failed, triggering Elite Repair...");
       const repaired = jsonRepair(jsonString || "");
       return JSON.parse(repaired);

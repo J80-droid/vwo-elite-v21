@@ -15,17 +15,6 @@ export const PlannerRepository = {
    */
   addTask: async (task: PlannerTask) => {
     try {
-      // Ensure table exists (idempotent)
-      await executeQuery(`
-                CREATE TABLE IF NOT EXISTS planner_tasks (
-                    id TEXT PRIMARY KEY,
-                    title TEXT NOT NULL,
-                    date INTEGER,
-                    type TEXT,
-                    completed INTEGER DEFAULT 0,
-                    related_id TEXT
-                )
-            `);
 
       await executeQuery(
         `
@@ -54,16 +43,6 @@ export const PlannerRepository = {
    */
   hasRelatedTask: async (relatedId: string) => {
     try {
-      await executeQuery(`
-                CREATE TABLE IF NOT EXISTS planner_tasks (
-                    id TEXT PRIMARY KEY,
-                    title TEXT NOT NULL,
-                    date INTEGER,
-                    type TEXT,
-                    completed INTEGER DEFAULT 0,
-                    related_id TEXT
-                )
-            `);
 
       const result = (await executeQuery(
         `

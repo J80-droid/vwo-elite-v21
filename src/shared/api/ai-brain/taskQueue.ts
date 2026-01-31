@@ -13,21 +13,54 @@ interface TaskQueueActions {
   getTask: (id: string) => AITask | undefined;
   getPendingTasks: () => AITask[];
   updateTask: (id: string, updates: Partial<AITask>) => void;
+  waitForTask: (id: string, timeoutMs?: number) => Promise<AITask>;
 }
+
+// Internal listener registry for reactive resolution
+const taskListeners = new Map<string, (task: AITask) => void>();
 
 export interface TaskExecutor {
   processLocalQueue: () => Promise<void>;
 }
 
+// =============================================================================
+// PLATFORM BRIDGE (ADAPTER PATTERN)
+// =============================================================================
+
+/**
+ * Elite Task Bridge Interface
+ * Decouples the frontend from Electron (window.vwoApi) to support Web/PWA portability.
+ */
+interface ITaskBridge {
+  invoke: (channel: string, data?: unknown) => Promise<unknown>;
+  on: (channel: string, callback: (...args: unknown[]) => void) => void;
+  isPlatformNative: () => boolean;
+}
+
+const getTaskBridge = (): ITaskBridge => {
+  const win = typeof window !== "undefined" ? (window as any) : {};
+  const vwoApi = win.vwoApi;
+
+  return {
+    invoke: async (channel, data) => {
+      if (vwoApi) return await vwoApi.invoke(channel, data);
+      console.warn(`[TaskBridge] Invoke ${channel} ignored - Web Mode Active.`);
+      return null;
+    },
+    on: (channel, callback) => {
+      if (vwoApi) vwoApi.on(channel, callback);
+    },
+    isPlatformNative: () => !!vwoApi,
+  };
+};
+
+const bridge = getTaskBridge();
+
 export const getTaskExecutor = (): TaskExecutor => {
   return {
     processLocalQueue: async () => {
-      if (typeof window !== "undefined" && window.vwoApi) {
-        console.log("[TaskQueue] Triggering local queue processing via IPC...");
-        await window.vwoApi.invoke("queue:process_local");
-      } else {
-        console.warn("[TaskQueue] No VWO API found, cannot process local queue.");
-      }
+      console.log("[TaskQueue] Triggering local queue processing...");
+      await bridge.invoke("queue:process_local");
     },
   };
 };
@@ -36,18 +69,29 @@ export const useTaskQueueStore = create<TaskQueueState & TaskQueueActions>()((
   set,
   get,
 ) => {
-  // Listen for IPC updates from Backend Master
-  if (typeof window !== "undefined" && window.vwoApi) {
-    window.vwoApi.on("queue:update", (...args: unknown[]) => {
-      const data = args[1] as { localQueue?: AITask[]; cloudQueue?: AITask[]; isLocalRunning?: boolean };
-      if (!data) return;
-      set({
-        localQueue: data.localQueue || [],
-        cloudQueue: data.cloudQueue || [],
-        isLocalRunning: data.isLocalRunning || false,
-      });
+  // Listen for updates from Backend (Master) via Bridge
+  bridge.on("queue:update", (...args: unknown[]) => {
+    const data = args[1] as { localQueue?: AITask[]; cloudQueue?: AITask[]; isLocalRunning?: boolean };
+    if (!data) return;
+    const { localQueue, cloudQueue, isLocalRunning } = data;
+
+    set({
+      localQueue: localQueue || [],
+      cloudQueue: cloudQueue || [],
+      isLocalRunning: isLocalRunning || false,
     });
-  }
+
+    // Notify listeners for any updated tasks in the incoming batches
+    [...(localQueue || []), ...(cloudQueue || [])].forEach((task: AITask) => {
+      if (task.status === "completed" || task.status === "failed") {
+        const listener = taskListeners.get(task.id);
+        if (listener) {
+          listener(task);
+          taskListeners.delete(task.id);
+        }
+      }
+    });
+  });
 
   return {
     // Initial state
@@ -88,9 +132,38 @@ export const useTaskQueueStore = create<TaskQueueState & TaskQueueActions>()((
         cloudQueue: state.cloudQueue.map(t => t.id === id ? { ...t, ...updates } : t)
       }));
 
+      // Notify listeners if task is finished
+      const updatedTask = get().getTask(id);
+      if (updatedTask && (updatedTask.status === "completed" || updatedTask.status === "failed")) {
+        const listener = taskListeners.get(id);
+        if (listener) {
+          listener(updatedTask);
+          taskListeners.delete(id);
+        }
+      }
+
       if (typeof window !== "undefined" && window.vwoApi) {
         window.vwoApi.invoke("task:update", { id, updates });
       }
+    },
+
+    waitForTask: (id: string, timeoutMs: number = 60000) => {
+      return new Promise<AITask>((resolve, reject) => {
+        const existing = get().getTask(id);
+        if (existing && (existing.status === "completed" || existing.status === "failed")) {
+          return resolve(existing);
+        }
+
+        const timeout = setTimeout(() => {
+          taskListeners.delete(id);
+          reject(new Error(`Task ${id} timed out after ${timeoutMs}ms`));
+        }, timeoutMs);
+
+        taskListeners.set(id, (task) => {
+          clearTimeout(timeout);
+          resolve(task);
+        });
+      });
     },
 
     removeTask: (id: string) => {

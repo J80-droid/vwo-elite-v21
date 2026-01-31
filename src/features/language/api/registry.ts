@@ -4,6 +4,7 @@ import {
   presentationConfig,
   scenariosConfig,
   sjtConfig,
+  gymConfig,
 } from "../ui/modules";
 
 // Internal registry storage
@@ -33,3 +34,4 @@ registerModule(scenariosConfig);
 registerModule(idiomsConfig);
 registerModule(sjtConfig);
 registerModule(presentationConfig);
+registerModule(gymConfig);

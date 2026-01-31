@@ -1,4 +1,5 @@
 import { checkProviderHealth } from "@shared/api/healthChecks";
+import { useModelsStore } from "@shared/model/modelsStore";
 import type { UserSettings } from "@shared/types/config";
 import {
     AlertCircle,
@@ -18,25 +19,13 @@ import { EliteCard } from "../../components/EliteCard";
 
 interface APIKeyVaultProps {
     settings: UserSettings;
-    updateSettings: (settings: Partial<UserSettings>) => void;
+    updateSettings: (newSettings: Partial<UserSettings>) => void;
 }
 
-interface VaultItem {
-    id: string;
-    name: string;
-    configKey: keyof UserSettings["aiConfig"];
-    icon: string;
-    description: string;
-    setupUrl: string;
-}
-
-const VAULT_ITEMS: VaultItem[] = [
-    { id: "gemini", name: "Google Gemini", configKey: "geminiApiKey", icon: "https://simpleicons.org/icons/googlegemini.svg", description: "Primary intelligence engine (Flash & Pro).", setupUrl: "https://aistudio.google.com/app/apikey" },
-    { id: "openai", name: "OpenAI (v2)", configKey: "openaiApiKey", icon: "https://simpleicons.org/icons/openai.svg", description: "Used for Whisper (STT) and legacy bridging.", setupUrl: "https://platform.openai.com/api-keys" },
-    { id: "elevenlabs", name: "ElevenLabs", configKey: "elevenLabsApiKey", icon: "https://simpleicons.org/icons/elevenlabs.svg", description: "Premium neural text-to-speech engine.", setupUrl: "https://elevenlabs.io/app/settings/api-keys" },
-    { id: "groq", name: "Groq LPU", configKey: "groqApiKey", icon: "https://simpleicons.org/icons/groq.svg", description: "Ultra-fast inference for Llama & Mixtral.", setupUrl: "https://console.groq.com/keys" },
-    { id: "replicate", name: "Replicate", configKey: "replicateApiKey", icon: "https://simpleicons.org/icons/replicate.svg", description: "Spatial (3D) and Diffusion generation.", setupUrl: "https://replicate.com/account/api-tokens" },
-    { id: "cohere", name: "Cohere", configKey: "cohereApiKey", icon: "https://simpleicons.org/icons/cohere.svg", description: "Reranking for precision academic search.", setupUrl: "https://dashboard.cohere.com/api-keys" },
+const VAULT_ITEMS = [
+    { id: "gemini", name: "Google Gemini", configKey: "geminiApiKey", icon: "https://www.gstatic.com/lamda/images/favicon_v1_150160d13fef2ec10.png", description: "Advanced multimodal intelligence.", setupUrl: "https://aistudio.google.com/app/apikey" },
+    { id: "groq", name: "Groq Cloud", configKey: "groqApiKey", icon: "https://groq.com/favicon.ico", description: "Ultra-fast LPU inference.", setupUrl: "https://console.groq.com/keys" },
+    { id: "kimi", name: "Moonshot Kimi", configKey: "kimiApiKey", icon: "https://kimi.moonshot.cn/favicon.ico", description: "Native long-context support.", setupUrl: "https://platform.moonshot.cn/console/api-keys" },
     { id: "hume", name: "Hume AI", configKey: "humeApiKey", icon: "https://hume.ai/favicon.ico", description: "Emotional and affective prosody analysis.", setupUrl: "https://beta.hume.ai/settings/keys" },
 ];
 
@@ -44,6 +33,7 @@ export const APIKeyVault: React.FC<APIKeyVaultProps> = ({
     settings,
     updateSettings,
 }) => {
+    const { isLoading, errors } = useModelsStore();
     const [testingId, setTestingId] = useState<string | null>(null);
     const [showKeys, setShowKeys] = useState<Record<string, boolean>>({});
 
@@ -69,81 +59,68 @@ export const APIKeyVault: React.FC<APIKeyVaultProps> = ({
         try {
             const isHealthy = await checkProviderHealth(id, key);
             if (isHealthy) {
-                toast.success(`${id.charAt(0).toUpperCase() + id.slice(1)} node online and validated.`);
+                toast.success(`${id.toUpperCase()} verbinding is gezond!`);
             } else {
-                toast.error(`${id.charAt(0).toUpperCase() + id.slice(1)} verification failed. Check your API key or network.`);
+                toast.error(`${id.toUpperCase()} validatie mislukt.`);
             }
-        } catch (e) {
-            toast.error(`Connection to ${id} failed: ${e instanceof Error ? e.message : "Network Error"}`);
+        } catch (error) {
+            console.error(`[Vault] Connection test failed for ${id}:`, error);
+            toast.error(`Fout bij testen van ${id}.`);
         } finally {
             setTestingId(null);
         }
     };
 
-    const toggleShow = (id: string) => {
+    const toggleKeyVisibility = (id: string) => {
         setShowKeys(prev => ({ ...prev, [id]: !prev[id] }));
     };
 
     return (
-        <div className="space-y-8 animate-in fade-in duration-700">
-            <header className="flex items-center justify-between px-2">
-                <div>
-                    <h2 className="text-2xl font-black text-white flex items-center gap-3">
-                        <Lock className="text-amber-500" /> API Neural Vault
-                    </h2>
-                    <p className="text-xs text-slate-500 uppercase tracking-[0.2em] font-mono mt-1">
-                        Encrypted local storage enabled
-                    </p>
-                </div>
-                <div className="flex items-center gap-3 px-4 py-2 bg-emerald-500/10 rounded-2xl border border-emerald-500/20">
-                    <ShieldCheck size={16} className="text-emerald-400" />
-                    <span className="text-[10px] font-black text-emerald-400 uppercase tracking-widest">Vault Active</span>
-                </div>
-            </header>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-in fade-in slide-in-from-right-4 duration-500">
+            {VAULT_ITEMS.map((item) => {
+                const configKey = item.configKey as keyof UserSettings["aiConfig"];
+                const currentKey = settings.aiConfig[configKey] as string;
+                const isVisible = showKeys[item.id];
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {VAULT_ITEMS.map((item) => {
-                    const currentKey = (settings.aiConfig[item.configKey] as string) || "";
-                    const isTesting = testingId === item.id;
-                    const isVisible = showKeys[item.id];
-
-                    return (
-                        <EliteCard key={item.id} glowColor={currentKey ? "emerald" : "zinc"}>
-                            <div className="flex flex-col h-full">
-                                <div className="flex justify-between items-start mb-4">
-                                    <div className="flex items-center gap-4">
-                                        <div className="w-12 h-12 rounded-2xl bg-black/40 border border-white/10 p-2.5 flex items-center justify-center overflow-hidden">
-                                            <img src={item.icon} alt={item.id} className="w-full h-full object-contain filter invert opacity-80" />
-                                        </div>
-                                        <div>
-                                            <h4 className="font-bold text-white mb-0.5">{item.name}</h4>
-                                            <p className="text-[10px] text-slate-500 font-medium leading-tight max-w-[200px]">{item.description}</p>
-                                        </div>
+                return (
+                    <EliteCard key={item.id} className="relative group overflow-hidden">
+                        <div className="p-6 space-y-4">
+                            <div className="flex items-start justify-between">
+                                <div className="flex items-center gap-4">
+                                    <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center overflow-hidden">
+                                        <img src={item.icon} alt={item.name} className="w-6 h-6 object-contain" />
                                     </div>
-                                    <a
-                                        href={item.setupUrl}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="p-2 rounded-xl bg-white/5 text-slate-500 hover:text-white transition-colors"
-                                    >
-                                        <ExternalLink size={14} />
-                                    </a>
+                                    <div>
+                                        <h3 className="text-sm font-bold text-white tracking-wide">{item.name}</h3>
+                                        <p className="text-[10px] text-slate-500 font-medium">{item.description}</p>
+                                    </div>
                                 </div>
+                                <a
+                                    href={item.setupUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="p-2 rounded-lg bg-white/5 text-slate-400 hover:text-white hover:bg-white/10 transition-all border border-white/5"
+                                    title="Get API Key"
+                                >
+                                    <ExternalLink size={14} />
+                                </a>
+                            </div>
 
-                                <div className="relative group/input mb-4">
-                                    <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-600 transition-colors group-focus-within/input:text-emerald-400">
+                            <div className="space-y-2">
+                                <div className="relative group/input">
+                                    <div className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within/input:text-electric transition-colors">
                                         <Key size={14} />
                                     </div>
                                     <input
                                         type={isVisible ? "text" : "password"}
-                                        value={currentKey}
-                                        onChange={(e) => handleKeyUpdate(item.configKey, e.target.value)}
-                                        placeholder={`Enter ${item.name} key...`}
-                                        className="w-full bg-black/40 border border-white/5 rounded-2xl py-3 pl-12 pr-12 text-xs text-white font-mono placeholder:text-slate-700 focus:border-emerald-500/30 focus:bg-black/60 outline-none transition-all shadow-inner"
+                                        value={currentKey || ""}
+                                        onChange={(e) => handleKeyUpdate(configKey, e.target.value)}
+                                        placeholder="Voer API key in..."
+                                        className="w-full bg-obsidian-950/50 border border-white/5 rounded-lg py-2.5 pl-10 pr-12 text-xs text-white placeholder:text-slate-600 focus:outline-none focus:border-electric/50 focus:bg-obsidian-900 transition-all"
                                     />
                                     <button
-                                        onClick={() => toggleShow(item.id)}
-                                        className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-600 hover:text-white transition-colors"
+                                        onClick={() => toggleKeyVisibility(item.id)}
+                                        className="absolute right-3 top-1/2 -translate-y-1/2 p-1.5 rounded-md hover:bg-white/5 text-slate-500 hover:text-white transition-all"
                                     >
                                         {isVisible ? <EyeOff size={14} /> : <Eye size={14} />}
                                     </button>
@@ -151,7 +128,15 @@ export const APIKeyVault: React.FC<APIKeyVaultProps> = ({
 
                                 <div className="flex items-center justify-between pt-2">
                                     <div className="flex items-center gap-2">
-                                        {currentKey ? (
+                                        {isLoading[item.id] ? (
+                                            <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[9px] font-bold uppercase tracking-tighter">
+                                                <RefreshCcw size={10} className="animate-spin" /> Syncing...
+                                            </div>
+                                        ) : errors[item.id] ? (
+                                            <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/20 text-[9px] font-bold uppercase tracking-tighter" title={errors[item.id] || "Unknown Error"}>
+                                                <AlertCircle size={10} /> {errors[item.id]?.includes("401") ? "Invalid Key" : "Error"}
+                                            </div>
+                                        ) : currentKey ? (
                                             <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[9px] font-bold uppercase tracking-tighter">
                                                 <CheckCircle2 size={10} /> Validated
                                             </div>
@@ -161,35 +146,40 @@ export const APIKeyVault: React.FC<APIKeyVaultProps> = ({
                                             </div>
                                         )}
                                     </div>
+
                                     <button
                                         onClick={() => testConnection(item.id, currentKey)}
-                                        disabled={!currentKey || isTesting}
-                                        className={`flex items-center gap-2 px-4 py-1.5 rounded-xl text-[10px] font-black transition-all ${isTesting ? "bg-white/10 text-slate-400" : "bg-white/5 text-slate-300 hover:bg-white/10 active:scale-95"
-                                            }`}
+                                        disabled={!currentKey || testingId === item.id}
+                                        className="group/btn flex items-center gap-2 text-[10px] font-bold text-slate-400 hover:text-white disabled:opacity-30 disabled:pointer-events-none transition-all"
                                     >
-                                        <RefreshCcw size={12} className={isTesting ? "animate-spin" : ""} />
-                                        {isTesting ? "Testing..." : "Test Node"}
+                                        {testingId === item.id ? (
+                                            <RefreshCcw size={12} className="animate-spin text-electric" />
+                                        ) : (
+                                            <ShieldCheck size={12} className="group-hover/btn:text-emerald-400 transition-colors" />
+                                        )}
+                                        Validatie Test
                                     </button>
                                 </div>
                             </div>
-                        </EliteCard>
-                    );
-                })}
+                        </div>
 
-                <EliteCard className="border-dashed border-white/10 bg-transparent hover:border-emerald-500/20 transition-all">
-                    <div className="h-full flex flex-col items-center justify-center text-center py-8 space-y-3">
-                        <div className="p-4 rounded-full bg-white/5 text-slate-600">
-                            <RefreshCcw size={24} />
-                        </div>
-                        <div>
-                            <h4 className="text-sm font-bold text-slate-400">Add Custom Node</h4>
-                            <p className="text-[10px] text-slate-600">Local LLMs (Ollama) or Enterprise endpoints</p>
-                        </div>
-                        <button className="px-6 py-2 rounded-full bg-white/5 text-[10px] font-black text-slate-400 hover:bg-white/10 hover:text-white transition-all">
-                            Configure Proxy
-                        </button>
-                    </div>
-                </EliteCard>
+                        {/* Status Light */}
+                        <div className={`absolute top-4 right-4 w-1.5 h-1.5 rounded-full blur-[2px] animate-pulse ${currentKey ? 'bg-emerald-500' : 'bg-rose-500'}`} />
+                    </EliteCard>
+                );
+            })}
+
+            {/* Security Note */}
+            <div className="md:col-span-2 bg-rose-500/5 border border-rose-500/10 rounded-xl p-4 flex items-center gap-4">
+                <div className="w-10 h-10 rounded-full bg-rose-500/10 flex items-center justify-center text-rose-500">
+                    <Lock size={18} />
+                </div>
+                <div>
+                    <h4 className="text-xs font-bold text-white uppercase tracking-wider">Elite Beveiliging</h4>
+                    <p className="text-[10px] text-slate-400 leading-relaxed">
+                        Jouw API-sleutels worden lokaal opgeslagen met AES-256 encryptie. Ze worden nooit naar onze servers gestuurd en zijn alleen toegankelijk voor deze applicatie.
+                    </p>
+                </div>
             </div>
         </div>
     );

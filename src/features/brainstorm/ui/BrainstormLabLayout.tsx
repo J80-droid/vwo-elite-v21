@@ -68,7 +68,7 @@ export const BrainstormLabLayout: React.FC = () => {
   // HUB VIEW
   if (!activeModule) {
     return (
-      <div className="flex h-screen bg-[#0d1117] text-white pt-16 font-outfit overflow-hidden">
+      <div className="flex h-full bg-[#0d1117] text-white font-outfit overflow-hidden relative transition-all duration-300">
         <div className="flex-1 flex flex-col min-w-0 relative">
           <div className="flex-1 relative overflow-hidden bg-grid-pattern">
             <div className="absolute inset-0 bg-gradient-to-br from-fuchsia-900/10 to-violet-900/10">
@@ -81,7 +81,7 @@ export const BrainstormLabLayout: React.FC = () => {
   }
 
   return (
-    <div className="flex h-screen bg-[#0d1117] text-white pt-16 font-outfit overflow-hidden">
+    <div className="flex h-full bg-[#0d1117] text-white font-outfit overflow-hidden relative transition-all duration-300">
       {/* Main Sidebar (Navigation) */}
       <div
         className={`
@@ -123,11 +123,10 @@ export const BrainstormLabLayout: React.FC = () => {
               onClick={() => navigate(`/brainstorm/${module.id}`)}
               className={`
                                 w-full flex items-center gap-3 p-3 rounded-xl transition-all duration-200 group relative
-                                ${
-                                  activeModule === module.id
-                                    ? "bg-fuchsia-600/10 text-fuchsia-400 border border-fuchsia-500/20 shadow-lg shadow-fuchsia-500/5"
-                                    : "text-slate-400 hover:bg-white/5 hover:text-slate-200 border border-transparent"
-                                }
+                                ${activeModule === module.id
+                  ? "bg-fuchsia-600/10 text-fuchsia-400 border border-fuchsia-500/20 shadow-lg shadow-fuchsia-500/5"
+                  : "text-slate-400 hover:bg-white/5 hover:text-slate-200 border border-transparent"
+                }
                             `}
             >
               <module.icon

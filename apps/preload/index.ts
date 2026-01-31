@@ -66,6 +66,9 @@ const api: VwoApi = {
     getResourcesPath: () => {
       return ipcRenderer.invoke("sys:get-resources-path");
     },
+    fetchUrl: (url: string, options?: Record<string, unknown>) => {
+      return ipcRenderer.invoke(IpcChannels.SYS_FETCH_URL, { url, options });
+    },
   },
   ai: {
     generate: (args: AiGenerateArgs) => {

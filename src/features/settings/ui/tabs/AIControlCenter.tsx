@@ -36,7 +36,7 @@ export const AIControlCenter: React.FC<AIControlCenterProps> = ({
     { id: "vault", label: "Vault", icon: Lock, color: "amber" },
     { id: "matrix", label: "Matrix", icon: Cpu, color: "emerald" },
     { id: "orchestra", label: "Orchestra", icon: MessageSquare, color: "blue" },
-    { id: "registry", label: "Registry", icon: Wrench, color: "orange" },
+    { id: "registry", label: "Tools", icon: Wrench, color: "orange" },
     { id: "telemetry", label: "Telemetry", icon: BarChart3, color: "violet" },
     { id: "presets", label: "Presets", icon: Save, color: "rose" },
   ] as const;

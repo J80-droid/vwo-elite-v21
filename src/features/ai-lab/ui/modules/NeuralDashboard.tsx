@@ -1,10 +1,11 @@
 import { MeshViewer } from "@shared/ui/components/MeshViewer";
-import { AnimatePresence,motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import {
-Atom,
-Box, Brain, Code, Eye, Filter, Heart, Image,
+    Atom,
+    Box, Brain, Code, Eye, Filter, Heart, Image,
     Mic, Search,
-    TestTube, UserCheck, Video,     Zap} from "lucide-react";
+    TestTube, UserCheck, Video, Zap
+} from "lucide-react";
 import React, { useState } from "react";
 
 import { NeuralNode } from "./NeuralNode";
@@ -48,7 +49,7 @@ export const NeuralDashboard: React.FC = () => {
                     }}
                 >
                     <div className="absolute inset-0 pointer-events-none">
-                        <MeshViewer url="/models/ai/neural_brain.glb" autoRotate shadows={false} />
+                        <MeshViewer url="models/ai/neural_brain.glb" autoRotate shadows={false} />
                     </div>
                     <div className="relative z-10 text-center space-y-1">
                         <h2 className="text-sm font-black text-electric uppercase tracking-tighter opacity-60">Elite Brain</h2>

@@ -1,4 +1,5 @@
 import {
+  Database as SqliteDatabase,
   initDatabase,
   sqliteDelete,
   sqliteInsert,
@@ -104,8 +105,8 @@ export const NeuralDataExplorer: React.FC = () => {
   const fetchTables = async () => {
     try {
       setLoading(true);
-      const db = await initDatabase();
-      const res = await (db as Record<string, unknown>).exec(
+      const db: SqliteDatabase = await initDatabase();
+      const res = await db.exec(
         "SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'",
       );
 
@@ -113,7 +114,7 @@ export const NeuralDataExplorer: React.FC = () => {
         const tableNames = res[0].values.map((v: unknown[]) => v[0]);
         const tablesWithCount = await Promise.all(
           tableNames.map(async (name: string) => {
-            const countRes = await (db as Record<string, unknown>).exec(`SELECT COUNT(*) FROM ${name}`);
+            const countRes = await db.exec(`SELECT COUNT(*) FROM ${name}`);
             return {
               name: String(name),
               count:
@@ -353,7 +354,7 @@ export const NeuralDataExplorer: React.FC = () => {
                 {/* 3D Neural Core Visualization */}
                 <div className="w-64 h-64 relative group">
                   <div className="absolute inset-0 bg-indigo-500/20 blur-[100px] rounded-full group-hover:bg-indigo-500/30 transition-all duration-1000" />
-                  <MeshViewer url="/models/data/neural_core.glb" autoRotate shadows={false} />
+                  <MeshViewer url="models/data/neural_core.glb" autoRotate shadows={false} />
 
                   {/* Data Pulse HUD */}
                   <div className="absolute -bottom-12 left-1/2 -translate-x-1/2 text-center space-y-2 w-full">

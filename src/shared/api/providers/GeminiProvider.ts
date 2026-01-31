@@ -27,7 +27,9 @@ export class GeminiProvider extends BaseProvider {
         options: GenerationOptions
     ): Promise<ProviderResponse> {
         const startTime = performance.now();
-        const model = resolveModel("gemini", "chat", options.aiConfig);
+        const modelType = options.jsonMode ? "reasoning" : "chat";
+        // ELITE FIX: Prioritize explicit model selection from Expert Matrix
+        const model = options.modelId || resolveModel("gemini", modelType, options.aiConfig);
         const isHighReasoning = model.includes("pro");
 
         try {

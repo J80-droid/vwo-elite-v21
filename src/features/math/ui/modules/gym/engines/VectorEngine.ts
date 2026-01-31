@@ -12,7 +12,7 @@ export const VectorEngine: GymEngine = {
   name: "Vector Velocity",
   description: "Train vectorbewerkingen en meetkundig inzicht.",
 
-  generate: (level: Difficulty): GymProblem => {
+  generate: async (level: Difficulty): Promise<GymProblem> => {
     const timestamp = Date.now();
 
     switch (level) {
@@ -24,15 +24,16 @@ export const VectorEngine: GymEngine = {
         const y2 = rand(-5, 5);
         return {
           id: `vec-1-${timestamp}`,
-          question: `\\binom{${x1}}{${y1}} + \\binom{${x2}}{${y2}}`,
+          question: `$$\\binom{${x1}}{${y1}} + \\binom{${x2}}{${y2}}$$`,
           answer: `[${x1 + x2}, ${y1 + y2}]`,
           displayAnswer: `\\binom{${x1 + x2}}{${y1 + y2}}`,
           context: "Bereken de somvector",
           solutionSteps: [
-            `Tel de x-componenten op: ${x1} + ${x2} = ${x1 + x2}`,
-            `Tel de y-componenten op: ${y1} + ${y2} = ${y1 + y2}`,
-            `Antwoord: \\binom{${x1 + x2}}{${y1 + y2}}`,
+            `Tel de x-componenten op: $${x1} + ${x2} = ${x1 + x2}$`,
+            `Tel de y-componenten op: $${y1} + ${y2} = ${y1 + y2}$`,
+            `Antwoord: $$\\binom{${x1 + x2}}{${y1 + y2}}$$`,
           ],
+          explanation: "Bij het optellen van vectoren tel je de overeenkomstige componenten (x bij x, y bij y) onafhankelijk van elkaar op. Je verplaatst de tweede vector naar het eindpunt van de eerste."
         };
       }
 
@@ -45,15 +46,16 @@ export const VectorEngine: GymEngine = {
         const dot = x1 * x2 + y1 * y2;
         return {
           id: `vec-2-${timestamp}`,
-          question: `\\binom{${x1}}{${y1}} \\cdot \\binom{${x2}}{${y2}}`,
+          question: `$$\\binom{${x1}}{${y1}} \\cdot \\binom{${x2}}{${y2}}$$`,
           answer: `${dot}`,
           displayAnswer: `${dot}`,
           context: "Bereken het inproduct",
           solutionSteps: [
-            `Inproduct: x_1 \\cdot x_2 + y_1 \\cdot y_2`,
-            `${x1} \\cdot ${x2} + ${y1} \\cdot ${y2} = ${dot}`,
-            `Antwoord: ${dot}`,
+            `Inproduct: $x_1 \\cdot x_2 + y_1 \\cdot y_2$`,
+            `$${x1} \\cdot ${x2} + ${y1} \\cdot ${y2} = ${dot}$`,
+            `Antwoord: $${dot}$`,
           ],
+          explanation: "Het inproduct (ook wel dot-product genoemd) is een scalar: je krijgt een getal als uitkomst. Het wordt berekend door de som van de producten van de componenten."
         };
       }
 
@@ -63,21 +65,22 @@ export const VectorEngine: GymEngine = {
           const y = rand(1, 5);
           return {
             id: `vec-3-${timestamp}`,
-            question: `Staan \\binom{${x}}{${y}} en \\binom{${-y}}{${x}} loodrecht?`,
+            question: `Staan $$\\binom{${x}}{${y}}$$ en $$\\binom{${-y}}{${x}}$$ loodrecht?`,
             answer: `ja`,
             context: "Ja of Nee?",
             solutionSteps: [
-              `Twee vectoren staan loodrecht als hun inproduct 0 is.`,
-              `${x} \\cdot (${-y}) + ${y} \\cdot ${x} = ${-x * y} + ${x * y} = 0.`,
+              `Twee vectoren staan loodrecht als hun inproduct $0$ is.`,
+              `$${x} \\cdot (${-y}) + ${y} \\cdot ${x} = ${-x * y} + ${x * y} = 0$.`,
               `Antwoord: Ja`,
             ],
+            explanation: "Vectoren staan orthogonaal (loodrecht) op elkaar als hun inproduct precies $0$ is. De hoek tussen de vectoren is dan $90^\\circ$."
           };
         } else {
           const x = rand(1, 4);
           const y = rand(1, 4);
           return {
             id: `vec-3b-${timestamp}`,
-            question: `Staan \\binom{${x}}{${y}} en \\binom{${x}}{${y}} loodrecht?`,
+            question: `Staan $$\\binom{${x}}{${y}}$$ en $$\\binom{${x}}{${y}}$$ loodrecht?`,
             answer: `nee`,
             context: "Ja of Nee?",
             solutionSteps: [
@@ -98,21 +101,22 @@ export const VectorEngine: GymEngine = {
           [8, 15, 17],
         ];
         const triple = triples[rand(0, triples.length - 1)];
-        if (!triple) return VectorEngine.generate(1);
+        if (!triple) return await VectorEngine.generate(1);
         const [a, b, c] = triple;
         const x = Math.random() > 0.5 ? a : -a;
         const y = Math.random() > 0.5 ? b : -b;
         return {
           id: `vec-4-${timestamp}`,
-          question: `|\\binom{${x}}{${y}}|`,
+          question: `$$\\left| \\binom{${x}}{${y}} \\right|$$`,
           answer: `${c}`,
           displayAnswer: `${c}`,
           context: "Bereken de lengte van de vector",
           solutionSteps: [
-            `Lengte: \\sqrt{x^2 + y^2}.`,
-            `\\sqrt{(${x})^2 + (${y})^2} = \\sqrt{${x * x} + ${y * y}} = \\sqrt{${c * c}} = ${c}`,
-            `Antwoord: ${c}`,
+            `Lengte: $$\\sqrt{x^2 + y^2}$$`,
+            `$$\\sqrt{(${x})^2 + (${y})^2} = \\sqrt{${x * x} + ${y * y}} = \\sqrt{${c * c}} = ${c}$$`,
+            `Antwoord: $${c}$`,
           ],
+          explanation: "De lengte (magnitude) van een vector wordt berekend met de stelling van Pythagoras. Je neemt de wortel uit de som van de kwadraten van de componenten."
         };
       }
 
@@ -128,20 +132,20 @@ export const VectorEngine: GymEngine = {
 
         return {
           id: `vec-5-${timestamp}`,
-          question: `${k} \\cdot \\binom{${x1}}{${y1}} - \\binom{${x2}}{${y2}}`,
+          question: `$$${k} \\cdot \\binom{${x1}}{${y1}} - \\binom{${x2}}{${y2}}$$`,
           answer: `[${rx}, ${ry}]`,
           displayAnswer: `\\binom{${rx}}{${ry}}`,
           context: "Lineaire combinatie",
           solutionSteps: [
-            `Vermenigvuldig eerst de eerste vector met ${k}: \\binom{${k * x1}}{${k * y1}}`,
-            `Trek daar de tweede vector van af: \\binom{${k * x1} - ${x2}}{${k * y1} - ${y2}}`,
-            `Antwoord: \\binom{${rx}}{${ry}}`,
+            `Vermenigvuldig eerst de eerste vector met $${k}$: $$\\binom{${k * x1}}{${k * y1}}$$`,
+            `Trek daar de tweede vector van af: $$\\binom{${k * x1} - ${x2}}{${k * y1} - ${y2}}$$`,
+            `Antwoord: $$\\binom{${rx}}{${ry}}$$`,
           ],
         };
       }
 
       default:
-        return VectorEngine.generate(1);
+        return await VectorEngine.generate(1);
     }
   },
 
